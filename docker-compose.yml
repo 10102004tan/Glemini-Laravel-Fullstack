@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  quiz-ai:
+    build: 
+      context: ./Quiz-AI/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Quiz-AI:/usr/src/quiz-ai
+    networks:
+      - quiz-ai-network
+  quiz-ai-db:
+    build: .
+    ports: 
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=quizai
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_ALLOW_EMPTY_PASSWORD
+    networks:
+      - quiz-ai-network
+volumes:
+  quiz-ai-volume: 
+networks:
+  quiz-ai-network:
