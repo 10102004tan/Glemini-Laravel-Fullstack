@@ -23,6 +23,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, "showDashboard"])->name("dashboard");
 });
 
+Route::get('/quiz-single', function () {
+    return view('quiz-mode-single.index');
+})->name('quiz.index');
+
+Route::get('/quiz-single/show', function () {
+    return view('quiz-mode-single.show');
+})->name('quiz.show');
 // Verify
 Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
