@@ -39,14 +39,15 @@ class QuestionController extends Controller
             $isFirst = false;
         } else { //Tao quiz moi
             $quiz = new Quiz();
-            $quiz->name = "Quiz created by AI";
-            $quiz->description = "Quiz created by AI";
+            $quiz->title = "New Quiz";
+            $quiz->description = "New Quiz Description";
             $quiz->save();
         }
 
         $question = new Question();
         $question->excerpt = $request->excerpt;
-        $question->quiz_id = $quizId;
+        $question->optional = $request->optional;
+        $question->quiz_id = $quiz->id;
         $question->type = $request->type;
         $question->save();
         $answers = json_decode($request->answers, true);
@@ -62,7 +63,8 @@ class QuestionController extends Controller
             return response()->json(
                 [
                     'message' => 'Question created successfully',
-                    'status' => 200
+                    'quizId' => $quiz->id,
+                    'status' => 999
                 ]
             );
         }
