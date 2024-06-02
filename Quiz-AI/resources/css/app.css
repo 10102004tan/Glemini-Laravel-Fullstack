@@ -42,6 +42,16 @@ input[type="checkbox"] {
 }
 
 .form_error_notify {
+    min-width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    bottom: 20px;
+    right: 20px;
+    position: absolute;
+    animation: form_error_notify 0.3s ease-in-out forwards;
+}
+
+.form_success_notify {
+    min-width: 300px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     bottom: 20px;
     right: 20px;
