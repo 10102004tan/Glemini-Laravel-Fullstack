@@ -44,13 +44,180 @@
     </div>
     <div class="bg-gray-600 p-4 h-[80vh] flex flex-col">
         <div class=" h-[30%] text-center text-4xl text-white font-semibold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse maiores amet hic alias earum eos est voluptate consectetur 
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse maiores amet hic alias earum eos est voluptate consectetur
         </div>
-        <div class="bg-red-700 h-[70%]">
+        <div class="flex flex-col h-full">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2 h-full md:mt-12 lg:mt-28 xl:mt-48">
+                <template x-for="(answer, index) in question?.answers ?? []" :key="answer?id">
+                    <div x-tooltip="`Press ${index + 1}`" x-tooltip-evaluate="" class="p-1 sm:p-2 flex-grow rounded-lg cursor-pointer text-center flex items-center justify-center z-40" :class="{
+                                                    'bg-white border-4 border-gray-200 shadow text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600': !questionAnswered,
+                                                
+                                                    // Applied when an incorrect answer is selected. Changes border and background color to red.
+                                                    ' bg-red-500 border-red-500 text-white ': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when the correct answer is selected. Changes border and background color to green.
+                                                    'border-white bg-green-400 text-white': answeredCorrectly == true &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer has been selected. Changes border and background color to gray.
+                                                    'border-gray-200 bg-gray-50 text-gray-800': answeredQuestionId &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer check is loading or the question has been answered. Changes cursor to not-allowed.
+                                                    'cursor-not-allowed ': loadingAnswerCheck || questionAnswered,
+                                                
+                                                    // Applied when the wrong answer is selected. The correct answer will have a green border and a pulse animation.
+                                                    'border-green-100 bg-green-500 text-white animate__animated animate__fast animate__pulse': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId != answer.id &amp;&amp; answer.id ==
+                                                        answerResponse?.correct_answer_id,
+                                                
+                                                    // Applied to the unselected and incorrect answers when a question is answered. These answers will have a fade-out animation.
+                                                    'animate__animated animate__fast animate__fadeOut animate__faster': questionAnswered &amp;&amp;
+                                                        !(answeredQuestionId == answer.id || answer.id == answerResponse
+                                                            ?.correct_answer_id),
+                                                
+                                                }" @click="answerQuestion(answer.id)">
+                        <p class="text-lg md:text-2xl font-semibold leading-7 drop-shadow-sm quiz-markdown" x-html="$markdown(answer.text)"></p>
+                    </div>
+                </template>
+                <div x-tooltip="`Press ${index + 1}`" x-tooltip-evaluate="" class="p-1 sm:p-2 flex-grow rounded-lg cursor-pointer text-center flex items-center justify-center z-40 bg-white border-4 border-gray-200 shadow text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600" :class="{
+                                                    'bg-white border-4 border-gray-200 shadow text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600': !questionAnswered,
+                                                
+                                                    // Applied when an incorrect answer is selected. Changes border and background color to red.
+                                                    ' bg-red-500 border-red-500 text-white ': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when the correct answer is selected. Changes border and background color to green.
+                                                    'border-white bg-green-400 text-white': answeredCorrectly == true &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer has been selected. Changes border and background color to gray.
+                                                    'border-gray-200 bg-gray-50 text-gray-800': answeredQuestionId &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer check is loading or the question has been answered. Changes cursor to not-allowed.
+                                                    'cursor-not-allowed ': loadingAnswerCheck || questionAnswered,
+                                                
+                                                    // Applied when the wrong answer is selected. The correct answer will have a green border and a pulse animation.
+                                                    'border-green-100 bg-green-500 text-white animate__animated animate__fast animate__pulse': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId != answer.id &amp;&amp; answer.id ==
+                                                        answerResponse?.correct_answer_id,
+                                                
+                                                    // Applied to the unselected and incorrect answers when a question is answered. These answers will have a fade-out animation.
+                                                    'animate__animated animate__fast animate__fadeOut animate__faster': questionAnswered &amp;&amp;
+                                                        !(answeredQuestionId == answer.id || answer.id == answerResponse
+                                                            ?.correct_answer_id),
+                                                
+                                                }" @click="answerQuestion(answer.id)">
+                    <p class="text-lg md:text-2xl font-semibold leading-7 drop-shadow-sm quiz-markdown" x-html="$markdown(answer.text)">
+                    <p>Maintaining stock rotation</p>
+                    </p>
+                </div>
+                <div x-tooltip="`Press ${index + 1}`" x-tooltip-evaluate="" class="p-1 sm:p-2 flex-grow rounded-lg cursor-pointer text-center flex items-center justify-center z-40 bg-white border-4 border-gray-200 shadow text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600" :class="{
+                                                    'bg-white border-4 border-gray-200 shadow text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600': !questionAnswered,
+                                                
+                                                    // Applied when an incorrect answer is selected. Changes border and background color to red.
+                                                    ' bg-red-500 border-red-500 text-white ': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when the correct answer is selected. Changes border and background color to green.
+                                                    'border-white bg-green-400 text-white': answeredCorrectly == true &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer has been selected. Changes border and background color to gray.
+                                                    'border-gray-200 bg-gray-50 text-gray-800': answeredQuestionId &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer check is loading or the question has been answered. Changes cursor to not-allowed.
+                                                    'cursor-not-allowed ': loadingAnswerCheck || questionAnswered,
+                                                
+                                                    // Applied when the wrong answer is selected. The correct answer will have a green border and a pulse animation.
+                                                    'border-green-100 bg-green-500 text-white animate__animated animate__fast animate__pulse': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId != answer.id &amp;&amp; answer.id ==
+                                                        answerResponse?.correct_answer_id,
+                                                
+                                                    // Applied to the unselected and incorrect answers when a question is answered. These answers will have a fade-out animation.
+                                                    'animate__animated animate__fast animate__fadeOut animate__faster': questionAnswered &amp;&amp;
+                                                        !(answeredQuestionId == answer.id || answer.id == answerResponse
+                                                            ?.correct_answer_id),
+                                                
+                                                }" @click="answerQuestion(answer.id)">
+                    <p class="text-lg md:text-2xl font-semibold leading-7 drop-shadow-sm quiz-markdown" x-html="$markdown(answer.text)">
+                    <p>Reducing storage space</p>
+                    </p>
+                </div>
+                <div x-tooltip="`Press ${index + 1}`" x-tooltip-evaluate="" class="p-1 sm:p-2 flex-grow rounded-lg cursor-pointer text-center flex items-center justify-center z-40 bg-white border-4 border-gray-200 shadow text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600" :class="{
+                                                    'bg-white border-4 border-gray-200 shadow text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600': !questionAnswered,
+                                                
+                                                    // Applied when an incorrect answer is selected. Changes border and background color to red.
+                                                    ' bg-red-500 border-red-500 text-white ': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when the correct answer is selected. Changes border and background color to green.
+                                                    'border-white bg-green-400 text-white': answeredCorrectly == true &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer has been selected. Changes border and background color to gray.
+                                                    'border-gray-200 bg-gray-50 text-gray-800': answeredQuestionId &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer check is loading or the question has been answered. Changes cursor to not-allowed.
+                                                    'cursor-not-allowed ': loadingAnswerCheck || questionAnswered,
+                                                
+                                                    // Applied when the wrong answer is selected. The correct answer will have a green border and a pulse animation.
+                                                    'border-green-100 bg-green-500 text-white animate__animated animate__fast animate__pulse': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId != answer.id &amp;&amp; answer.id ==
+                                                        answerResponse?.correct_answer_id,
+                                                
+                                                    // Applied to the unselected and incorrect answers when a question is answered. These answers will have a fade-out animation.
+                                                    'animate__animated animate__fast animate__fadeOut animate__faster': questionAnswered &amp;&amp;
+                                                        !(answeredQuestionId == answer.id || answer.id == answerResponse
+                                                            ?.correct_answer_id),
+                                                
+                                                }" @click="answerQuestion(answer.id)">
+                    <p class="text-lg md:text-2xl font-semibold leading-7 drop-shadow-sm quiz-markdown" x-html="$markdown(answer.text)">
+                    <p>Enhancing stock security</p>
+                    </p>
+                </div>
+                <div x-tooltip="`Press ${index + 1}`" x-tooltip-evaluate="" class="p-1 sm:p-2 flex-grow rounded-lg cursor-pointer text-center flex items-center justify-center z-40 bg-white border-4 border-gray-200 shadow text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600" :class="{
+                                                    'bg-white border-4 border-gray-200 shadow text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600': !questionAnswered,
+                                                
+                                                    // Applied when an incorrect answer is selected. Changes border and background color to red.
+                                                    ' bg-red-500 border-red-500 text-white ': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when the correct answer is selected. Changes border and background color to green.
+                                                    'border-white bg-green-400 text-white': answeredCorrectly == true &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer has been selected. Changes border and background color to gray.
+                                                    'border-gray-200 bg-gray-50 text-gray-800': answeredQuestionId &amp;&amp;
+                                                        answeredQuestionId == answer.id,
+                                                
+                                                    // Applied when an answer check is loading or the question has been answered. Changes cursor to not-allowed.
+                                                    'cursor-not-allowed ': loadingAnswerCheck || questionAnswered,
+                                                
+                                                    // Applied when the wrong answer is selected. The correct answer will have a green border and a pulse animation.
+                                                    'border-green-100 bg-green-500 text-white animate__animated animate__fast animate__pulse': answeredCorrectly ==
+                                                        false &amp;&amp; answeredQuestionId != answer.id &amp;&amp; answer.id ==
+                                                        answerResponse?.correct_answer_id,
+                                                
+                                                    // Applied to the unselected and incorrect answers when a question is answered. These answers will have a fade-out animation.
+                                                    'animate__animated animate__fast animate__fadeOut animate__faster': questionAnswered &amp;&amp;
+                                                        !(answeredQuestionId == answer.id || answer.id == answerResponse
+                                                            ?.correct_answer_id),
+                                                
+                                                }" @click="answerQuestion(answer.id)">
+                    <p class="text-lg md:text-2xl font-semibold leading-7 drop-shadow-sm quiz-markdown" x-html="$markdown(answer.text)">
+                    <p>Improving product visibility</p>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="bg-gray-800 p-2 h-[11vh] flex">
-        
+
     </div>
 </body>
 
