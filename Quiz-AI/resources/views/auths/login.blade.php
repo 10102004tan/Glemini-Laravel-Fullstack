@@ -4,11 +4,11 @@
 @section('content')
     <div class="w-full h-[100vh] flex flex-col gap-3 items-center justify-center auth-bg">
         @if ($errors->any())
-            <div class="mb-2">
+            <div class="mb-2 form_error_notify bg-white rounded-lg overflow-hidden">
                 <span class="block w-full p-4 bg-red-500 text-white">Error</span>
                 <ul>
                     @foreach ($errors->all() as $error)
-                        <li class="text-red-500 p-2 bg-white rounded-lg">{{ $error }}</li>
+                        <li class="text-red-500 p-2">{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
@@ -21,12 +21,14 @@
 
             <label for="email" class="flex flex-col gap-[8px]">
                 <span class="text-sm text-gray-300">Email</span>
-                <input type="email" placeholder="" name="email" id="email" class="rounded-lg border bg-transparent border-gray-500 p-2 outline-none w-full text-sm">
+                <input type="email" placeholder="" name="email" id="email"
+                    class="rounded-lg border bg-transparent border-gray-500 p-2 outline-none w-full text-sm">
             </label>
 
             <label for="password" class="flex flex-col gap-[8px]">
                 <span class="text-sm text-gray-300">Password</span>
-                <input type="password" placeholder="" name="password" id="password" class="rounded-lg border bg-transparent border-gray-500 p-2 outline-none w-full text-sm">
+                <input type="password" placeholder="" name="password" id="password"
+                    class="rounded-lg border bg-transparent border-gray-500 p-2 outline-none w-full text-sm">
             </label>
 
             <label for="remember" class="flex items-center justify-start gap-1">
@@ -34,13 +36,15 @@
                 <span class="text-sm text-gray-400">Remember me</span>
             </label>
 
-            <button class="rounded-lg border text-sm  border-[var(--background)] bg-[var(--background)] hover:bg-[var(--primary)] transition-colors duration-300 ease-in p-2 outline-none w-full">
+            <button
+                class="rounded-lg border text-sm  border-[var(--background)] bg-[var(--background)] hover:bg-[var(--primary)] transition-colors duration-300 ease-in p-2 outline-none w-full">
                 Log in
             </button>
         </form>
 
         <div class="">
-            <p class="text-sm">Don't have account ? <a href="/auth/register" class="text-[var(--background)] underline">Create
+            <p class="text-sm">Don't have account ? <a href="/auth/register"
+                    class="text-[var(--background)] underline">Create
                     here</a></p>
         </div>
     </div>
