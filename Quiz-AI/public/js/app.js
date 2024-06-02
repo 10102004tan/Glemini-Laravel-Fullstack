@@ -147,9 +147,8 @@ modalUpdateQuiz.addEventListener('submit', async (e) => {
         const result = response.data;
         checkStatus(result, function () {
             btnSubmit.textContent = 'Update';
-            modalUpdateQuiz.parentElement.previousElementSibling.previousElementSibling.textContent = result.quiz.title;
+            modalUpdateQuiz.parentElement.previousElementSibling.firstElementChild.firstElementChild.textContent = result.quiz.title;
         },
-
             function () {
                 //show error
             });

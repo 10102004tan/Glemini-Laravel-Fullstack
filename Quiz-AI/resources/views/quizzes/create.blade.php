@@ -6,11 +6,15 @@
             @isset($quiz)
             <div class="flex items-center justify-between">
                 <div>
-                <h2 class="inline-block py-5 font-[500] text-white">{{$quiz->title}}</h2>
-                <button type="button" class="btn-edit-quiz"><i class="fa-light fa-pen-to-square"></i></button>
+                    <h2 class="inline-block py-5 font-[500] text-white">{{$quiz->title}}</h2>
+                    <button type="button" class="btn-edit-quiz"><i class="fa-light fa-pen-to-square"></i></button>
                 </div>
 
                 <div class="flex items-center gap-2">
+                <button data-modal-target="default-modal" data-modal-toggle="default-modal" id="btn-share" type="button" class="flex items-center py-1 px-2 rounded border border-[#eee]">
+                <i class="fa-sharp fa-regular fa-share-nodes p-2"></i>
+                    Share
+                    </button>
                     <button id="btn-settings" type="button" class="flex items-center py-1 px-2 rounded border border-[#eee]">
                     <i class="fa-regular fa-gear p-2"></i>
                     Setting
@@ -43,7 +47,7 @@
     </div>
 </div>
 
-<!-- settings -->
+<!-- settings start -->
 <div class="settings lg:w-[20vw] w-[40vw] z-[9999] h-[100vh] fixed top-0 right-[-100%] bg-primary p-3">
    <div class="flex justify-between">
    <h2>Default setting</h2>
@@ -56,8 +60,9 @@
     <li>Share</li>
    </ul>
 </div>
+<!-- settings end -->
 
-<!-- main -->
+<!-- main start-->
 <section>
     <div class="grid grid-cols-12">
         <div class="px-[2rem] py-4 create bg-primary relative lg:col-span-4 col-span-12">
@@ -72,7 +77,7 @@
                 <input type="hidden" name="quiz_id" value="{{$quiz['id']}}">
                 @endisset
                 <div class="create-box mt-4 px-4 py-5 bg-primary ">
-                    <x-inputs.input title="Enter Your Text " placeholder="Enter title" name="content" row="10"></x-inputs.input>
+                    <x-inputs.input title="Enter Your Text " placeholder="Type or copy and paste your notes to generate questions from text. Maximum 4,000 characters. Paid accounts can use up to 30,000 characters." name="content" row="10"></x-inputs.input>
                     <div class="grid grid-cols-2 gap-2 mb-3">
                         <label for="" class="flex flex-col items-start">
                             <span class="text-white mb-2 block">Question type</span>
@@ -129,7 +134,7 @@
                 <!--4 answer use textarea -->
                 <div class="flex flex-col gap-3">
                     @for ($i = 1; $i <= 4; $i++) <x-inputs.input required="required" row="1" title="Answer {{$i}}" name="answer" placeholder="Enter answer {{$i}}"></x-inputs.input>
-                        @endfor
+                    @endfor
                 </div>
 
                 <!-- correct choice -->
@@ -219,6 +224,16 @@
         </div>
     </div>
 </section>
+
+<!-- main end -->
+
+
+<!-- modal start -->
+
+
+<!-- Main modal -->
+<x-modals.default></x-modals.default>
+<!-- modal end -->
 
 <div class="overlay-loading hidden fixed top-0 left-0 w-[100vw] h-[100vh] z-[9999] bg-primary justify-center items-center">
     Dang tai ...
