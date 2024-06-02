@@ -34,7 +34,7 @@
                 <label for="avarta" class="btn-delete-question relative group">
                     <input id="avarta" class="hidden action-checkbox" type="checkbox">
                     <div>
-                        <img src="https://via.placeholder.com/150" alt="profile" class="rounded-full h-10 w-10 cursor-pointer">
+                        <img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1769" alt="profile" class="rounded-full h-10 w-10 cursor-pointer">
                     </div>
                     <div class="wrapper-confirm z-[99999] w-[220px] profile-option opacity-1 invisible p-5 rounded absolute top-[100%] right-0 border-[#eee] bg-primary shadow">
                         <ul class="flex gap-3 flex-col">

@@ -1,6 +1,9 @@
 
 
 // click edit btn question
+const btnSettings = document.getElementById('btn-settings');
+const btnCloseSettings = document.querySelector('.btn-close-settings');
+const settings = document.querySelector('.settings');
 const btnEditQuestions = document.querySelectorAll('.btn-edit-question');
 const modalEditQuestion = document.querySelectorAll('.modal-edit-question');
 const modalDestroyQuestion = document.querySelectorAll('.modal-destroy-question');
@@ -20,9 +23,27 @@ const selectOptionQuestion = document.querySelector('.select-option-manual-quest
 const selectOptionManualCorrect = document.querySelector('.select-option-manual-correct');
 const btnResetForm = document.querySelector('.btn-reset-form');
 const modalUpdateQuiz = document.querySelector('.modal-update-quiz');
+
 let preShowOption = null;
 
 
+//check select option question
+window.onload = function() {
+    if (window.location.search.indexOf('text') > -1) {
+        modalShowOptionText.classList.remove('hidden');
+        modalShowOptionManual.classList.add('hidden');
+        preShowOption.classList.remove('active');
+        showOptions[0].classList.add('active');
+        preShowOption = showOptions[0];
+    }
+    else{
+        modalShowOptionManual.classList.remove('hidden');
+        modalShowOptionText.classList.add('hidden');
+        preShowOption.classList.remove('active');
+        showOptions[1].classList.add('active');
+        preShowOption = showOptions[1];
+    }
+  }
 
 // 
 selectOptionQuestion.addEventListener('change', function () {
@@ -72,6 +93,15 @@ if (btnCloseEditQuiz != null) {
     });
 };
 
+btnSettings.addEventListener('click', function () {
+    settings.classList.toggle('right-[-100%]');
+    settings.classList.toggle('right-0');
+});
+btnCloseSettings.addEventListener('click', function () {
+    settings.classList.toggle('right-[-100%]');
+    settings.classList.toggle('right-0');
+});
+
 
 // show options
 
@@ -84,9 +114,11 @@ showOptions.forEach((showOption) => {
         if (showOption.getAttribute('option-data') == "0") {
             modalShowOptionText.classList.remove('hidden');
             modalShowOptionManual.classList.add('hidden');
+            history.pushState(null, null, '?text');
         } else {
             modalShowOptionManual.classList.remove('hidden');
             modalShowOptionText.classList.add('hidden');
+            history.pushState(null, null, '?manual');
         }
 
         preShowOption.classList.remove('active');
@@ -239,7 +271,7 @@ modalShowOptionManual.addEventListener('submit', async (e) => {
             },
             function () {
                 // reload page
-                window.location.href = window.location.href + '/' + result.quizId;
+                window.location.href = window.location.href + '/' + result.quizId + '?manual';
                 console.log("test 2")
 
             });
@@ -267,10 +299,10 @@ function checkStatus(result, callbackSuccess, callbackOrder) {
         callbackSuccess();
     }
     else {
-        callbackOrder();
+        
         Toastify({
             text: `${result.message}`,
-            duration: 1000,
+            duration: 2000,
             destination: `${result.message}`,
             newWindow: true,
             close: true,
@@ -280,6 +312,9 @@ function checkStatus(result, callbackSuccess, callbackOrder) {
             style: {
                 background: `${(result.status == 999) ? "#26d63a" : "#cd4316"}`,
             },
+            callback: function (instance, toast) {
+                callbackOrder();
+            }
         }).showToast();
     }
 }

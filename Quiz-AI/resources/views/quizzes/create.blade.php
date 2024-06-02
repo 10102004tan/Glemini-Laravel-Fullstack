@@ -4,8 +4,22 @@
     <div class="container">
         <div>
             @isset($quiz)
-            <h2 class="inline-block py-5 font-[500] text-white">{{$quiz->title}}</h2>
-            <button type="button" class="btn-edit-quiz"><i class="fa-light fa-pen-to-square"></i></button>
+            <div class="flex items-center justify-between">
+                <div>
+                <h2 class="inline-block py-5 font-[500] text-white">{{$quiz->title}}</h2>
+                <button type="button" class="btn-edit-quiz"><i class="fa-light fa-pen-to-square"></i></button>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button id="btn-settings" type="button" class="flex items-center py-1 px-2 rounded border border-[#eee]">
+                    <i class="fa-regular fa-gear p-2"></i>
+                    Setting
+                    </button>
+                    <button type="button" class="py-2 px-2 rounded bg-blue-500">
+                    Play
+                    </button>
+                </div>
+            </div>
             <!-- edit -->
             <div class="bg-overlay fixed z-[999] w-[100vw] h-[100vh] top-0 invisible opacity-0 left-0  modal-edit-quiz">
                 <form class="py-4 px-5 border-[1px] border-gray-200 rounded-[10px] center md:w-[60%] w-[80%] bg-primary modal-update-quiz">
@@ -28,6 +42,21 @@
         </div>
     </div>
 </div>
+
+<!-- settings -->
+<div class="settings lg:w-[20vw] w-[40vw] z-[9999] h-[100vh] fixed top-0 right-[-100%] bg-primary p-3">
+   <div class="flex justify-between">
+   <h2>Default setting</h2>
+    <button type="button" class="btn-close-settings"><i class="fa-light fa-xmark"></i></button>
+   </div>
+   <hr>
+   <ul>
+    <li>Share</li>
+    <li>Behaviour</li>
+    <li>Share</li>
+   </ul>
+</div>
+
 <!-- main -->
 <section>
     <div class="grid grid-cols-12">
@@ -86,8 +115,7 @@
                 </div>
 
             </form>
-            <form class="modal-show-option-manual hidden" quizId="{{(isset($quiz)) ? $quiz->id : "-1"}}"
-                >
+            <form class="modal-show-option-manual hidden" quizId="{{(isset($quiz)) ? $quiz->id : "-1"}}">
                 <label for="" class="flex flex-col items-start">
                     <span class="text-white mb-2 block">Question type</span>
                     <select required name="type" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 select-option-manual-question">
@@ -100,9 +128,8 @@
 
                 <!--4 answer use textarea -->
                 <div class="flex flex-col gap-3">
-                    @for ($i = 1; $i <= 4; $i++) 
-                        <x-inputs.input required="required" row="1" title="Answer {{$i}}" name="answer" placeholder="Enter answer {{$i}}"></x-inputs.input>
-                    @endfor
+                    @for ($i = 1; $i <= 4; $i++) <x-inputs.input required="required" row="1" title="Answer {{$i}}" name="answer" placeholder="Enter answer {{$i}}"></x-inputs.input>
+                        @endfor
                 </div>
 
                 <!-- correct choice -->
