@@ -8,7 +8,7 @@
             <button type="button" class="btn-edit-quiz"><i class="fa-light fa-pen-to-square"></i></button>
             <!-- edit -->
             <div class="bg-overlay fixed z-[999] w-[100vw] h-[100vh] top-0 invisible opacity-0 left-0  modal-edit-quiz">
-                <form class="py-4 px-5 border-[1px] border-gray-200 rounded-[10px] center w-[60%] bg-primary modal-update-quiz">
+                <form class="py-4 px-5 border-[1px] border-gray-200 rounded-[10px] center md:w-[60%] w-[80%] bg-primary modal-update-quiz">
                     <div class="flex justify-between items-center">
                         <h2 class="text-[26px]">Edit Title and Description</h2>
                         <button type="button" class="btn-close-modal-edit-quiz"><i class="fa-light fa-xmark"></i></button>
@@ -31,7 +31,7 @@
 <!-- main -->
 <section>
     <div class="grid grid-cols-12">
-        <div class="px-[2rem] py-4 create bg-primary relative col-span-4">
+        <div class="px-[2rem] py-4 create bg-primary relative lg:col-span-4 md:col-span-6 col-span-12">
             <div class="flex gap-4 border-b-[1px] border-gray-400">
                 <button type="button" option-data="0" class="active py-3 border-b-[2px] border-transparent active:border-blue-700 active:text-blue-700 hover:border-slate-500 hover:text-slate-500 text-white show-option">Text</button>
                 <button type="button" option-data="1" class="py-3 border-b-[2px] border-transparent hover:border-slate-500 hover:text-slate-500 text-white show-option">Manual</button>
@@ -138,7 +138,7 @@
                 </div>
             </form>
         </div>
-        <div class="result col-span-8 py-4 px-5 bg-secondary relative">
+        <div class="result lg:col-span-8 py-4 px-5 bg-secondary relative md:col-span-6 col-span-12">
             @isset($quiz)
             <div class=" result-questions">
                 <div class="intro-binding flex justify-between p-3 mb-5 rounded bg-blue-500">
