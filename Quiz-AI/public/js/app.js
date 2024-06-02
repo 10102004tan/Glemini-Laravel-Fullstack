@@ -26,9 +26,7 @@ let preShowOption = null;
 
 // 
 selectOptionQuestion.addEventListener('change', function () {
-    console.log(selectOptionQuestion.value)
-    console.log(selectOptionManualCorrect);
-    if (selectOptionQuestion.value == 1) {
+    if (selectOptionQuestion.value == "checkbox") {
         selectOptionManualCorrect.multiple = true;
     } else {
         selectOptionManualCorrect.multiple = false;
@@ -38,7 +36,7 @@ selectOptionQuestion.addEventListener('change', function () {
 //reset form
 btnResetForm.addEventListener('click', function (e) {
     e.preventDefault();
-    modalShowOptionText.reset();
+    modalShowOptionManual.reset();
 });
 
 
