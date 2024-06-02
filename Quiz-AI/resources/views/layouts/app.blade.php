@@ -20,7 +20,7 @@
 </head>
 <body>
     <header>
-        Header
+       <x-headers.header/>
     </header>
     <main>
         @yield('content')

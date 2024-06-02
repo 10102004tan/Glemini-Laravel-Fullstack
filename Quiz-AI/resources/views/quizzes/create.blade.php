@@ -8,7 +8,7 @@
             <button type="button" class="btn-edit-quiz"><i class="fa-light fa-pen-to-square"></i></button>
             <!-- edit -->
             <div class="bg-overlay fixed z-[999] w-[100vw] h-[100vh] top-0 invisible opacity-0 left-0  modal-edit-quiz">
-                <form class="py-4 px-5 border-[1px] border-gray-200 rounded-[10px] center w-[60%] bg-primary modal-update-quiz">
+                <form class="py-4 px-5 border-[1px] border-gray-200 rounded-[10px] center md:w-[60%] w-[80%] bg-primary modal-update-quiz">
                     <div class="flex justify-between items-center">
                         <h2 class="text-[26px]">Edit Title and Description</h2>
                         <button type="button" class="btn-close-modal-edit-quiz"><i class="fa-light fa-xmark"></i></button>
@@ -31,7 +31,7 @@
 <!-- main -->
 <section>
     <div class="grid grid-cols-12">
-        <div class="px-[2rem] py-4 create bg-primary relative col-span-4">
+        <div class="px-[2rem] py-4 create bg-primary relative lg:col-span-4 col-span-12">
             <div class="flex gap-4 border-b-[1px] border-gray-400">
                 <button type="button" option-data="0" class="active py-3 border-b-[2px] border-transparent active:border-blue-700 active:text-blue-700 hover:border-slate-500 hover:text-slate-500 text-white show-option">Text</button>
                 <button type="button" option-data="1" class="py-3 border-b-[2px] border-transparent hover:border-slate-500 hover:text-slate-500 text-white show-option">Manual</button>
@@ -96,7 +96,7 @@
                     </select>
                 </label>
 
-                <x-inputs.input class="mb-3" required="required" row="5" title="Enter Your Text" name="excerpt" placeholder="Enter content excerpt"></x-inputs.input>
+                <x-inputs.input class="mb-3" required="required" row="5" title="Enter Your Text" name="excerpt" placeholder="Type or copy and paste your notes to generate questions from text. Maximum 4,000 characters. Paid accounts can use up to 30,000 characters."></x-inputs.input>
 
                 <!--4 answer use textarea -->
                 <div class="flex flex-col gap-3">
@@ -122,7 +122,7 @@
                     <label for="">
                         <span class="text-white
                     block mb-2">Answer Info (optional)</span>
-                        <textarea rows="5" class="p-3 w-[100%] outline-none border-2 border-gray-400 rounded-[10px] bg-primary" name="" id="" placeholder="Type off copy ..."></textarea>
+                        <textarea rows="5" class="p-3 w-[100%] outline-none border-2 border-gray-400 rounded-[10px] bg-primary" name="optional" id="" placeholder="Type off copy ..."></textarea>
                     </label>
                     <p class="text-white text-[14px]">This will be shown to the user after they answer the question.</p>
                 </div>
@@ -138,9 +138,9 @@
                 </div>
             </form>
         </div>
-        <div class="result col-span-8 py-4 px-5 bg-secondary relative">
+        <div class="result lg:col-span-8 py-4 px-5 bg-secondary relative col-span-12">
             @isset($quiz)
-            <div class=" result-questions">
+            <div class=" result-questions md:mb-5">
                 <div class="intro-binding flex justify-between p-3 mb-5 rounded bg-blue-500">
                     <div class="pb-[30px]">
                         <h5 class="mb-2 text-[24px]">Study better</h5>
@@ -184,7 +184,7 @@
             </div>
             @else
             <!-- first -->
-            <div class="p-5 rounded bg-primary w-[50%] center result-intro">
+            <div class="p-5 rounded bg-primary w-[50%] mx-auto lg:mt-[150px] mt-3 relative result-intro">
                 <h2 class="mb-2 text-[26px]">Generate quizzes</h2>
                 <p>Generate quizzes from your notes, study materials, or any text you have. You can also create quizzes manually.<i class="fa-duotone fa-microchip-ai text-yellow-400 text-[20px]"></i> <i class="fa-duotone fa-cloud-bolt text-yellow-400 text-[20px]"></i> </p>
             </div>

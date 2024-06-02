@@ -219,7 +219,7 @@ class QuizController extends Controller
         I want the questions to have a difficulty level of <<difficulty : ' . $difficulty . ' >>. 
         I want the language for all content to be <<language : ' . $language . ' >>.
         I want each question to have 4 answers. 
-        I want the questions to include: excerpt, type, and answers. 
+        I want the questions to include: excerpt, type,optional and answers. 
         I want the answers to include: content, is_correct. 
         I want the result returned to be an array of questions. 
         I want the values in <<giá trị>> to be valid, if not valid, return an empty questions array []. 
@@ -231,6 +231,7 @@ class QuizController extends Controller
                 {
                     "excerpt": "Câu hỏi 1",
                     "type": "radio",
+                    "optional": "Chi tiết về đáp án",
                     "answers": [
                         {
                             "content": "Đáp án 1",
@@ -275,6 +276,7 @@ class QuizController extends Controller
                 $newQuestion = $quiz->questions()->create([
                     'excerpt' => $question['excerpt'],
                     'type' => $question['type'],
+                    'optional' => $question['optional'],
                 ]);
                 foreach ($question['answers'] as $answer) {
                     $newQuestion->answers()->create([

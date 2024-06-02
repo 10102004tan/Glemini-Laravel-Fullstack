@@ -26,9 +26,7 @@ let preShowOption = null;
 
 // 
 selectOptionQuestion.addEventListener('change', function () {
-    console.log(selectOptionQuestion.value)
-    console.log(selectOptionManualCorrect);
-    if (selectOptionQuestion.value == 1) {
+    if (selectOptionQuestion.value == "checkbox") {
         selectOptionManualCorrect.multiple = true;
     } else {
         selectOptionManualCorrect.multiple = false;
@@ -38,7 +36,7 @@ selectOptionQuestion.addEventListener('change', function () {
 //reset form
 btnResetForm.addEventListener('click', function (e) {
     e.preventDefault();
-    modalShowOptionText.reset();
+    modalShowOptionManual.reset();
 });
 
 
@@ -67,11 +65,12 @@ if (btnEditQuiz != null) {
     });
 }
 
-
-btnCloseEditQuiz.addEventListener('click', function () {
-    modelEditQuiz.classList.toggle('invisible');
-    modelEditQuiz.classList.toggle('opacity-0');
-});
+if (btnCloseEditQuiz != null) {
+    btnCloseEditQuiz.addEventListener('click', function () {
+        modelEditQuiz.classList.toggle('invisible');
+        modelEditQuiz.classList.toggle('opacity-0');
+    });
+};
 
 
 // show options
@@ -102,6 +101,7 @@ btnGenerateAI.addEventListener('click', function () {
     overlayLoading.classList.add('flex');
 });
 
+if (modalUpdateQuiz != null) {
 // update quiz
 modalUpdateQuiz.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -125,6 +125,7 @@ modalUpdateQuiz.addEventListener('submit', async (e) => {
         console.error('Error:', error);
     }
 });
+}
 
 //edit question
 modalEditQuestion.forEach((modalEdit) => {
@@ -232,9 +233,14 @@ modalShowOptionManual.addEventListener('submit', async (e) => {
         checkStatus(result,
             function () {
                 //add question to list
+                window.location.reload();
+                console.log("test")
+
             },
             function () {
                 // reload page
+                window.location.href = window.location.href + '/' + result.quizId;
+                console.log("test 2")
 
             });
 
@@ -245,7 +251,6 @@ modalShowOptionManual.addEventListener('submit', async (e) => {
 
 function checkStatus(result, callbackSuccess, callbackOrder) {
     if (result.status == 200) {
-        callbackSuccess();
         Toastify({
             text: `${result.message}`,
             duration: 1000,
@@ -259,6 +264,7 @@ function checkStatus(result, callbackSuccess, callbackOrder) {
                 background: "#26d63a",
             },
         }).showToast();
+        callbackSuccess();
     }
     else {
         callbackOrder();
@@ -272,7 +278,7 @@ function checkStatus(result, callbackSuccess, callbackOrder) {
             position: "right", // `left`, `center` or `right`
             stopOnFocus: true, // Prevents dismissing of toast on hover
             style: {
-                background: "#cd4316",
+                background: `${(result.status == 999) ? "#26d63a" : "#cd4316"}`,
             },
         }).showToast();
     }
