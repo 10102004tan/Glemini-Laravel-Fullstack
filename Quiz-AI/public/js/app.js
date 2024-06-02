@@ -1,6 +1,9 @@
 
 
 // click edit btn question
+const btnSettings = document.getElementById('btn-settings');
+const btnCloseSettings = document.querySelector('.btn-close-settings');
+const settings = document.querySelector('.settings');
 const btnEditQuestions = document.querySelectorAll('.btn-edit-question');
 const modalEditQuestion = document.querySelectorAll('.modal-edit-question');
 const modalDestroyQuestion = document.querySelectorAll('.modal-destroy-question');
@@ -20,6 +23,7 @@ const selectOptionQuestion = document.querySelector('.select-option-manual-quest
 const selectOptionManualCorrect = document.querySelector('.select-option-manual-correct');
 const btnResetForm = document.querySelector('.btn-reset-form');
 const modalUpdateQuiz = document.querySelector('.modal-update-quiz');
+
 let preShowOption = null;
 
 
@@ -71,6 +75,15 @@ if (btnCloseEditQuiz != null) {
         modelEditQuiz.classList.toggle('opacity-0');
     });
 };
+
+btnSettings.addEventListener('click', function () {
+    settings.classList.toggle('right-[-100%]');
+    settings.classList.toggle('right-0');
+});
+btnCloseSettings.addEventListener('click', function () {
+    settings.classList.toggle('right-[-100%]');
+    settings.classList.toggle('right-0');
+});
 
 
 // show options
