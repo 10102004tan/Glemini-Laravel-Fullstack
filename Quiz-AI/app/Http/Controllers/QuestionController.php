@@ -98,6 +98,7 @@ class QuestionController extends Controller
         $question = Question::find($questionId);
         if ($question) {
             $question->excerpt = $request->excerpt;
+            $question->optional = $request->optional;
             $answers = json_decode($request->answers, true);
             foreach ($answers as $answer) {
                 $answerUpdate = Answer::find($answer['id']);
