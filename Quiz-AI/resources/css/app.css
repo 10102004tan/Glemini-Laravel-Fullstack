@@ -6,6 +6,7 @@
     font-family: "Poppins", sans-serif;
     box-sizing: border-box;
     color: #fff;
+    transition: all 0.3s linear;
 }
 
 /* css placeholder */
@@ -13,6 +14,24 @@
 /* bar shadow */
 .shadow-bar{
     box-shadow: 1px 7px 10px 5px #1d1c1c;
+}
+
+
+/* checked label */
+.wrapper-confirm{
+    display: none;
+}
+
+.action-checkbox[type="checkbox"]:checked ~ .wrapper-confirm {
+   display: flex;
+}
+
+/* custom button */
+
+/* active */
+.active{
+    color: #4038af;
+    border-color: #150e7b;
 }
 
 

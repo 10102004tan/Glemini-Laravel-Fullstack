@@ -10,6 +10,7 @@ export default {
       colors:{
         'primary': '#1f2937',
         'secondary': '#111827',
+        'overlay': '#151c2b',
       }
     },
     container: {
@@ -23,5 +24,17 @@ export default {
       }
     }
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.center': {
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 }
