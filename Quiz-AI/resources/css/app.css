@@ -2,7 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+:root {
+    --background: #1e1f38;
+    --text: #fff;
+    --background-dark: #121125;
+    --black: #000;
+    --primary: #874cf2;
+    --form-bg: #161e2d;
+    --input-form-bg: #212b3a;
+}
+
+* {
     font-family: "Poppins", sans-serif;
     box-sizing: border-box;
     color: #fff;
@@ -10,12 +20,15 @@
 }
 
 /* css placeholder */
-
 /* bar shadow */
-.shadow-bar{
+.shadow-bar {
     box-shadow: 1px 7px 10px 5px #1d1c1c;
 }
 
+/* Auth */
+.auth-bg {
+    background: var(--primary)
+}
 
 /* checked label */
 .wrapper-confirm{
@@ -34,4 +47,25 @@
     border-color: #150e7b;
 }
 
+
+
+input[type="checkbox"] {
+    accent-color: var(--primary);
+}
+
+@keyframes form_error_notify {
+    0% {
+        transform: translateY(-200%);
+    }100% {
+        transform: translateY(0%);
+    }
+}
+
+.form_error_notify {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    bottom: 20px;
+    right: 20px;
+    position: absolute;
+    animation: form_error_notify 0.3s ease-in-out forwards;
+}
 
