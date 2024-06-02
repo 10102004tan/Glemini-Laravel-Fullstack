@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+/* Ẩn thanh cuộn trên Firefox */
+html {
+    scrollbar-width: none;
+    /* Ẩn thanh cuộn dọc */
+    -ms-overflow-style: none;
+    /* Ẩn thanh cuộn trên Internet Explorer và Edge */
+}
+
+body {
+    scrollbar-width: none;
+    /* Ẩn thanh cuộn dọc */
+}
+
 :root {
     --background: #1e1f38;
     --text: #fff;
@@ -31,20 +49,20 @@
 }
 
 /* checked label */
-.wrapper-confirm{
+.wrapper-confirm {
     display: none;
 }
 
-.action-checkbox[type="checkbox"]:checked ~ .wrapper-confirm {
-   display: flex;
-   opacity: 1;
-   visibility: visible;
+.action-checkbox[type="checkbox"]:checked~.wrapper-confirm {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
 }
 
 /* custom button */
 
 /* active */
-.active{
+.active {
     color: #4038af;
     border-color: #150e7b;
 }
@@ -58,7 +76,9 @@ input[type="checkbox"] {
 @keyframes form_error_notify {
     0% {
         transform: translateY(-200%);
-    }100% {
+    }
+
+    100% {
         transform: translateY(0%);
     }
 }
@@ -80,4 +100,3 @@ input[type="checkbox"] {
     position: absolute;
     animation: form_error_notify 0.3s ease-in-out forwards;
 }
-
