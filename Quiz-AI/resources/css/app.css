@@ -37,6 +37,8 @@
 
 .action-checkbox[type="checkbox"]:checked ~ .wrapper-confirm {
    display: flex;
+   opacity: 1;
+   visibility: visible;
 }
 
 /* custom button */
