@@ -112,6 +112,24 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'google-gemini-php/client' => array(
+            'pretty_version' => '1.0.4',
+            'version' => '1.0.4.0',
+            'reference' => '06536196184cb6b29f096e29705a175b7b7350af',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../google-gemini-php/client',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'google-gemini-php/laravel' => array(
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'reference' => 'ac83a7a3f5c438c1823af0ce939f3d17d61441ae',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../google-gemini-php/laravel',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'graham-campbell/result-type' => array(
             'pretty_version' => 'v1.1.2',
             'version' => '1.1.2.0',
@@ -433,6 +451,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'laravel/ui' => array(
+            'pretty_version' => 'v4.5.2',
+            'version' => '4.5.2.0',
+            'reference' => 'c75396f63268c95b053c8e4814eb70e0875e9628',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laravel/ui',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'league/commonmark' => array(
             'pretty_version' => '2.4.2',
             'version' => '2.4.2.0',
@@ -583,6 +610,63 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'php-flasher/flasher' => array(
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => 'db6cf7746bc6d55f36df144c00de81d881b2ca02',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-flasher/flasher-laravel' => array(
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => '2bf507c93d071be1850b6fd482ca990c73f0c1fb',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher-laravel',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-flasher/flasher-toastr' => array(
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => '5d207334de89bc2925eea43c58669c1788ff9ef6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher-toastr',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-flasher/flasher-toastr-laravel' => array(
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => '74199071fde30738d840dbd8757f5d957d23846d',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher-toastr-laravel',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-http/async-client-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '*',
+            ),
+        ),
+        'php-http/client-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '*',
+            ),
+        ),
+        'php-http/discovery' => array(
+            'pretty_version' => '1.19.4',
+            'version' => '1.19.4.0',
+            'reference' => '0700efda8d7526335132360167315fdab3aeb599',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/../php-http/discovery',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'phpoption/phpoption' => array(
             'pretty_version' => '1.9.2',
             'version' => '1.9.2.0',
@@ -704,6 +788,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
+                1 => '*',
             ),
         ),
         'psr/http-factory' => array(
@@ -719,6 +804,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
+                1 => '*',
             ),
         ),
         'psr/http-message' => array(
@@ -734,6 +820,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
+                1 => '*',
             ),
         ),
         'psr/log' => array(
@@ -1310,6 +1397,15 @@
             'reference' => '11cb2199493b2f8a3b53e7f19068fc6aac760991',
             'type' => 'library',
             'install_path' => __DIR__ . '/../webmozart/assert',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'yoeunes/toastr' => array(
+            'pretty_version' => 'v3.0.1',
+            'version' => '3.0.1.0',
+            'reference' => '1178236a0cf78444e316fcd2e46cba630ecc13ed',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../yoeunes/toastr',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
