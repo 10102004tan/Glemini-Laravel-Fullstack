@@ -79,7 +79,7 @@
         </label>
         @endif
         <!-- optional info -->
-        <x-inputs.input title="Answer Info (optional)" name="optional" placeholder="Enter explain"></x-inputs.input>
+        <x-inputs.input title="Answer Info (optional)" name="optional" placeholder="Enter explain">{{$question->optional}}</x-inputs.input>
         <!-- buttons -->
         <div class="flex items-center justify-end gap-3">
             <x-buttons.secondary class="text-[14px] btn-cancel" type="button">{{"Cancel"}}</x-buttons.secondary>
