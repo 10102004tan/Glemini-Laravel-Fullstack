@@ -31,7 +31,7 @@
 <!-- main -->
 <section>
     <div class="grid grid-cols-12">
-        <div class="px-[2rem] py-4 create bg-primary relative lg:col-span-4 md:col-span-6 col-span-12">
+        <div class="px-[2rem] py-4 create bg-primary relative lg:col-span-4 col-span-12">
             <div class="flex gap-4 border-b-[1px] border-gray-400">
                 <button type="button" option-data="0" class="active py-3 border-b-[2px] border-transparent active:border-blue-700 active:text-blue-700 hover:border-slate-500 hover:text-slate-500 text-white show-option">Text</button>
                 <button type="button" option-data="1" class="py-3 border-b-[2px] border-transparent hover:border-slate-500 hover:text-slate-500 text-white show-option">Manual</button>
@@ -96,7 +96,7 @@
                     </select>
                 </label>
 
-                <x-inputs.input class="mb-3" required="required" row="5" title="Enter Your Text" name="excerpt" placeholder="Enter content excerpt"></x-inputs.input>
+                <x-inputs.input class="mb-3" required="required" row="5" title="Enter Your Text" name="excerpt" placeholder="Type or copy and paste your notes to generate questions from text. Maximum 4,000 characters. Paid accounts can use up to 30,000 characters."></x-inputs.input>
 
                 <!--4 answer use textarea -->
                 <div class="flex flex-col gap-3">
@@ -122,7 +122,7 @@
                     <label for="">
                         <span class="text-white
                     block mb-2">Answer Info (optional)</span>
-                        <textarea rows="5" class="p-3 w-[100%] outline-none border-2 border-gray-400 rounded-[10px] bg-primary" name="" id="" placeholder="Type off copy ..."></textarea>
+                        <textarea rows="5" class="p-3 w-[100%] outline-none border-2 border-gray-400 rounded-[10px] bg-primary" name="optional" id="" placeholder="Type off copy ..."></textarea>
                     </label>
                     <p class="text-white text-[14px]">This will be shown to the user after they answer the question.</p>
                 </div>
@@ -138,7 +138,7 @@
                 </div>
             </form>
         </div>
-        <div class="result lg:col-span-8 py-4 px-5 bg-secondary relative md:col-span-6 col-span-12">
+        <div class="result lg:col-span-8 py-4 px-5 bg-secondary relative col-span-12">
             @isset($quiz)
             <div class=" result-questions">
                 <div class="intro-binding flex justify-between p-3 mb-5 rounded bg-blue-500">
