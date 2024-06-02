@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('image')->nullable();
             $table->text('sound')->nullable();
             $table->text('youtube')->nullable();
+            $table->string('optional')->default("");
             $table->string('type');
             $table->timestamps();
         });
