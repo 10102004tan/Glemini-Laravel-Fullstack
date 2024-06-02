@@ -33,8 +33,8 @@
             </div>
             <div>
                 <label for="delete" class="btn-delete-question relative group">
-                    <input class="opacity-0 absolute w-[30px] top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] delete action-checkbox" type="checkbox">
-                    <i class="fa-light fa-trash-alt"></i>
+                    <input id="delete" class="opacity-0 absolute cursor-pointer w-[30px] top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] delete action-checkbox" type="checkbox">
+                    <i class="fa-light fa-trash-alt cursor-pointer"></i>
                     <div class="wrapper-confirm absolute right-0 p-3 border-[1px] border-gray-400 rounded bg-primary w-[150px] flex-col items-start">
                         <p class="text-[12px]">Are you sure you want to delete this question?</p>
                         <div class="flex items-center justify-end gap-2">
