@@ -12,8 +12,6 @@
                 </ul>
             </div>
         @endif
-
-
         <div class="confirm px-8 py-6 bg-white rounded-lg text-center min-w-[400px]">
           <div class="my-4">
             <img src="{{ asset('icon_imgs/w=400,format=webp.avif') }}" class="w-40 mx-auto" alt="">
@@ -38,10 +36,7 @@
             </div>
           </div>
         </div>
-
-
     </div>
-
 @endsection
 @section('script')
     <script>
