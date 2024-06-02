@@ -15,7 +15,7 @@
             @elseif ($question->type === 'checkbox')
             @foreach ($question->answers as $answer)
             <div class="mb-3">
-                <input type="checkbox" name="answer_{{$answer->id }}" value="{{ $answer->id }}" id="answer_{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }} >
+                <input type="checkbox" name="answer_{{$answer->id }}" value="{{ $answer->id }}" id="answer_{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }}>
                 <label for="answer_{{ $answer->id }}">{{ $answer->content }}</label>
             </div>
             @endforeach
@@ -36,15 +36,15 @@
                     <input class="opacity-0 absolute w-[30px] top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] delete action-checkbox" type="checkbox">
                     <i class="fa-light fa-trash-alt"></i>
                     <div class="wrapper-confirm absolute right-0 p-3 border-[1px] border-gray-400 rounded bg-primary w-[150px] flex-col items-start">
-                    <p class="text-[12px]">Are you sure you want to delete this question?</p>
-                    <div class="flex items-center justify-end gap-2">
-                        <button type="button" class="text-gray-400 hover:text-gray-500 text-[12px]" >Cancel</button>
-                        <form class="modal-destroy-question" questionId="{{$question->id}}">
-                            <button type="submit" class="text-red-600 hover:text-red-700 text-[12px]" >Delete</button>
-                        </form>
+                        <p class="text-[12px]">Are you sure you want to delete this question?</p>
+                        <div class="flex items-center justify-end gap-2">
+                            <button type="button" class="text-gray-400 hover:text-gray-500 text-[12px]">Cancel</button>
+                            <form class="modal-destroy-question" questionId="{{$question->id}}">
+                                <button type="submit" class="text-red-600 hover:text-red-700 text-[12px]">Delete</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <span class="absolute text-[14px] hidden bottom-[100%] text-nowrap left-[50%] translate-x-[-50%] p-1 rounded bg-slate-300 group-hover:inline-block">Delete</span>
+                    <span class="absolute text-[14px] hidden bottom-[100%] text-nowrap left-[50%] translate-x-[-50%] p-1 rounded bg-slate-300 group-hover:inline-block">Delete</span>
                 </label>
             </div>
         </div>
@@ -55,17 +55,29 @@
         <x-inputs.file></x-inputs.file>
         <x-inputs.input title="Question" name="excerpt" placeholder="Enter question">{{$question->excerpt}}</x-inputs.input>
         @foreach($question->answers as $answer)
-            <x-inputs.input name="answer" row="1">{{$answer->content}}</x-inputs.input>
-            <input type="hidden" name="answer_id" value="{{$answer->id}}">
+        <x-inputs.input name="answer" row="1">{{$answer->content}}</x-inputs.input>
+        <input type="hidden" name="answer_id" value="{{$answer->id}}">
         @endforeach
         <!-- data correct -->
-
         @if ($question->type === 'radio')
-        <x-inputs.select-option title="Correct Answer" name="correct" :options="['A' => 'A(Hello world)', 'B' => 'B(asdsad)', 'C' => 'C(asdkljsad)', 'D' => 'D(asdlsakd)']"></x-inputs.select-option>
+        <label class="flex flex-col items-start ">
+            <span class="text-white mb-2 block">Correct Answer</span>
+            <select name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
+                @for($i = 0; $i < count($question->answers); $i++)
+                    <option value="{{$i}}">{{$question->answers[$i]->content}}</option>
+                @endfor
+            </select>
+        </label>
         @elseif($question->type === 'checkbox')
-            <x-inputs.select-option type="multiple" title="Correct Answer" name="correct" :options="['0' => 'A', '1' => 'B', '2' => 'C', '3' => 'D']"></x-inputs.select-option>
+        <label class="flex flex-col items-start ">
+            <span class="text-white mb-2 block">Correct Answer</span>
+            <select multiple name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
+                @for($i = 0; $i < count($question->answers); $i++)
+                    <option {{($question->answers[$i]->is_correct == 1) ? "selected" : ""}} value="{{$i}}">{{$question->answers[$i]->content}}</option>
+                @endfor
+            </select>
+        </label>
         @endif
-
         <!-- optional info -->
         <x-inputs.input title="Answer Info (optional)" name="optional" placeholder="Enter explain"></x-inputs.input>
         <!-- buttons -->
@@ -75,4 +87,3 @@
         </div>
     </form>
 </div>
-

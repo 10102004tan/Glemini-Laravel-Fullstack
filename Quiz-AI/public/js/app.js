@@ -48,7 +48,7 @@ for (let i = 0; i < btnEditQuestions.length; i++) {
         modalQuestion[i].classList.add('hidden');
         modalEditQuestion[i].classList.add('flex');
 
-        
+
     });
 
     btnCancels[i].addEventListener('click', function () {
@@ -60,10 +60,13 @@ for (let i = 0; i < btnEditQuestions.length; i++) {
 
 
 // click edit btn quiz
-btnEditQuiz.addEventListener('click', function () {
-    modelEditQuiz.classList.toggle('invisible');
-    modelEditQuiz.classList.toggle('opacity-0');
-});
+if (btnEditQuiz != null) {
+    btnEditQuiz.addEventListener('click', function () {
+        modelEditQuiz.classList.toggle('invisible');
+        modelEditQuiz.classList.toggle('opacity-0');
+    });
+}
+
 
 btnCloseEditQuiz.addEventListener('click', function () {
     modelEditQuiz.classList.toggle('invisible');
@@ -99,83 +102,29 @@ btnGenerateAI.addEventListener('click', function () {
     overlayLoading.classList.add('flex');
 });
 
-// create quiz ai
-//ajax
-
-//  modalShowOptionText.addEventListener('submit', async (e) => {
-//     e.preventDefault();
-//     overlayLoading.classList.remove('hidden');
-//     const formData = new FormData(modalShowOptionText);
-//     console.log(Object.fromEntries(formData));
-//     try {
-//             // // Send AJAX POST request using Axios
-//             const url = window.routes.quizzesQuestionsStore;
-//             const response = await axios.post(url, formData);
-//             const result = response.data;
-//             console.log(result);
-//             resultIntro.remove();
-//             resultQuestions.classList.remove('hidden');
-//             modalShowOptionText.reset();
-//             overlayLoading.classList.add('hidden');
-//         } catch (error) {
-//             console.error('Error:', error);
-//         }
-// });
-
-
 // update quiz
 modalUpdateQuiz.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btnSubmit = modalUpdateQuiz.querySelector('.btn-update-quiz');
     btnSubmit.textContent = 'Updating...';
     const formData = new FormData(modalUpdateQuiz);
-    console.log(Object.fromEntries(formData));
     try {
         // // Send AJAX POST request using Axios
         const url = window.routes.quizzesUpdate;
         const response = await axios.post(url, formData);
         const result = response.data;
-        if (result.status == 400) {
+        checkStatus(result, function () {
             btnSubmit.textContent = 'Update';
             modalUpdateQuiz.parentElement.previousElementSibling.previousElementSibling.textContent = result.quiz.title;
-            Toastify({
-                text: "Thành công",
-                duration: 1000,
-                destination: `${result.message}`,
-                newWindow: true,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "#26d63a",
-                },
-                onClick: function () { } // Callback after click
-            }).showToast();
-        }
-        else {
-            Toastify({
-                text: "Error",
-                duration: 1000,
-                destination: `${result.message}`,
-                newWindow: true,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "#cd4316",
-                },
-                onClick: function () { } // Callback after click
-            }).showToast();
-        }
+        },
+
+            function () {
+                //show error
+            });
     } catch (error) {
         console.error('Error:', error);
     }
 });
-
-
-
 
 //edit question
 modalEditQuestion.forEach((modalEdit) => {
@@ -200,56 +149,32 @@ modalEditQuestion.forEach((modalEdit) => {
         try {
             const url = window.routes.quizzesQuestionUpdate;
             const response = await axios.post(url, formData);
-            const result = response.data;
-            console.log(result);
-            if (result.status == 200) {
+            const result = await response.data;
+            checkStatus(result, function () {
+                //update question
                 const modalQuestion = modalEdit.previousElementSibling;
                 let answers = "";
                 result.question.answers.forEach((answer) => {
                     answers += `
                     <div class="mb-3">
-                        <input type="${result.question.type}" name="answer_${answer['id']}" value="${answer['id']}" ${(answer['is_correct'] == 1) ? "checked" : "" } id="answer_${answer['id']}">
+                        <input type="${result.question.type}" name="answer_${answer['id']}" value="${answer['id']}" ${(answer['is_correct'] == 1) ? "checked" : ""} id="answer_${answer['id']}">
                         <label for="answer_${answer['id']}">${answer['content']}</label>
                     </div>
                     `
                 });
+
                 const excerpt = `
                 <div class="excerpt" class="mb-4">
                     <p class="text-[20px] text-[#eee]">${result.question.excerpt}</p>
                 </div>
                 `;
-
+                console.log(excerpt)
                 modalQuestion.firstChild.innerHTML = excerpt;
                 modalQuestion.children[1].innerHTML = answers;
-                Toastify({
-                    text: "Sửa Thành công",
-                    duration: 1000,
-                    destination: `${result.message}`,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "#26d63a",
-                    },
-                }).showToast();
-            }
-            else {
-                Toastify({
-                    text: "Error",
-                    duration: 1000,
-                    destination: `${result.message}`,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "#cd4316",
-                    },
-                }).showToast();
-            }
+            },
+                function () {
+                    //show error
+                });
         }
         catch (error) {
             console.error('Error:', error);
@@ -269,42 +194,86 @@ modalDestroyQuestion.forEach((modalDestroy) => {
             const url = window.routes.quizzesQuestionDestroy;
             const response = await axios.post(url, formData);
             const result = response.data;
-            console.log(result);
-            if (result.status == 200) {
+            checkStatus(result, function () {
                 modalDestroy.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
-                Toastify({
-                    text: "Xóa Thành công",
-                    duration: 1000,
-                    destination: `${result.message}`,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "#26d63a",
-                    },
-                    onClick: function () { } // Callback after click
-                }).showToast();
-            }
-            else {
-                Toastify({
-                    text: "Error",
-                    duration: 1000,
-                    destination: `${result.message}`,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "#cd4316",
-                    },
-                    onClick: function () { } // Callback after click
-                }).showToast();
-            }
+            },
+                function () {
+                    //show error
+                });
         } catch (error) {
             console.error('Error:', error);
         }
     });
 });
+
+
+// creatq question modal-show-option-manual
+modalShowOptionManual.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(modalShowOptionManual);
+    const answers = formData.getAll('answer');
+    const corrects = formData.getAll('is_correct');
+    let dataAnswers = [];
+    answers.forEach((answer, index) => {
+        dataAnswers.push({
+            content: answer,
+            is_correct: (corrects.includes(index.toString()) ? 1 : 0)
+        });
+    });
+    formData.append('answers', JSON.stringify(dataAnswers));
+    formData.append('quiz_id', modalShowOptionManual.getAttribute('quizId'));
+    formData.delete('answer');
+    formData.delete('is_correct');
+    try {
+        // // Send AJAX POST request using Axios
+        const url = window.routes.quizzesQuestionStore;
+        const response = await axios.post(url, formData);
+        const result = await response.data;
+        checkStatus(result,
+            function () {
+                //add question to list
+            },
+            function () {
+                // reload page
+
+            });
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+function checkStatus(result, callbackSuccess, callbackOrder) {
+    if (result.status == 200) {
+        callbackSuccess();
+        Toastify({
+            text: `${result.message}`,
+            duration: 1000,
+            destination: `${result.message}`,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "#26d63a",
+            },
+        }).showToast();
+    }
+    else {
+        callbackOrder();
+        Toastify({
+            text: `${result.message}`,
+            duration: 1000,
+            destination: `${result.message}`,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "#cd4316",
+            },
+        }).showToast();
+    }
+}

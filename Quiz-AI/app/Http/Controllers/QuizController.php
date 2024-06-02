@@ -21,9 +21,11 @@ class QuizController extends Controller
 
     public function create($id = null)
     {
-
         if ($id != null) {
-            $quiz = Quiz::find($id)->load('questions.answers');
+            // $quiz = Quiz::find($id)->load('questions.answers')->sortByDesc('created_at');
+            $quiz = Quiz::with(['questions' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            }])->find($id);
             return view('quizzes.create', ['quiz' => $quiz]);
         } else {
             return view('quizzes.create');
@@ -75,7 +77,7 @@ class QuizController extends Controller
 
             if ($quiz->update($validatedData)) {
                 return response()->json([
-                    'status' => 400,
+                    'status' => 200,
                     'message' => 'Cập nhật thành công!',
                     'quiz' => $quiz, // Có thể trả về thông tin quiz mới để cập nhật giao diện
                 ]);
@@ -87,7 +89,7 @@ class QuizController extends Controller
             }
         } else {
             return response()->json([
-                'status' => 200,
+                'status' => 400,
                 'message' => 'Cập nhật thất bại!',
             ]);
         }
@@ -256,7 +258,6 @@ class QuizController extends Controller
         $data = Storage::disk('public')->get("datajson/$fileName");
 
         $data = json_decode($data, true);
-
 
         if (isset($data['questions']) && count($data['questions']) > 0) {
             $quiz = null;
