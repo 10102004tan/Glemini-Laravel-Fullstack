@@ -140,7 +140,7 @@
         </div>
         <div class="result lg:col-span-8 py-4 px-5 bg-secondary relative col-span-12">
             @isset($quiz)
-            <div class=" result-questions">
+            <div class=" result-questions md:mb-5">
                 <div class="intro-binding flex justify-between p-3 mb-5 rounded bg-blue-500">
                     <div class="pb-[30px]">
                         <h5 class="mb-2 text-[24px]">Study better</h5>
@@ -184,7 +184,7 @@
             </div>
             @else
             <!-- first -->
-            <div class="p-5 rounded bg-primary w-[50%] center result-intro">
+            <div class="p-5 rounded bg-primary w-[50%] mx-auto lg:mt-[150px] mt-3 relative result-intro">
                 <h2 class="mb-2 text-[26px]">Generate quizzes</h2>
                 <p>Generate quizzes from your notes, study materials, or any text you have. You can also create quizzes manually.<i class="fa-duotone fa-microchip-ai text-yellow-400 text-[20px]"></i> <i class="fa-duotone fa-cloud-bolt text-yellow-400 text-[20px]"></i> </p>
             </div>
