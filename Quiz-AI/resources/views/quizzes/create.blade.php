@@ -161,10 +161,10 @@
                     <span class="text-white mb-2 block">Correct Answer</span>
                     <select name="is_correct" required class="bg-primary
                     p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%] select-option-manual-correct">
-                        <option value="1">A</option>
-                        <option value="2">B</option>
-                        <option value="3">C</option>
-                        <option value="4">D</option>
+                        <option value="0">A</option>
+                        <option value="1">B</option>
+                        <option value="2">C</option>
+                        <option value="3">D</option>
                     </select>
                 </label>
 
