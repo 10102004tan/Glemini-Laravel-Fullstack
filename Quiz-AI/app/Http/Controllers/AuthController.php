@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -41,6 +42,11 @@ class AuthController extends Controller
         $user = User::where('email', $email)->first();
         if (Hash::check($request->password, $user->password)) {
             Auth::guard('web')->login($user);
+            $check = Session::get('unlogin');
+            if (isset($check)) {
+                Session::forget('unlogin');
+                return redirect()->route('quizzes.create');
+            }
             return redirect()->intended('admin/dashboard');
         }
 
