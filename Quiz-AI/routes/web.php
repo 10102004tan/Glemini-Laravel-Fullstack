@@ -45,7 +45,8 @@ Route::get('/quiz-single/show', function () {
 })->name('quiz.show');
 
 // Verify
-Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+Route::get('email/verify/{id}', [VerificationController::class, 'show'])->name('verification.notice');
+Route::post('email/verify/{id}', [VerificationController::class, 'reverify'])->name('handle_reverify');
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 
 Route::get('/quizzes/create/{id?}', [QuizController::class, 'create'])->name('quizzes.create');

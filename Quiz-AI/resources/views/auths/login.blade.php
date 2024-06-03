@@ -3,6 +3,7 @@
 {{-- Body --}}
 @section('content')
     <div class="w-full h-[100vh] flex flex-col gap-3 items-center justify-center auth-bg">
+        {{-- Error notify --}}
         @if ($errors->any())
             <div class="mb-2 form_error_notify bg-white rounded-lg overflow-hidden">
                 <span class="block w-full p-4 bg-red-500 text-white">Error</span>
@@ -13,7 +14,17 @@
                 </ul>
             </div>
         @endif
-
+        {{-- Success notify --}}
+        @if (session('success'))
+            <div class="form_success_notify">
+                <div class="mb-2 form_error_notify bg-white rounded-lg overflow-hidden">
+                    <span class="block w-full p-4 bg-green-500 text-white">Success</span>
+                    <ul>
+                        <li class="text-green-500 p-4">{{ session('success') }}</li>
+                    </ul>
+                </div>
+            </div>
+        @endif
         <form method="POST" action="{{ route('handle_login') }}"
             class="min-w-[400px] shadow-lg overflow-hidden h-auto flex rounded-lg bg-[var(--form-bg)] text-[var(--text)]  px-8 py-6 flex-col gap-4">
             @csrf
