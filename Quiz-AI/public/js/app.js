@@ -201,7 +201,7 @@ modalEditQuestion.forEach((modalEdit) => {
                 </div>
                 `;
                 console.log(excerpt)
-                modalQuestion.firstChild.innerHTML = excerpt;
+                modalQuestion.firstElementChild.innerHTML = excerpt;
                 modalQuestion.children[1].innerHTML = answers;
             },
                 function () {
