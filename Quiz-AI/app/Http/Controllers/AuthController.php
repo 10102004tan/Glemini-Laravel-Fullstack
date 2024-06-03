@@ -41,7 +41,7 @@ class AuthController extends Controller
         $user = User::where('email', $email)->first();
         if (Hash::check($request->password, $user->password)) {
             Auth::guard('web')->login($user);
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('admin/dashboard');
         }
 
         // Đăng nhập thất bại

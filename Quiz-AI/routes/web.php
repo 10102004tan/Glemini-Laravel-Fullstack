@@ -27,9 +27,10 @@ Route::post('/auth/register', [AuthController::class, "register"])->name("handle
 Route::post('/auth/logout', [AuthController::class, "logout"])->name("handle_logout");
 
 // Dashboard
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
-});
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+// });
+
 
 Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin','auth'])->group(function () { 
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
@@ -39,6 +40,15 @@ Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin','auth
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
     });
  });
+
+
+Route::get('/quiz-single', function () {
+    return view('quiz-mode-single.index');
+})->name('quiz.index');
+
+Route::get('/quiz-single/show', function () {
+    return view('quiz-mode-single.show');
+})->name('quiz.show');
 
 // Verify
 Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
