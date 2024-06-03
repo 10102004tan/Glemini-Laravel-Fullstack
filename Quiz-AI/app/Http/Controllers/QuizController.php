@@ -81,6 +81,8 @@ class QuizController extends Controller
 
 
             if ($quiz->update($validatedData)) {
+                $quiz->status = 1; // pending
+                $quiz->save();
                 return response()->json([
                     'status' => 200,
                     'message' => 'Cập nhật thành công!',
@@ -319,11 +321,29 @@ class QuizController extends Controller
 
     public function published(Request $request){
         $quiz = Quiz::findOrFail($request->quizId);
-        $quiz->status = "pendding";
+        $quiz->status = 1; // pending
         $quiz->save();
         return response()->json([
             'status' => 200,
             'message' => 'Quiz của bạn đang được duyệt, vui lòng đợi thông báo từ chúng tôi!',
+        ]);
+    }
+
+    public function getDetailsQuiz(Request $request){
+        $questions = Quiz::findOrFail($request->quizId)->questions()->with('answers')->get();
+        return response()->json([
+            'status' => 200,
+            'questions' => $questions,
+        ]);
+    }
+
+    public function appectQuiz(Request $request){
+        $quiz = Quiz::findOrFail($request->quizId);
+        $quiz->status = 2; // published
+        $quiz->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Duyệt quiz thành công',
         ]);
     }
 }

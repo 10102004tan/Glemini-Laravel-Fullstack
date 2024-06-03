@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('user_id')->default(1);
             $table->string('title');
             $table->text("description");
-            $table->string("status")->default("draft");
+            $table->integer("status")->default(0)->comment("0: Draft,1:Pending,2: Published,3:Refused");
             $table->timestamps();
         });
     }

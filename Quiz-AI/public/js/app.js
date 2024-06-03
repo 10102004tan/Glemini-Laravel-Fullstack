@@ -23,42 +23,36 @@ const selectOptionQuestion = document.querySelector('.select-option-manual-quest
 const selectOptionManualCorrect = document.querySelector('.select-option-manual-correct');
 const btnResetForm = document.querySelector('.btn-reset-form');
 const modalUpdateQuiz = document.querySelector('.modal-update-quiz');
-const modalBody = document.querySelector('.modal-body');
 const btnPublished = document.querySelector('.btn-published');
-const published = document.querySelector('.published-body');
-const formPublsihed = document.getElementById('form-published');
 
 let preShowOption = showOptions[0];
 
 
-if (formPublsihed != null) {
-    formPublsihed.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('quizId', formPublsihed.getAttribute('quizId'));
-        try {
-            // // // Send AJAX POST request using Axios
-            const url = window.routes.quizzesPublished;
-            const response = await axios.post(url, formData);
-            const result = response.data;
-            checkStatus(result, 
+// click published btn
+if (btnPublished != null) {
+btnPublished.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('quizId', btnPublished.getAttribute('quizId'));
+    try {
+        const url = window.routes.quizzesPublished;
+        const response = await axios.post(url, formData);
+        const result = response.data;
+        checkStatus(result, function () {
+           
+        },
             function () {
-                //show success
-                //dissmiss modal
-            },
-            function(){
-                //show error
+                //error
             });
-        }
-        catch (error) {
-            console.error('Error:', error);
-        }
-    });
 
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
 }
 
 //check select option question
-window.onload = function() {
+window.onload = function () {
     if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
         modalShowOptionText.classList.remove('hidden');
         modalShowOptionManual.classList.add('hidden');
@@ -66,14 +60,14 @@ window.onload = function() {
         showOptions[0].classList.add('active');
         preShowOption = showOptions[0];
     }
-    else if (window.location.search.indexOf('manual') > -1){
+    else if (window.location.search.indexOf('manual') > -1) {
         modalShowOptionManual.classList.remove('hidden');
         modalShowOptionText.classList.add('hidden');
         preShowOption.classList.remove('active');
         showOptions[1].classList.add('active');
         preShowOption = showOptions[1];
     }
-  }
+}
 
 // 
 selectOptionQuestion.addEventListener('change', function () {
@@ -132,7 +126,7 @@ if (btnSettings != null) {
         settings.classList.toggle('right-[-100%]');
         settings.classList.toggle('right-0');
     });
-    
+
 }
 
 
@@ -168,28 +162,28 @@ btnGenerateAI.addEventListener('click', function () {
 });
 
 if (modalUpdateQuiz != null) {
-// update quiz
-modalUpdateQuiz.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btnSubmit = modalUpdateQuiz.querySelector('.btn-update-quiz');
-    btnSubmit.textContent = 'Updating...';
-    const formData = new FormData(modalUpdateQuiz);
-    try {
-        // // Send AJAX POST request using Axios
-        const url = window.routes.quizzesUpdate;
-        const response = await axios.post(url, formData);
-        const result = response.data;
-        checkStatus(result, function () {
-            btnSubmit.textContent = 'Update';
-            modalUpdateQuiz.parentElement.previousElementSibling.firstElementChild.firstElementChild.textContent = result.quiz.title;
-        },
-            function () {
-                //show error
-            });
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
+    // update quiz
+    modalUpdateQuiz.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btnSubmit = modalUpdateQuiz.querySelector('.btn-update-quiz');
+        btnSubmit.textContent = 'Updating...';
+        const formData = new FormData(modalUpdateQuiz);
+        try {
+            // // Send AJAX POST request using Axios
+            const url = window.routes.quizzesUpdate;
+            const response = await axios.post(url, formData);
+            const result = response.data;
+            checkStatus(result, function () {
+                btnSubmit.textContent = 'Update';
+                modalUpdateQuiz.parentElement.previousElementSibling.firstElementChild.firstElementChild.textContent = result.quiz.title;
+            },
+                function () {
+                    //show error
+                });
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
 }
 
 //edit question
@@ -332,7 +326,7 @@ function checkStatus(result, callbackSuccess, callbackOrder) {
         callbackSuccess();
     }
     else {
-        
+
         Toastify({
             text: `${result.message}`,
             duration: 2000,
