@@ -39,7 +39,9 @@ btnPublished.addEventListener('click', async function (e) {
         const response = await axios.post(url, formData);
         const result = response.data;
         checkStatus(result, function () {
-           
+            btnPublished.classList.textContent = 'Pending';
+           btnPublished.classList.add('bg-yellow-200');
+       
         },
             function () {
                 //error
@@ -53,6 +55,7 @@ btnPublished.addEventListener('click', async function (e) {
 
 //check select option question
 window.onload = function () {
+    let url = window.location.href;
     if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
         modalShowOptionText.classList.remove('hidden');
         modalShowOptionManual.classList.add('hidden');
@@ -61,6 +64,11 @@ window.onload = function () {
         preShowOption = showOptions[0];
     }
     else if (window.location.search.indexOf('manual') > -1) {
+        let manualCount = (url.match(/\\?manual/g) || []).length;
+        if (manualCount > 1) {
+            url = url.replace('?manual', '');
+            window.location.href = url;
+        }
         modalShowOptionManual.classList.remove('hidden');
         modalShowOptionText.classList.add('hidden');
         preShowOption.classList.remove('active');
