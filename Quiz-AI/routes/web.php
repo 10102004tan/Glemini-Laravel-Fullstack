@@ -20,7 +20,7 @@ Route::post('/auth/logout', [AuthController::class, "logout"])->name("handle_log
 
 // Dashboard
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, "showDashboard"])->name("dashboard");
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 });
 
 // Verify
