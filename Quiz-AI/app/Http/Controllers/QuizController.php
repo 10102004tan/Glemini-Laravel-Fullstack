@@ -26,6 +26,8 @@ class QuizController extends Controller
             $quiz = Quiz::with(['questions' => function ($query) {
                 $query->orderBy('created_at', 'desc');
             }])->find($id);
+            $quiz->user_id = auth()->id();
+            $quiz->save();
             return view('quizzes.create', ['quiz' => $quiz]);
         } else {
             return view('quizzes.create');
@@ -205,7 +207,7 @@ class QuizController extends Controller
 
     public function storeQuizWithAI(Request $request)
     {
-
+        
         $difficulty = $request->difficulty;
         $size_questions = $request->size_questions;
         $content = $request->content;

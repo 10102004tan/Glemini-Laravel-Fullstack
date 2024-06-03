@@ -13,6 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable,HasRoles;
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -44,5 +45,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function quizzes(){
+        return $this->hasMany(Quiz::class);
     }
 }
