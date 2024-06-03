@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="shadow-bar sticky top-0 left-0 right-0 bg-primary z-[9999]">
+<div class="shadow-bar sticky top-0 left-0 right-0 bg-primary z-[999]">
     <div class="container">
         <div>
             @isset($quiz)
