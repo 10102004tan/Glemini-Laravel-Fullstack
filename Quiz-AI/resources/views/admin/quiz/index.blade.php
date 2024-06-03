@@ -26,9 +26,9 @@
                 @foreach($quizzes as $quiz)
                 <tr class="bg-primary border-b dark:bg-gray-800 dark:border-gray-700  dark:hover:bg-gray-600">
                     <td>
-                        <div>
-                            <span class="sr-only">Avatar</span>
-                            <span>Nguyen Phuong Tan</span>
+                        <div class="flex items-center gap-2">
+                           <img class="w-[25px] rounded-[50%]" src="https://cdn3.vectorstock.com/i/1000x1000/15/37/isolated-cute-cat-avatar-vector-21041537.jpg" alt="">
+                            <span>{{$quiz->user->name}}</span>
                         </div>
                     </td>
                     <td scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap ">

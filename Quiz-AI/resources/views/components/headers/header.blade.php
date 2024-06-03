@@ -30,11 +30,22 @@
                 <input type="text" placeholder="Search" class="form-control bg-primary outline-none">
             </form>
 
-            <div class="flex items-center">
+            <div class="flex items-center gap-2">
                 <a href="{{route('quizzes.create')}}" class="flex items-center gap-2 py-2 px-3 bg-yellow-400 rounded-[8px]">
                 <i class="fa-regular fa-bolt"></i>
                     <span>Generate</span>
                 </a>
+
+                @if (!Auth::check())
+                <a href="{{route('login')}}" class="flex items-center gap-2 py-2 px-3 bg-blue-600 rounded-[8px]">
+                <i class="fa-regular fa-bolt"></i>
+                    <span>Login</span>
+                </a>
+                <a href="{{route('register')}}" class="flex items-center gap-2 py-2 px-3 bg-gray-600 rounded-[8px]">
+                <i class="fa-regular fa-bolt"></i>
+                    <span>Register</span>
+                </a>
+                @else
                 <div class="profile relative ps-7 ms-3">
                     <label for="avarta" class="btn-delete-question relative group">
                         <input id="avarta" class="hidden action-checkbox" type="checkbox">
@@ -45,7 +56,7 @@
                             <ul class="flex gap-3 flex-col">
                                 <li class="flex gap-2 items-center">
                                     <i class="fas fa-user text-[14px]"></i>
-                                    <a href="#" class="text-[14px]"></a>
+                                    <a href="#" class="text-[14px]">{{auth()->user()->name}}</a>
                                 </li>
                                 <li class="flex gap-2 items-center">
                                     <i class="fa-regular fa-user-pen text-[14px]"></i>
@@ -64,6 +75,7 @@
                         </div>
                     </label>
                 </div>
+                @endif
             </div>
 
         </div>
