@@ -20,9 +20,11 @@ class UserSeeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $userRole = Role::firstOrCreate(['name' => 'user']);
 
-        Permission::firstOrCreate(['name' => 'edit articles']);
+        Permission::firstOrCreate(['name' => 'crud quiz']);
+        Permission::firstOrCreate(['name' => 'pending quiz']);
         Permission::firstOrCreate(['name' => 'publish articles']);
         Permission::firstOrCreate(['name' => 'super-admin']);
+        
 
         $superAdmin = User::create([
             'name' => 'Super admin',
