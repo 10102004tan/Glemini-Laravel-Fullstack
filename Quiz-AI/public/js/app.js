@@ -23,9 +23,39 @@ const selectOptionQuestion = document.querySelector('.select-option-manual-quest
 const selectOptionManualCorrect = document.querySelector('.select-option-manual-correct');
 const btnResetForm = document.querySelector('.btn-reset-form');
 const modalUpdateQuiz = document.querySelector('.modal-update-quiz');
+const modalBody = document.querySelector('.modal-body');
+const btnPublished = document.querySelector('.btn-published');
+const published = document.querySelector('.published-body');
+const formPublsihed = document.getElementById('form-published');
 
 let preShowOption = null;
 
+
+if (formPublsihed != null) {
+    formPublsihed.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('quizId', formPublsihed.getAttribute('quizId'));
+        try {
+            // // // Send AJAX POST request using Axios
+            const url = window.routes.quizzesPublished;
+            const response = await axios.post(url, formData);
+            const result = response.data;
+            checkStatus(result, 
+            function () {
+                //show success
+                //dissmiss modal
+            },
+            function(){
+                //show error
+            });
+        }
+        catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+}
 
 //check select option question
 window.onload = function() {
