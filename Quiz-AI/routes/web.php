@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\UserController;
 use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -27,6 +28,10 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin','auth'])->group(function () { 
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
     Route::get('/quizzes', [QuizController::class, 'indexAdmin'])->name('quizzes.indexAdmin');
+
+    Route::group(['middleware' => ['role:super-admin']], function () {
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    });
  });
 
 // Verify
