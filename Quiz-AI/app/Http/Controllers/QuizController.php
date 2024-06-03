@@ -86,7 +86,9 @@ class QuizController extends Controller
 
 
             if ($quiz->update($validatedData)) {
-                $quiz->status = 1; // pending
+                if ($quiz->status != 0){
+                    $quiz->status = 1; // pending
+                }
                 $quiz->save();
                 return response()->json([
                     'status' => 200,
@@ -275,6 +277,10 @@ class QuizController extends Controller
                 $quiz = null;
                 if (isset($request->quiz_id)) {
                     $quiz = Quiz::find($request->quiz_id);
+                    if ($quiz->status != 0){
+                        $quiz->status = 1; // pending
+                    }
+                    $quiz->save();
                 } else {
                     $quiz = Quiz::create([
                         'title' => 'Quiz with AI',
