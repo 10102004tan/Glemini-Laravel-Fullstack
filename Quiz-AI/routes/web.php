@@ -23,6 +23,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 });
 
+
+Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin','auth'])->group(function () { 
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+    Route::get('/quizzes', [QuizController::class, 'indexAdmin'])->name('quizzes.indexAdmin');
+ });
+
 // Verify
 Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
@@ -33,3 +39,4 @@ Route::post('/quizzes/update', [QuizController::class, 'update'])->name('quizzes
 Route::delete('/quizzes/question/destroy', [QuestionController::class, 'destroy'])->name('quizzes.question.destroy');
 Route::put('/quizzes/question/update', [QuestionController::class, 'update'])->name('quizzes.question.update');
 Route::post('/quizzes/question/store', [QuestionController::class, 'store'])->name('quizzes.question.store');
+Route::post('/quizzes/published', [QuizController::class, 'published'])->name('quizzes.published');

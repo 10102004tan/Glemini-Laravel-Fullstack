@@ -25,7 +25,7 @@
             <!-- search -->
             <form class="flex gap-3 items-center p-3 rounded-[8px] bg-primary border-[1px] border-[#eee]">
                 <button>
-                <i class="fa-regular fa-magnifying-glass"></i>
+                    <i class="fa-regular fa-magnifying-glass"></i>
                 </button>
                 <input type="text" placeholder="Search" class="form-control bg-primary outline-none">
             </form>
@@ -40,15 +40,20 @@
                         <ul class="flex gap-3 flex-col">
                             <li class="flex gap-2 items-center">
                                 <i class="fas fa-user text-[14px]"></i>
-                                <a href="#" class="text-[14px]">Nguyen Phuong Tan</a>
+                                <a href="#" class="text-[14px]"></a>
                             </li>
                             <li class="flex gap-2 items-center">
                                 <i class="fa-regular fa-user-pen text-[14px]"></i>
                                 <a href="#" class="text-[14px]">My Profile</a>
                             </li>
-                            <li class="flex gap-2 items-center">
-                                <i class="fa-light fa-arrow-up-left-from-circle text-[14px]"></i>
-                                <a href="#" class="text-[14px]">Logout out</a>
+                            <li>
+                                <form action="{{ route('handle_logout') }}" method="POST">
+                                    @csrf
+                                    <button class="text-white flex gap-2 items-center">
+                                        <i class="fa-light fa-arrow-up-left-from-circle text-[14px]"></i>
+                                        Logout out
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </div>
