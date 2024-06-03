@@ -2,6 +2,7 @@ const modalBody = document.getElementById('modal-body');
 const btnDetailsQuiz = document.querySelectorAll('.btn-detail');
 const btnAppectQuizs = document.querySelectorAll('.btn-accept');
 const btnRejectQuizs = document.querySelectorAll('.btn-reject');
+const btnDeleteQuizs = document.querySelectorAll('.btn-delete');
 
 
 // fetch detail quiz
@@ -16,7 +17,7 @@ btnDetailsQuiz.forEach((btn) => {
             const data = response.data;
             let questionsData = `<ol class="relative border-s border-gray-200 dark:border-gray-600 ms-3.5 mb-4 md:mb-5">`;
             if (data) {
-                
+
                 data.questions.forEach((question, index) => {
                     questionsData += `
                     <li class="mb-10 ms-8">
@@ -66,44 +67,132 @@ btnAppectQuizs.forEach((btn) => {
                 },
             }).showToast();
         }
-        else{
+        else {
+            Swal.fire({
+                title: 'Xác nhận duyệt',
+                text: 'Bạn có muốn duyệt quiz này không ?',
+                icon: 'info',
+                confirmButtonText: 'Yes',
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const formData = new FormData();
+                    formData.append('quizId', btn.getAttribute('quizId'));
+                    try {
+                        const url = window.routes.quizAccept;
+                        const response = await axios.post(url, formData);
+                        const data = response.data;
+                        if (data.status = 200) {
+                            btn.parentElement.parentElement.previousElementSibling.innerHTML = `<i class="fa-duotone fa-badge-check text-green-400"></i><span>published</span>`;
+                            btn.nextElementSibling.classList.remove('btn-reject');
+                            btn.nextElementSibling.classList.add('btn-delete');
+                            btn.nextElementSibling.textContent = 'Delete';
+                            Toastify({
+                                text: `${data.message}`,
+                                duration: 1500,
+                                destination: `${data.message}`,
+                                newWindow: true,
+                                close: true,
+                                gravity: "top", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                style: {
+                                    background: "#26d63a",
+                                },
+                            }).showToast();
+                        }
+
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+            });
+        }
+
+    });
+
+});
+
+//fetch delete quiz
+btnDeleteQuizs.forEach((btn) => {
+    btn.addEventListener('click', () => {
         Swal.fire({
-            title: 'Xác nhận duyệt',
-            text: 'Bạn có muốn duyệt quiz này không ?',
-            icon: 'info',
+            title: 'Xác nhận xóa',
+            text: 'Bạn có muốn xóa quiz này không ?',
+            icon: 'danger',
             confirmButtonText: 'Yes',
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const formData = new FormData();
-        formData.append('quizId', btn.getAttribute('quizId'));
-        try {
-            const url = window.routes.quizAccept;
-            const response = await axios.post(url, formData);
-            const data = response.data;
-            if (data.status = 200){
-                btn.parentElement.parentElement.previousElementSibling.innerHTML = `<i class="fa-duotone fa-badge-check text-green-400"></i><span>published</span>`;
-                Toastify({
-                    text: `${data.message}`,
-                    duration: 1500,
-                    destination: `${data.message}`,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "#26d63a",
-                    },
-                }).showToast();
-            }
+                formData.append('quizId', btn.getAttribute('quizId'));
+                try {
+                    const url = window.routes.quizDestroy;
+                    const response = await axios.post(url, formData);
+                    const data = response.data;
+                    if (data.status = 200) {
+                        btn.parentElement.parentElement.parentElement.remove();
+                        Toastify({
+                            text: `${data.message}`,
+                            duration: 1500,
+                            destination: `${data.message}`,
+                            newWindow: true,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            style: {
+                                background: "#26d63a",
+                            },
+                        }).showToast();
+                    }
 
-        } catch (err) {
-            console.log(err);
-        }
+                } catch (err) {
+                    console.log(err);
+                }
             }
         });
-    }
-        
     });
-    
+
+});
+
+//fetch reject quiz
+btnRejectQuizs.forEach((btn) => {
+    btn.addEventListener('click', () => {
+        Swal.fire({
+            title: 'Xác nhận từ chối',
+            text: 'Bạn có muốn từ chối quiz này không ?',
+            icon: 'warning',
+            confirmButtonText: 'Yes',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const formData = new FormData();
+                formData.append('quizId', btn.getAttribute('quizId'));
+                try {
+                    const url = window.routes.quizReject;
+                    const response = await axios.post(url, formData);
+                    const data = response.data;
+                    if (data.status = 200) {
+                        btn.parentElement.parentElement.previousElementSibling.innerHTML = `<i class="fa-solid fa-message-xmark text-red-600"></i><span>rejected</span>`;
+                        btn.remove();
+                        Toastify({
+                            text: `${data.message}`,
+                            duration: 1500,
+                            destination: `${data.message}`,
+                            newWindow: true,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            style: {
+                                background: "#26d63a",
+                            },
+                        }).showToast();
+                    }
+
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        });
+    });
+
 });

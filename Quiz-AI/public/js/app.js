@@ -39,7 +39,9 @@ btnPublished.addEventListener('click', async function (e) {
         const response = await axios.post(url, formData);
         const result = response.data;
         checkStatus(result, function () {
-           
+            btnPublished.classList.textContent = 'Pending';
+           btnPublished.classList.add('bg-yellow-200');
+       
         },
             function () {
                 //error

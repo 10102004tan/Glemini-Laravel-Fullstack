@@ -28,10 +28,15 @@ class QuizController extends Controller
                 $query->orderBy('created_at', 'desc');
             }])->find($id);
 
-            $quiz->user_id = auth()->id();
-            
-            $quiz->save();
-            return view('quizzes.create', ['quiz' => $quiz]);
+            if(isset($quiz)){
+                $quiz->user_id = auth()->id();
+                $quiz->save();
+                return view('quizzes.create', ['quiz' => $quiz]);
+            }
+            else{
+                return redirect()->route('quizzes.create')->with('error', 'Không tìm thấy quiz'); 
+            }
+           
         } else {
             return view('quizzes.create');
         }
@@ -315,7 +320,7 @@ class QuizController extends Controller
 
     public function indexAdmin()
     {
-        $quizzes = Quiz::with('questions','user')->withCount('questions')->get();
+        $quizzes = Quiz::where('status','!=',0)->with('questions','user')->withCount('questions')->get();
         return view('admin.quiz.index', ['quizzes' => $quizzes]);
     }
 
@@ -344,6 +349,25 @@ class QuizController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Duyệt quiz thành công',
+        ]);
+    }
+
+    public function rejectQuiz(Request $request){
+        $quiz = Quiz::findOrFail($request->quizId);
+        $quiz->status = 3; // rejected
+        $quiz->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Từ chối quiz thành công',
+        ]);
+    }
+
+    public function destroy(Request $request){
+        $quiz = Quiz::findOrFail($request->quizId);
+        $quiz->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Xóa quiz thành công',
         ]);
     }
 }

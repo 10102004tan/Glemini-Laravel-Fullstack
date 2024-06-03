@@ -43,7 +43,7 @@
                         @elseif($quiz->status== 2)
                         <i class="fa-duotone fa-badge-check text-green-400"></i><span>published</span>
                         @elseif($quiz->status== 3)
-                        <i class="fa-solid fa-message-xmark"></i><span></span>rejected</span>
+                        <i class="fa-solid fa-message-xmark text-red-600"></i><span></span>rejected</span>
                         @else
                         <i class="fa-solid fa-ufo"></i><span>draft</span>
                         @endif
@@ -52,9 +52,8 @@
                        <div class="flex item-center gap-2">
                        <button type="button" quizId="{{$quiz->id}}" data-modal-target="timeline-modal" data-modal-toggle="timeline-modal" class="px-2 py-1 rounded bg-blue-500 btn-detail">Detail</button>
                         <button status="{{$quiz->status}}" quizId="{{$quiz->id}}" class="px-2 btn-accept py-1 rounded bg-green-500">Accept</button>
-                        @if($quiz->status == 2)
                         <button quizId="{{$quiz->id}}" class="px-2 btn-delete py-1 rounded bg-red-600">Delete</button>
-                        @else
+                        @if($quiz->status != 2 && $quiz->status != 3)
                         <button quizId="{{$quiz->id}}" class="px-2 btn-reject py-1 rounded bg-red-600">Reject</button>
                         @endif
                        </div>
@@ -100,6 +99,8 @@
     window.routes = {
         quizzDetails: "{{ route('quizzes.details') }}",
         quizAccept: "{{ route('quizzes.accept') }}",
+        quizDestroy: "{{ route('quizzes.destroy') }}",
+        quizReject: "{{ route('quizzes.reject') }}",
     };
 </script>
 @endsection

@@ -63,3 +63,5 @@ Route::post('/quizzes/question/store', [QuestionController::class, 'store'])->na
 Route::post('/quizzes/published', [QuizController::class, 'published'])->name('quizzes.published');
 Route::post('/quizzes/details', [QuizController::class, 'getDetailsQuiz'])->name('quizzes.details');
 Route::post('/quizzes/accept', [QuizController::class, 'appectQuiz'])->name('quizzes.accept');
+Route::post('/quizzes/destroy', [QuizController::class, 'destroy'])->name('quizzes.destroy');
+Route::post('/quizzes/reject', [QuizController::class, 'rejectQuiz'])->name('quizzes.reject');
