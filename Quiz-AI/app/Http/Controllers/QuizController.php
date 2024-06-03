@@ -300,4 +300,20 @@ class QuizController extends Controller
     {
         return view('quizzes.create-ai');
     }
+
+    public function indexAdmin()
+    {
+        $quizzes = Quiz::with('questions')->withCount('questions')->get();
+        return view('admin.quiz.index', ['quizzes' => $quizzes]);
+    }
+
+    public function published(Request $request){
+        $quiz = Quiz::findOrFail($request->quizId);
+        $quiz->status = "pendding";
+        $quiz->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Quiz của bạn đang được duyệt, vui lòng đợi thông báo từ chúng tôi!',
+        ]);
+    }
 }

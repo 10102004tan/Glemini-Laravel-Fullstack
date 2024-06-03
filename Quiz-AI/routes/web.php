@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\UserController;
 use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -20,8 +21,20 @@ Route::post('/auth/logout', [AuthController::class, "logout"])->name("handle_log
 
 // Dashboard
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, "showDashboard"])->name("dashboard");
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 });
+
+
+
+Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin','auth'])->group(function () { 
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+    Route::get('/quizzes', [QuizController::class, 'indexAdmin'])->name('quizzes.indexAdmin');
+
+    Route::group(['middleware' => ['role:super-admin']], function () {
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    });
+ });
+
 
 Route::get('/quiz-single', function () {
     return view('quiz-mode-single.index');
@@ -30,6 +43,7 @@ Route::get('/quiz-single', function () {
 Route::get('/quiz-single/show', function () {
     return view('quiz-mode-single.show');
 })->name('quiz.show');
+
 // Verify
 Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
@@ -40,3 +54,4 @@ Route::post('/quizzes/update', [QuizController::class, 'update'])->name('quizzes
 Route::delete('/quizzes/question/destroy', [QuestionController::class, 'destroy'])->name('quizzes.question.destroy');
 Route::put('/quizzes/question/update', [QuestionController::class, 'update'])->name('quizzes.question.update');
 Route::post('/quizzes/question/store', [QuestionController::class, 'store'])->name('quizzes.question.store');
+Route::post('/quizzes/published', [QuizController::class, 'published'])->name('quizzes.published');

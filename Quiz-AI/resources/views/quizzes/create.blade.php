@@ -22,6 +22,16 @@
                     <button type="button" class="py-2 px-2 rounded bg-blue-500">
                     Play
                     </button>
+
+                    @if ($quiz->status == "draft")
+                    <button type="button" class="py-2 px-2 rounded btn-published bg-green-500" data-modal-target="default-modal" data-modal-toggle="default-modal">
+                        Publish
+                    </button>
+                    @elseif($quiz->status == "pendding")
+                    <button type="button" class="py-2 px-2 rounded bg-yellow-200">
+                        Pendding
+                    </button>
+                    @endif
                 </div>
             </div>
             <!-- edit -->
@@ -227,13 +237,14 @@
 
 <!-- main end -->
 
-
 <!-- modal start -->
-
-
 <!-- Main modal -->
 <x-modals.default></x-modals.default>
 <!-- modal end -->
+
+
+<!-- modal publish -->
+
 
 <div class="overlay-loading hidden fixed top-0 left-0 w-[100vw] h-[100vh] z-[9999] bg-primary justify-center items-center">
     Dang tai ...
@@ -247,6 +258,7 @@
         quizzesQuestionDestroy: "{{ route('quizzes.question.destroy') }}",
         quizzesQuestionUpdate: "{{route('quizzes.question.update')}}",
         quizzesQuestionStore: "{{route('quizzes.question.store')}}",
+        quizzesPublished: "{{route('quizzes.published')}}",
     };
 </script>
 <script src="{{ asset('js/app.js') }}"></script>
