@@ -1,0 +1,9 @@
+@extends('layouts.app')
+@section('content')
+ABOUT
+@endsection
+@section('script')
+    <script>
+        console.log("home")
+    </script>
+@endsection

@@ -28,7 +28,7 @@ const btnPublished = document.querySelector('.btn-published');
 const published = document.querySelector('.published-body');
 const formPublsihed = document.getElementById('form-published');
 
-let preShowOption = null;
+let preShowOption = showOptions[0];
 
 
 if (formPublsihed != null) {
@@ -59,14 +59,14 @@ if (formPublsihed != null) {
 
 //check select option question
 window.onload = function() {
-    if (window.location.search.indexOf('text') > -1) {
+    if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
         modalShowOptionText.classList.remove('hidden');
         modalShowOptionManual.classList.add('hidden');
         preShowOption.classList.remove('active');
         showOptions[0].classList.add('active');
         preShowOption = showOptions[0];
     }
-    else{
+    else if (window.location.search.indexOf('manual') > -1){
         modalShowOptionManual.classList.remove('hidden');
         modalShowOptionText.classList.add('hidden');
         preShowOption.classList.remove('active');
@@ -123,14 +123,18 @@ if (btnCloseEditQuiz != null) {
     });
 };
 
-btnSettings.addEventListener('click', function () {
-    settings.classList.toggle('right-[-100%]');
-    settings.classList.toggle('right-0');
-});
-btnCloseSettings.addEventListener('click', function () {
-    settings.classList.toggle('right-[-100%]');
-    settings.classList.toggle('right-0');
-});
+if (btnSettings != null) {
+    btnSettings.addEventListener('click', function () {
+        settings.classList.toggle('right-[-100%]');
+        settings.classList.toggle('right-0');
+    });
+    btnCloseSettings.addEventListener('click', function () {
+        settings.classList.toggle('right-[-100%]');
+        settings.classList.toggle('right-0');
+    });
+    
+}
+
 
 
 // show options

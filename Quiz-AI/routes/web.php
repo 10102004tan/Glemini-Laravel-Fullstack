@@ -7,9 +7,16 @@ use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VerificationController;
 
-
+//Home
+Route::get('/', function () {
+    return view('home');
+});
+Route::get('/home', [HomeController::class,'index'])->name('home');
+Route::get('/about', [HomeController::class,'about'])->name('about');
+Route::get('/contact', [HomeController::class,'contact'])->name('contact');
 
 // Auth
 Route::get('/auth/verify', [AuthController::class, "showVerify"])->name("verify");
@@ -20,10 +27,9 @@ Route::post('/auth/register', [AuthController::class, "register"])->name("handle
 Route::post('/auth/logout', [AuthController::class, "logout"])->name("handle_logout");
 
 // Dashboard
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
-});
-
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+// });
 
 
 Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin','auth'])->group(function () { 

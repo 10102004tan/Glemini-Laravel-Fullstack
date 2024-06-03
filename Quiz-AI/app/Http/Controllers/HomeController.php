@@ -2,26 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::with('quizzes')->withCount('quizzes')->get();
-        return view('admin.users.index', compact('users'));
+        return view('home');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function about()
     {
-        //
+        return view('about');
+    }
+
+    public function contact()
+    {
+        return view('contact');
     }
 
     /**

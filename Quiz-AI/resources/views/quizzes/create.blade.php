@@ -126,7 +126,11 @@
                             </select>
                         </label>
                     </div>
+                    @if(Auth::check())
                     <button class="w-[100%] py-3 rounded-[10px] text-white font-[500] bg-blue-600 btn-generate-ai">Generate</button>
+                    @else
+                    <a href="{{route('login')}}" class="block text-center py-3 rounded-[10px] text-white font-[500] bg-blue-600">Generate</a>
+                    @endif
                 </div>
 
             </form>
@@ -169,7 +173,12 @@
                     <p class="text-white text-[14px]">This will be shown to the user after they answer the question.</p>
                 </div>
 
-                <button class="w-[100%] py-3 rounded-[10px] text-white font-[500] bg-blue-500 mb-3">Add question</button>
+                @if(Auth::check())
+                    <button class="w-[100%] py-3 rounded-[10px] text-white font-[500] bg-blue-500 mb-3">Add question</button>
+                @else
+                    {{Session::put('unlogin', 'true');}}
+                    <a href="{{route('login')}}" class="block text-center py-3 rounded-[10px] text-white font-[500] bg-blue-600 mb-3">Add question</a>
+                @endif
                 <button class="w-[100%] py-3 rounded-[10px] border-[1px] border-gray-200 text-white font-[500] bg-transparent hover:bg-gray-400 mb-3 btn-reset-form" type="button">Reset</button>
 
                 <!-- notification Info -->
