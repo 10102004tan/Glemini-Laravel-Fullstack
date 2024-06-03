@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+
 Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin','auth'])->group(function () { 
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
     Route::get('/quizzes', [QuizController::class, 'indexAdmin'])->name('quizzes.indexAdmin');
@@ -33,6 +34,15 @@ Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin','auth
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
     });
  });
+
+
+Route::get('/quiz-single', function () {
+    return view('quiz-mode-single.index');
+})->name('quiz.index');
+
+Route::get('/quiz-single/show', function () {
+    return view('quiz-mode-single.show');
+})->name('quiz.show');
 
 // Verify
 Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
