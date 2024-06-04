@@ -18,12 +18,14 @@ class UserSeeder extends Seeder
         //
         $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $editerRole = Role::firstOrCreate(['name' => 'editor']);
+        $moderatorRole = Role::firstOrCreate(['name' => 'moderator']);
         $userRole = Role::firstOrCreate(['name' => 'user']);
 
-        Permission::firstOrCreate(['name' => 'crud quiz']);
-        Permission::firstOrCreate(['name' => 'pending quiz']);
-        Permission::firstOrCreate(['name' => 'publish articles']);
-        Permission::firstOrCreate(['name' => 'super-admin']);
+        Permission::firstOrCreate(['name' => 'manage_users']);
+        Permission::firstOrCreate(['name' => 'manage_content']);
+        Permission::firstOrCreate(['name' => 'approve_content']);
+        Permission::firstOrCreate(['name' => 'view_content']);
         
 
         $superAdmin = User::create([
@@ -41,6 +43,27 @@ class UserSeeder extends Seeder
         ]);
 
         $admin->assignRole($adminRole);
+        $admin->givePermissionTo('manage_content');
+        $admin->givePermissionTo('approve_content');
+        $admin->givePermissionTo('manage_users');
+
+        $editor = User::create([
+            'name' => 'Editor',
+            'email' => 'editer@quizai.vn',
+            'password' => '1234567',
+        ]);
+        $editor->assignRole($editerRole);
+        $editor->givePermissionTo('manage_content');
+
+        $moderator = User::create([
+            'name' => 'Moderator',
+            'email' => 'moderator@quizai.vn',
+            'password' => '1234567',
+        ]);
+        $moderator->assignRole($moderatorRole);
+        $moderator->givePermissionTo('view_content');
+        $admin->givePermissionTo('approve_content');
+
 
         $user = User::create([
             'name' => 'User',

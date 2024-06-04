@@ -176,11 +176,12 @@ showOptions.forEach((showOption) => {
     });
 });
 
-
+if (btnGenerateAI != null) {
 btnGenerateAI.addEventListener('click', function () {
     overlayLoading.classList.remove('hidden');
     overlayLoading.classList.add('flex');
 });
+}
 
 if (modalUpdateQuiz != null) {
     // update quiz
