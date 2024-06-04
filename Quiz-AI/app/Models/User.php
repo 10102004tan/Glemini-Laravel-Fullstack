@@ -13,6 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable,HasRoles;
+    protected $table = 'users';
 
     public function markEmailAsVerified()
     {
@@ -60,5 +61,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function quizzes(){
+        return $this->hasMany(Quiz::class);
     }
 }

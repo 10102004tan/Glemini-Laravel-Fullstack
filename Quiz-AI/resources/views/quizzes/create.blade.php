@@ -23,13 +23,17 @@
                     Play
                     </button>
 
-                    @if ($quiz->status == "draft")
-                    <button type="button" class="py-2 px-2 rounded btn-published bg-green-500" data-modal-target="default-modal" data-modal-toggle="default-modal">
+                    @if ($quiz->status == 0)
+                    <button quizId="{{$quiz->id}}" type="button" class="py-2 px-2 rounded btn-published bg-green-500">
                         Publish
                     </button>
-                    @elseif($quiz->status == "pendding")
+                    @elseif($quiz->status == 1)
                     <button type="button" class="py-2 px-2 rounded bg-yellow-200">
                         Pendding
+                    </button>
+                    @elseif($quiz->status == 3)
+                    <button type="button" class="py-2 px-2 rounded bg-red-500">
+                        Reject
                     </button>
                     @endif
                 </div>
@@ -73,6 +77,7 @@
 <!-- settings end -->
 
 <!-- main start-->
+@if(!session('error'))
 <section>
     <div class="grid grid-cols-12">
         <div class="px-[2rem] py-4 create bg-primary relative lg:col-span-4 col-span-12">
@@ -126,7 +131,11 @@
                             </select>
                         </label>
                     </div>
+                    @if(Auth::check())
                     <button class="w-[100%] py-3 rounded-[10px] text-white font-[500] bg-blue-600 btn-generate-ai">Generate</button>
+                    @else
+                    <a href="{{route('login')}}" class="block text-center py-3 rounded-[10px] text-white font-[500] bg-blue-600">Generate</a>
+                    @endif
                 </div>
 
             </form>
@@ -152,10 +161,10 @@
                     <span class="text-white mb-2 block">Correct Answer</span>
                     <select name="is_correct" required class="bg-primary
                     p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%] select-option-manual-correct">
-                        <option value="1">A</option>
-                        <option value="2">B</option>
-                        <option value="3">C</option>
-                        <option value="4">D</option>
+                        <option value="0">A</option>
+                        <option value="1">B</option>
+                        <option value="2">C</option>
+                        <option value="3">D</option>
                     </select>
                 </label>
 
@@ -169,7 +178,12 @@
                     <p class="text-white text-[14px]">This will be shown to the user after they answer the question.</p>
                 </div>
 
-                <button class="w-[100%] py-3 rounded-[10px] text-white font-[500] bg-blue-500 mb-3">Add question</button>
+                @if(Auth::check())
+                    <button class="w-[100%] py-3 rounded-[10px] text-white font-[500] bg-blue-500 mb-3">Add question</button>
+                @else
+                    {{Session::put('unlogin', 'true');}}
+                    <a href="{{route('login')}}" class="block text-center py-3 rounded-[10px] text-white font-[500] bg-blue-600 mb-3">Add question</a>
+                @endif
                 <button class="w-[100%] py-3 rounded-[10px] border-[1px] border-gray-200 text-white font-[500] bg-transparent hover:bg-gray-400 mb-3 btn-reset-form" type="button">Reset</button>
 
                 <!-- notification Info -->
@@ -234,13 +248,15 @@
         </div>
     </div>
 </section>
+@else
+<div class="bg-primary text-white p-5">
+    <h2 class="text-[26px]">Error</h2>
+    <p>{{session('error')}}</p>
+</div>
+@endif
 
 <!-- main end -->
 
-<!-- modal start -->
-<!-- Main modal -->
-<x-modals.default></x-modals.default>
-<!-- modal end -->
 
 
 <!-- modal publish -->

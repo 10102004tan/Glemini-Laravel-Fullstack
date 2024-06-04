@@ -36,6 +36,10 @@ class QuestionController extends Controller
         $quiz = null;
         if ($quizId != -1) { //Them vao quiz
             $quiz = Quiz::find($quizId);
+            if ($quiz->status != 0){
+                $quiz->status = 1; // pending
+            }
+            $quiz->save();
             $isFirst = false;
         } else { //Tao quiz moi
             $quiz = new Quiz();

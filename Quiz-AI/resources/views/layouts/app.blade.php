@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     @vite('resources/css/app.css')
 </head>
-<body>
+<body class="bg-primary">
     <header>
        <x-headers.header/>
     </header>

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -60,7 +61,12 @@ class AuthController extends Controller
             }
 
             Auth::guard('web')->login($user);
-            return redirect()->intended('/dashboard');
+            $check = Session::get('unlogin');
+            if (isset($check)) {
+                Session::forget('unlogin');
+                return redirect()->route('quizzes.create');
+            }
+            return redirect()->intended('admin/dashboard');
         }
 
         // Đăng nhập thất bại

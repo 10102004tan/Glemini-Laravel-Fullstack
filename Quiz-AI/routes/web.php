@@ -8,9 +8,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VerificationController;
 
-
+//Home
+Route::get('/', function () {
+    return view('home');
+});
+Route::get('/home', [HomeController::class,'index'])->name('home');
+Route::get('/about', [HomeController::class,'about'])->name('about');
+Route::get('/contact', [HomeController::class,'contact'])->name('contact');
 
 // Auth
 Route::get('/auth/login', [AuthController::class, "showLogin"])->name("login");
@@ -63,3 +70,7 @@ Route::delete('/quizzes/question/destroy', [QuestionController::class, 'destroy'
 Route::put('/quizzes/question/update', [QuestionController::class, 'update'])->name('quizzes.question.update');
 Route::post('/quizzes/question/store', [QuestionController::class, 'store'])->name('quizzes.question.store');
 Route::post('/quizzes/published', [QuizController::class, 'published'])->name('quizzes.published');
+Route::post('/quizzes/details', [QuizController::class, 'getDetailsQuiz'])->name('quizzes.details');
+Route::post('/quizzes/accept', [QuizController::class, 'appectQuiz'])->name('quizzes.accept');
+Route::post('/quizzes/destroy', [QuizController::class, 'destroy'])->name('quizzes.destroy');
+Route::post('/quizzes/reject', [QuizController::class, 'rejectQuiz'])->name('quizzes.reject');

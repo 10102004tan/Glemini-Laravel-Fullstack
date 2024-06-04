@@ -49,7 +49,7 @@
                     Active
                 </td>
                 <td class="px-6 py-4">
-                    10
+                    {{$user->quizz_count;}}
                 </td>
 
                 <td class="px-6 py-4">

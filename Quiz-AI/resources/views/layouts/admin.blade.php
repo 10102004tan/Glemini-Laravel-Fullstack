@@ -16,13 +16,15 @@
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-regular.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-light.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite('resources/css/app.css')
 </head>
+
 <body class="bg-primary">
     <x-sidebars.sidebar-admin></x-sidebars.sidebar-admin>
     <main class="w-[82vw] fixed right-0 top-0 p-5">
         <div class="flex justify-end">
-        <div class="profile relative ps-7">
+            <div class="profile relative ps-7">
                 <label for="avarta" class="btn-delete-question relative group">
                     <input id="avarta" class="hidden action-checkbox" type="checkbox">
                     <div>
@@ -54,9 +56,12 @@
         </div>
         @yield('content')
     </main>
+    @yield('modal')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="{{asset('js/admin.js')}}"></script>
     @yield('script')
 </body>
+
 </html>

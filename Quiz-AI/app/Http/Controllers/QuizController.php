@@ -8,6 +8,7 @@ use App\Models\Result;
 use App\Models\UserAnswer;
 use Gemini\Laravel\Facades\Gemini;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class QuizController extends Controller
@@ -21,12 +22,21 @@ class QuizController extends Controller
 
     public function create($id = null)
     {
-        if ($id != null) {
+        if ($id != null && Auth::check()) {
             // $quiz = Quiz::find($id)->load('questions.answers')->sortByDesc('created_at');
             $quiz = Quiz::with(['questions' => function ($query) {
                 $query->orderBy('created_at', 'desc');
             }])->find($id);
-            return view('quizzes.create', ['quiz' => $quiz]);
+
+            if(isset($quiz)){
+                $quiz->user_id = auth()->id();
+                $quiz->save();
+                return view('quizzes.create', ['quiz' => $quiz]);
+            }
+            else{
+                return redirect()->route('quizzes.create')->with('error', 'Không tìm thấy quiz'); 
+            }
+           
         } else {
             return view('quizzes.create');
         }
@@ -76,6 +86,10 @@ class QuizController extends Controller
 
 
             if ($quiz->update($validatedData)) {
+                if ($quiz->status != 0){
+                    $quiz->status = 1; // pending
+                }
+                $quiz->save();
                 return response()->json([
                     'status' => 200,
                     'message' => 'Cập nhật thành công!',
@@ -205,7 +219,7 @@ class QuizController extends Controller
 
     public function storeQuizWithAI(Request $request)
     {
-
+        
         $difficulty = $request->difficulty;
         $size_questions = $request->size_questions;
         $content = $request->content;
@@ -257,38 +271,47 @@ class QuizController extends Controller
         $fileName = $this->hashFileName($content);
         Storage::disk('public')->put("datajson/$fileName", $result);
         $data = Storage::disk('public')->get("datajson/$fileName");
-
         $data = json_decode($data, true);
-
-        if (isset($data['questions']) && count($data['questions']) > 0) {
-            $quiz = null;
-            if (isset($request->quiz_id)) {
-                $quiz = Quiz::find($request->quiz_id);
-            } else {
-                $quiz = Quiz::create([
-                    'title' => 'Quiz with AI',
-                    'description' => 'Hello world',
-
-                ]);
-            }
-
-            foreach ($data['questions'] as $question) {
-                $newQuestion = $quiz->questions()->create([
-                    'excerpt' => $question['excerpt'],
-                    'type' => $question['type'],
-                    'optional' => $question['optional'],
-                ]);
-                foreach ($question['answers'] as $answer) {
-                    $newQuestion->answers()->create([
-                        'content' => $answer['content'],
-                        'is_correct' => $answer['is_correct'],
+        try {
+            if (isset($data['questions']) && count($data['questions']) > 0) {
+                $quiz = null;
+                if (isset($request->quiz_id)) {
+                    $quiz = Quiz::find($request->quiz_id);
+                    if ($quiz->status != 0){
+                        $quiz->status = 1; // pending
+                    }
+                    $quiz->save();
+                } else {
+                    $quiz = Quiz::create([
+                        'title' => 'Quiz with AI',
+                        'description' => 'Hello world',
+                        'user_id' => auth()->id(),
                     ]);
                 }
+               
+                foreach ($data['questions'] as $question) {
+                    $newQuestion = $quiz->questions()->create([
+                        'excerpt' => $question['excerpt'],
+                        'type' => $question['type'],
+                        'optional' => $question['optional'],
+                    ]);
+                    foreach ($question['answers'] as $answer) {
+                        $newQuestion->answers()->create([
+                            'content' => $answer['content'],
+                            'is_correct' => $answer['is_correct'],
+                        ]);
+                    }
+                }
+                //xóa file json
+                Storage::disk('public')->delete("datajson/$fileName");
+                return redirect()->route('quizzes.create', $quiz->id);
+            } else {
+                Storage::disk('public')->delete("datajson/$fileName");
+                return response()->json([
+                    'status' => 'error',
+                ]);
             }
-            //xóa file json
-            Storage::disk('public')->delete("datajson/$fileName");
-            return redirect()->route('quizzes.create', $quiz->id);
-        } else {
+        }catch(\Exception $e){
             Storage::disk('public')->delete("datajson/$fileName");
             return response()->json([
                 'status' => 'error',
@@ -303,17 +326,54 @@ class QuizController extends Controller
 
     public function indexAdmin()
     {
-        $quizzes = Quiz::with('questions')->withCount('questions')->get();
+        $quizzes = Quiz::where('status','!=',0)->with('questions','user')->withCount('questions')->get();
         return view('admin.quiz.index', ['quizzes' => $quizzes]);
     }
 
     public function published(Request $request){
         $quiz = Quiz::findOrFail($request->quizId);
-        $quiz->status = "pendding";
+        $quiz->status = 1; // pending
         $quiz->save();
         return response()->json([
             'status' => 200,
             'message' => 'Quiz của bạn đang được duyệt, vui lòng đợi thông báo từ chúng tôi!',
+        ]);
+    }
+
+    public function getDetailsQuiz(Request $request){
+        $questions = Quiz::findOrFail($request->quizId)->questions()->with('answers')->get();
+        return response()->json([
+            'status' => 200,
+            'questions' => $questions,
+        ]);
+    }
+
+    public function appectQuiz(Request $request){
+        $quiz = Quiz::findOrFail($request->quizId);
+        $quiz->status = 2; // published
+        $quiz->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Duyệt quiz thành công',
+        ]);
+    }
+
+    public function rejectQuiz(Request $request){
+        $quiz = Quiz::findOrFail($request->quizId);
+        $quiz->status = 3; // rejected
+        $quiz->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Từ chối quiz thành công',
+        ]);
+    }
+
+    public function destroy(Request $request){
+        $quiz = Quiz::findOrFail($request->quizId);
+        $quiz->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Xóa quiz thành công',
         ]);
     }
 }
