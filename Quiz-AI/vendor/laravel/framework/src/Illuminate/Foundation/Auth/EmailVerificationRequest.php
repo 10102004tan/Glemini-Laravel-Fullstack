@@ -52,7 +52,7 @@ class EmailVerificationRequest extends FormRequest
     public function fulfill()
     {
         $user = User::find($this->route('id'));
-        if (!$user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
 
             event(new Verified($user));
