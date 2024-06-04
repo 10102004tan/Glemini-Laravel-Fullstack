@@ -1,4 +1,3 @@
-
 <h1>
   Verify Your Email Address
 </h1>
