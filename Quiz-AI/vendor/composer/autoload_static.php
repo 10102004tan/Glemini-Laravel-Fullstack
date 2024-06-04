@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
+class ComposerStaticInit18a6d9f5bf7b801e1b8d66d57a896682
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -12,31 +12,29 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
-        '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '47e1160838b5e5a10346ac4084b58c23' => __DIR__ . '/..' . '/laravel/prompts/src/helpers.php',
         '35a6ad97d21e794e7e22a17d806652e4' => __DIR__ . '/..' . '/nunomaduro/termwind/src/Functions.php',
-        '972fda704d680a3a53c68e34e193cb22' => __DIR__ . '/..' . '/react/promise-timer/src/functions_include.php',
-        '3bd81c9b8fcc150b69d8b63b4d2ccf23' => __DIR__ . '/..' . '/spatie/flare-client-php/src/helpers.php',
         '2203a247e6fda86070a5e4e07aed533a' => __DIR__ . '/..' . '/symfony/clock/Resources/now.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
-        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
+        '972fda704d680a3a53c68e34e193cb22' => __DIR__ . '/..' . '/react/promise-timer/src/functions_include.php',
         '3bd81c9b8fcc150b69d8b63b4d2ccf23' => __DIR__ . '/..' . '/spatie/flare-client-php/src/helpers.php',
         '265b4faa2b3a9766332744949e83bf97' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Collections/helpers.php',
         'c7a3c339e7e14b60e06a2d7fcce9476b' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Events/functions.php',
         'f57d353b41eb2e234b26064d63d8c5dd' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Filesystem/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'e4c9b2466af4057cc73ca0bb2fbccd8a' => __DIR__ . '/..' . '/google-gemini-php/client/src/Gemini.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
@@ -105,6 +103,7 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         ),
         'R' => 
         array (
+            'RealRashid\\SweetAlert\\' => 22,
             'React\\Stream\\' => 13,
             'React\\Socket\\' => 13,
             'React\\Promise\\Timer\\' => 20,
@@ -114,7 +113,6 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
             'React\\Cache\\' => 12,
             'React\\Async\\' => 12,
             'Ratchet\\RFC6455\\' => 16,
-            'RealRashid\\SweetAlert\\' => 22,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
         ),
@@ -373,6 +371,10 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         array (
             0 => __DIR__ . '/..' . '/spatie/backtrace/src',
         ),
+        'RealRashid\\SweetAlert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/realrashid/sweet-alert/src',
+        ),
         'React\\Stream\\' => 
         array (
             0 => __DIR__ . '/..' . '/react/stream/src',
@@ -408,9 +410,6 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         'Ratchet\\RFC6455\\' => 
         array (
             0 => __DIR__ . '/..' . '/ratchet/rfc6455/src',
-        'RealRashid\\SweetAlert\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/realrashid/sweet-alert/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -651,6 +650,8 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
     );
 
     public static $classMap = array (
+        'App\\Events\\UserJoinedRoom' => __DIR__ . '/../..' . '/app/Events/UserJoinedRoom.php',
+        'App\\Events\\UserLeftRoom' => __DIR__ . '/../..' . '/app/Events/UserLeftRoom.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
@@ -666,6 +667,7 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         'App\\Models\\Question' => __DIR__ . '/../..' . '/app/Models/Question.php',
         'App\\Models\\Quiz' => __DIR__ . '/../..' . '/app/Models/Quiz.php',
         'App\\Models\\Result' => __DIR__ . '/../..' . '/app/Models/Result.php',
+        'App\\Models\\Room' => __DIR__ . '/../..' . '/app/Models/Room.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\UserAnswer' => __DIR__ . '/../..' . '/app/Models/UserAnswer.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -7092,10 +7094,10 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit18a6d9f5bf7b801e1b8d66d57a896682::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit18a6d9f5bf7b801e1b8d66d57a896682::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit18a6d9f5bf7b801e1b8d66d57a896682::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit18a6d9f5bf7b801e1b8d66d57a896682::$classMap;
 
         }, null, ClassLoader::class);
     }

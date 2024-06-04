@@ -6,6 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Events\\UserJoinedRoom' => $baseDir . '/app/Events/UserJoinedRoom.php',
+    'App\\Events\\UserLeftRoom' => $baseDir . '/app/Events/UserLeftRoom.php',
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DashboardController' => $baseDir . '/app/Http/Controllers/DashboardController.php',
@@ -21,6 +23,7 @@ return array(
     'App\\Models\\Question' => $baseDir . '/app/Models/Question.php',
     'App\\Models\\Quiz' => $baseDir . '/app/Models/Quiz.php',
     'App\\Models\\Result' => $baseDir . '/app/Models/Result.php',
+    'App\\Models\\Room' => $baseDir . '/app/Models/Room.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\UserAnswer' => $baseDir . '/app/Models/UserAnswer.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
