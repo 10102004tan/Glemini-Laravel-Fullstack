@@ -34,7 +34,7 @@
             @foreach($users as $user)
             <tr class="bg-primary border-b dark:bg-gray-800 dark:border-gray-700  dark:hover:bg-gray-600">
                 <td class="px-6 py-4">
-                    1
+                    {{$user->id}}
                 </td>
                 <td scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap ">
                 <div>

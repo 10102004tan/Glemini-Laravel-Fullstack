@@ -30,27 +30,40 @@ let preShowOption = showOptions[0];
 
 // click published btn
 if (btnPublished != null) {
-btnPublished.addEventListener('click', async function (e) {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('quizId', btnPublished.getAttribute('quizId'));
-    try {
-        const url = window.routes.quizzesPublished;
-        const response = await axios.post(url, formData);
-        const result = response.data;
-        checkStatus(result, function () {
-            btnPublished.classList.textContent = 'Pending';
-           btnPublished.classList.add('bg-yellow-200');
-       
-        },
-            function () {
-                //error
-            });
+    btnPublished.addEventListener('click',function (e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Xác nhận publish quiz',
+            text: 'Bạn có muốn publish quiz này không?',
+            icon: 'info',
+            customClass: {
+                popup: 'z-[9999]'
+            },
+            confirmButtonText: 'Yes',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const formData = new FormData();
+                formData.append('quizId', btnPublished.getAttribute('quizId'));
+                try {
+                    const url = window.routes.quizzesPublished;
+                    const response = await axios.post(url, formData);
+                    const data = response.data;
+                    checkStatus(data, function () {
+                        btnPublished.textContent = 'Pending';
+                        btnPublished.classList.add('bg-yellow-200');
 
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
+                    },
+                        function () {
+                            //error
+                        });
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        });
+
+    });
 }
 
 //check select option question
@@ -163,11 +176,12 @@ showOptions.forEach((showOption) => {
     });
 });
 
-
+if (btnGenerateAI != null) {
 btnGenerateAI.addEventListener('click', function () {
     overlayLoading.classList.remove('hidden');
     overlayLoading.classList.add('flex');
 });
+}
 
 if (modalUpdateQuiz != null) {
     // update quiz
