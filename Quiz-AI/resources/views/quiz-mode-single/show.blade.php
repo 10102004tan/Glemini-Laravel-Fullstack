@@ -27,7 +27,7 @@
                     /
                     <span class="questionsCount">10</span>
                 </span>
-                <a href="{{ route('quiz.index') }}" class="p-2 text-white rounded-md truncate max-w-sm text-xs lg:block hidden cursor-pointer mt-1 -ml-1">
+                <a href="#" class="p-2 text-white rounded-md truncate max-w-sm text-xs lg:block hidden cursor-pointer mt-1 -ml-1">
                     <span class="flex">
                         <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="currentColor">
                             <g>

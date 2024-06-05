@@ -47,6 +47,12 @@ class QuizController extends Controller
         return view('quizzes.show', ['quiz' => $quiz]);
     }
 
+    public function getQuiz($id)
+    {
+        $quiz = Quiz::find($id);
+        return view('quiz-mode-single.index', ['quiz' => $quiz]);
+    }
+
     public function store(Request $request)
     {
         // Validate dữ liệu từ request

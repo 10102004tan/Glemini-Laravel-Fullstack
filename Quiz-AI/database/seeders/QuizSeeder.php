@@ -18,6 +18,7 @@ class QuizSeeder extends Seeder
         // Create Quizz
         DB::table('quizzes')->insert(
             [
+                'id' => 1,
                 'title' => 'Thành phố ở Việt Nam',
                 'description' => 'No Description'
             ]

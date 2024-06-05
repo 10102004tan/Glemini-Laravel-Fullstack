@@ -36,14 +36,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/quiz-multiple/{id}', [RoomController::class, 'show']);
     Route::get('/quiz-multiple/{id}/left', [RoomController::class, 'left'])->name('quiz.multiple.left');
 
-    // Quizz Room Single
-    // Quiz Single 
-Route::get('/quiz-mode-single/{id}', [QuizController::class, 'show']);
+});
+// Quizz Room Single
+Route::get('/quiz-single/{id}', [QuizController::class, 'getQuiz']);
 // Route::get('/quiz-mode-single/play/{id}', [QuizController::class, 'getQuestions'])->name('quiz-single.play');
-Route::get('/quiz-mode-single/play/1/', function ()  {
-    return view('quiz-mode-single.play');
-});
-});
+
 
 Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
