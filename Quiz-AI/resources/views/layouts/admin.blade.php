@@ -22,7 +22,7 @@
 
 <body class="bg-primary">
     <x-sidebars.sidebar-admin></x-sidebars.sidebar-admin>
-    <main class="w-[82vw] fixed right-0 top-0 p-5">
+    <main class="w-[82vw] absolute right-0 top-0 p-5">
         <div class="flex justify-end">
             <div class="profile relative ps-7">
                 <label for="avarta" class="btn-delete-question relative group">
@@ -63,5 +63,4 @@
     <script src="{{asset('js/admin.js')}}"></script>
     @yield('script')
 </body>
-
 </html>
