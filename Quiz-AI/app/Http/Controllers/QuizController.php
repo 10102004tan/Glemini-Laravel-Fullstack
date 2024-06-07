@@ -52,6 +52,7 @@ class QuizController extends Controller
         $quiz = Quiz::find($id);
         return view('quiz-mode-single.index', ['quiz' => $quiz]);
     }
+    
 
     public function store(Request $request)
     {
