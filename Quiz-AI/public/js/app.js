@@ -290,45 +290,45 @@ modalDestroyQuestion.forEach((modalDestroy) => {
 
 
 // creatq question modal-show-option-manual
-modalShowOptionManual.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(modalShowOptionManual);
-    const answers = formData.getAll('answer');
-    const corrects = formData.getAll('is_correct');
-    let dataAnswers = [];
-    answers.forEach((answer, index) => {
-        dataAnswers.push({
-            content: answer,
-            is_correct: (corrects.includes(index.toString()) ? 1 : 0)
-        });
-    });
-    formData.append('answers', JSON.stringify(dataAnswers));
-    formData.append('quiz_id', modalShowOptionManual.getAttribute('quizId'));
-    formData.delete('answer');
-    formData.delete('is_correct');
-    try {
-        // // Send AJAX POST request using Axios
-        const url = window.routes.quizzesQuestionStore;
-        const response = await axios.post(url, formData);
-        const result = await response.data;
-        checkStatus(result,
-            function () {
-                //add question to list
-                // window.location.reload();
-                console.log("test")
+// modalShowOptionManual.addEventListener('submit', async (e) => {
+//     e.preventDefault();
+//     const formData = new FormData(modalShowOptionManual);
+//     const answers = formData.getAll('answer');
+//     const corrects = formData.getAll('is_correct');
+//     let dataAnswers = [];
+//     answers.forEach((answer, index) => {
+//         dataAnswers.push({
+//             content: answer,
+//             is_correct: (corrects.includes(index.toString()) ? 1 : 0)
+//         });
+//     });
+//     formData.append('answers', JSON.stringify(dataAnswers));
+//     formData.append('quiz_id', modalShowOptionManual.getAttribute('quizId'));
+//     formData.delete('answer');
+//     formData.delete('is_correct');
+//     try {
+//         // // Send AJAX POST request using Axios
+//         const url = window.routes.quizzesQuestionStore;
+//         const response = await axios.post(url, formData);
+//         const result = await response.data;
+//         checkStatus(result,
+//             function () {
+//                 //add question to list
+//                 // window.location.reload();
+//                 console.log("test")
 
-            },
-            function () {
-                // reload page
-                window.location.href = window.location.href + '/' + result.quizId + '?manual';
-                console.log("test 2")
+//             },
+//             function () {
+//                 // reload page
+//                 window.location.href = window.location.href + '/' + result.quizId + '?manual';
+//                 console.log("test 2")
 
-            });
+//             });
 
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// });
 
 function checkStatus(result, callbackSuccess, callbackOrder) {
     if (result.status == 200) {
