@@ -170,6 +170,19 @@
                 confirmButtonText: 'OK'
             })
        });
+
+       Livewire.on('toast-manual', ({message,status}) => {
+           Toastify({
+               text: message,
+               duration: 3000,
+               newWindow: true,
+               close: true,
+               gravity: 'top',
+               position: 'right',
+               backgroundColor: status == 'success' ? 'linear-gradient(to right, #00b09b, #96c93d)' : 'linear-gradient(to right, #ff5f6d, #ffc371)',
+               stopOnFocus: true,
+           }).showToast();
+       });
     }); 
 </script>
 <script src="{{ asset('js/app.js') }}"></script>

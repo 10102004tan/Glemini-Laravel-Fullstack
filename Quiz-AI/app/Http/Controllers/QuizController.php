@@ -23,8 +23,9 @@ class QuizController extends Controller
     public function create($id = null)
     {
         if ($id != null && Auth::check()) {
-            $quiz = Quiz::find($id)->load('questions.answers');
+            $quiz = Quiz::find($id);
             if(isset($quiz)){
+                $quiz = Quiz::find($id)->load('questions.answers');
                 $quiz->user_id = auth()->id();
                 $quiz->save();
                 return view('quizzes.create', ['quiz' => $quiz]);

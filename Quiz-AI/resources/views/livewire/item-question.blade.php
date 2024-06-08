@@ -1,4 +1,5 @@
 <div>
+    @if($isHidden)
     <div id="submitQuestion" class="rounded-[10px] bg-primary mx-auto p-5 shadow-md mb-3 modal-question" data-question-id="{{ $question->id }}">
         <div class="excerpt" id="questionContent" class="mb-4">
             <p class="text-[20px] text-[#eee]">{!! $question->excerpt !!}</p>
@@ -28,7 +29,7 @@
         <hr>
         <div class="py-3 flex items-center justify-end gap-5 relative">
             <div class="relative group">
-                <button type="button" class="btn-edit-question hover:"><i class="fa-light fa-pen-to-square"></i></button>
+                <button wire:click="showModalEditQuestion" type="button" class="btn-edit-question hover:"><i class="fa-light fa-pen-to-square"></i></button>
                 <span class="absolute text-[14px] hidden bottom-[100%] text-nowrap left-[50%] translate-x-[-50%] p-1 rounded bg-slate-300 group-hover:inline-block">Edit question</span>
             </div>
             <div>
@@ -49,8 +50,10 @@
             </div>
         </div>
     </div>
+    @endif
     <!-- form edit question -->
-    <form questionId="{{$question->id}}" class="p-4 rounded-[10px] bg-primary flex-col gap-3 hidden mb-3  modal-edit-question">
+    @if(!$isHidden)
+    <form questionId="{{$question->id}}" class="p-4 rounded-[10px] bg-primary flex-col gap-3  mb-3  modal-edit-question">
         <h5>Edit Multiple Choice Question</h5>
         <x-inputs.file></x-inputs.file>
         <x-inputs.input title="Question" name="excerpt" placeholder="Enter question">{{$question->excerpt}}</x-inputs.input>
@@ -65,7 +68,7 @@
             <select name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
                 @for($i = 0; $i < count($question->answers); $i++)
                     <option value="{{$i}}">{{$question->answers[$i]->content}}</option>
-                @endfor
+                    @endfor
             </select>
         </label>
         @elseif($question->type === 'checkbox')
@@ -74,7 +77,7 @@
             <select multiple name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
                 @for($i = 0; $i < count($question->answers); $i++)
                     <option {{($question->answers[$i]->is_correct == 1) ? "selected" : ""}} value="{{$i}}">{{$question->answers[$i]->content}}</option>
-                @endfor
+                    @endfor
             </select>
         </label>
         @endif
@@ -82,8 +85,11 @@
         <x-inputs.input title="Answer Info (optional)" name="optional" placeholder="Enter explain">{{$question->optional}}</x-inputs.input>
         <!-- buttons -->
         <div class="flex items-center justify-end gap-3">
-            <x-buttons.secondary class="text-[14px] btn-cancel" type="button">{{"Cancel"}}</x-buttons.secondary>
+            <button wire:click="hidenModalEditQuestion" type="button" class="bg-primary text-[#eee] p-2 rounded-[5px] border-[1px] border-gray-400  text-[14px] btn-cancel">
+                Cancel
+            </button>
             <x-buttons.primary class="text-[14px]">{{"Save"}}</x-buttons.primary>
         </div>
     </form>
+    @endif
 </div>
