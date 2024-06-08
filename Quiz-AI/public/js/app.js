@@ -67,28 +67,28 @@ if (btnPublished != null) {
 }
 
 //check select option question
-window.onload = function () {
-    let url = window.location.href;
-    if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
-        modalShowOptionText.classList.remove('hidden');
-        modalShowOptionManual.classList.add('hidden');
-        preShowOption.classList.remove('active');
-        showOptions[0].classList.add('active');
-        preShowOption = showOptions[0];
-    }
-    else if (window.location.search.indexOf('manual') > -1) {
-        let manualCount = (url.match(/\\?manual/g) || []).length;
-        if (manualCount > 1) {
-            url = url.replace('?manual', '');
-            window.location.href = url;
-        }
-        modalShowOptionManual.classList.remove('hidden');
-        modalShowOptionText.classList.add('hidden');
-        preShowOption.classList.remove('active');
-        showOptions[1].classList.add('active');
-        preShowOption = showOptions[1];
-    }
-}
+// window.onload = function () {
+//     let url = window.location.href;
+//     if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
+//         modalShowOptionText.classList.remove('hidden');
+//         modalShowOptionManual.classList.add('hidden');
+//         preShowOption.classList.remove('active');
+//         showOptions[0].classList.add('active');
+//         preShowOption = showOptions[0];
+//     }
+//     else if (window.location.search.indexOf('manual') > -1) {
+//         let manualCount = (url.match(/\\?manual/g) || []).length;
+//         if (manualCount > 1) {
+//             url = url.replace('?manual', '');
+//             window.location.href = url;
+//         }
+//         modalShowOptionManual.classList.remove('hidden');
+//         modalShowOptionText.classList.add('hidden');
+//         preShowOption.classList.remove('active');
+//         showOptions[1].classList.add('active');
+//         preShowOption = showOptions[1];
+//     }
+// }
 
 // 
 selectOptionQuestion.addEventListener('change', function () {
@@ -176,12 +176,12 @@ showOptions.forEach((showOption) => {
     });
 });
 
-if (btnGenerateAI != null) {
-btnGenerateAI.addEventListener('click', function () {
-    overlayLoading.classList.remove('hidden');
-    overlayLoading.classList.add('flex');
-});
-}
+// if (btnGenerateAI != null) {
+// btnGenerateAI.addEventListener('click', function () {
+//     overlayLoading.classList.remove('hidden');
+//     overlayLoading.classList.add('flex');
+// });
+// }
 
 if (modalUpdateQuiz != null) {
     // update quiz
@@ -314,7 +314,7 @@ modalShowOptionManual.addEventListener('submit', async (e) => {
         checkStatus(result,
             function () {
                 //add question to list
-                window.location.reload();
+                // window.location.reload();
                 console.log("test")
 
             },

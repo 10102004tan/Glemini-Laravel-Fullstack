@@ -23,11 +23,7 @@ class QuizController extends Controller
     public function create($id = null)
     {
         if ($id != null && Auth::check()) {
-            // $quiz = Quiz::find($id)->load('questions.answers')->sortByDesc('created_at');
-            $quiz = Quiz::with(['questions' => function ($query) {
-                $query->orderBy('created_at', 'desc');
-            }])->find($id);
-
+            $quiz = Quiz::find($id)->load('questions.answers');
             if(isset($quiz)){
                 $quiz->user_id = auth()->id();
                 $quiz->save();

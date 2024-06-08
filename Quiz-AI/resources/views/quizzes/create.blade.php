@@ -85,8 +85,8 @@
                 <button type="button" option-data="0" class="active py-3 border-b-[2px] border-transparent active:border-blue-700 active:text-blue-700 hover:border-slate-500 hover:text-slate-500 text-white show-option">Text</button>
                 <button type="button" option-data="1" class="py-3 border-b-[2px] border-transparent hover:border-slate-500 hover:text-slate-500 text-white show-option">Manual</button>
             </div>
-
-            <form method="post" id="modal-show-option-text" action="{{route('quizzes.storeWithAI')}}" class="modal-show-option-text">
+            <livewire:form-create-quiz-a-i :quiz="$quiz" />
+            {{--<form method="post" id="modal-show-option-text" action="{{route('quizzes.storeWithAI')}}" class="modal-show-option-text">
                 @csrf
                 @isset($quiz)
                 <input type="hidden" name="quiz_id" value="{{$quiz['id']}}">
@@ -137,8 +137,7 @@
                     <a href="{{route('login')}}" class="block text-center py-3 rounded-[10px] text-white font-[500] bg-blue-600">Generate</a>
                     @endif
                 </div>
-
-            </form>
+            </form> --}}
             <form class="modal-show-option-manual hidden" quizId="{{(isset($quiz)) ? $quiz->id : "-1"}}">
                 <label for="" class="flex flex-col items-start">
                     <span class="text-white mb-2 block">Question type</span>
@@ -231,12 +230,12 @@
                     </div>
                 </div>
                 <!-- questions -->
-                <div>
+                 {{--  <div>
                     @foreach($quiz['questions'] as $question)
                     <x-questions.question :question="$question"></x-questions.question>
                     @endforeach
-                </div>
-
+                </div> ---}}
+                <livewire:list-questions :quiz="$quiz" />
             </div>
             @else
             <!-- first -->
@@ -276,6 +275,17 @@
         quizzesQuestionStore: "{{route('quizzes.question.store')}}",
         quizzesPublished: "{{route('quizzes.published')}}",
     };
+
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('toast', ({message,status}) => {
+            Swal.fire({
+                title: 'Thông báo',
+                text: message,
+                icon: status,
+                confirmButtonText: 'OK'
+            })
+       });
+    }) 
 </script>
 <script src="{{ asset('js/app.js') }}"></script>
 @endsection
