@@ -67,28 +67,28 @@ if (btnPublished != null) {
 }
 
 //check select option question
-window.onload = function () {
-    let url = window.location.href;
-    if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
-        modalShowOptionText.classList.remove('hidden');
-        modalShowOptionManual.classList.add('hidden');
-        preShowOption.classList.remove('active');
-        showOptions[0].classList.add('active');
-        preShowOption = showOptions[0];
-    }
-    else if (window.location.search.indexOf('manual') > -1) {
-        let manualCount = (url.match(/\\?manual/g) || []).length;
-        if (manualCount > 1) {
-            url = url.replace('?manual', '');
-            window.location.href = url;
-        }
-        modalShowOptionManual.classList.remove('hidden');
-        modalShowOptionText.classList.add('hidden');
-        preShowOption.classList.remove('active');
-        showOptions[1].classList.add('active');
-        preShowOption = showOptions[1];
-    }
-}
+// window.onload = function () {
+//     let url = window.location.href;
+//     if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
+//         modalShowOptionText.classList.remove('hidden');
+//         modalShowOptionManual.classList.add('hidden');
+//         preShowOption.classList.remove('active');
+//         showOptions[0].classList.add('active');
+//         preShowOption = showOptions[0];
+//     }
+//     else if (window.location.search.indexOf('manual') > -1) {
+//         let manualCount = (url.match(/\\?manual/g) || []).length;
+//         if (manualCount > 1) {
+//             url = url.replace('?manual', '');
+//             window.location.href = url;
+//         }
+//         modalShowOptionManual.classList.remove('hidden');
+//         modalShowOptionText.classList.add('hidden');
+//         preShowOption.classList.remove('active');
+//         showOptions[1].classList.add('active');
+//         preShowOption = showOptions[1];
+//     }
+// }
 
 // 
 selectOptionQuestion.addEventListener('change', function () {
@@ -176,12 +176,12 @@ showOptions.forEach((showOption) => {
     });
 });
 
-if (btnGenerateAI != null) {
-btnGenerateAI.addEventListener('click', function () {
-    overlayLoading.classList.remove('hidden');
-    overlayLoading.classList.add('flex');
-});
-}
+// if (btnGenerateAI != null) {
+// btnGenerateAI.addEventListener('click', function () {
+//     overlayLoading.classList.remove('hidden');
+//     overlayLoading.classList.add('flex');
+// });
+// }
 
 if (modalUpdateQuiz != null) {
     // update quiz
@@ -290,45 +290,45 @@ modalDestroyQuestion.forEach((modalDestroy) => {
 
 
 // creatq question modal-show-option-manual
-modalShowOptionManual.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(modalShowOptionManual);
-    const answers = formData.getAll('answer');
-    const corrects = formData.getAll('is_correct');
-    let dataAnswers = [];
-    answers.forEach((answer, index) => {
-        dataAnswers.push({
-            content: answer,
-            is_correct: (corrects.includes(index.toString()) ? 1 : 0)
-        });
-    });
-    formData.append('answers', JSON.stringify(dataAnswers));
-    formData.append('quiz_id', modalShowOptionManual.getAttribute('quizId'));
-    formData.delete('answer');
-    formData.delete('is_correct');
-    try {
-        // // Send AJAX POST request using Axios
-        const url = window.routes.quizzesQuestionStore;
-        const response = await axios.post(url, formData);
-        const result = await response.data;
-        checkStatus(result,
-            function () {
-                //add question to list
-                window.location.reload();
-                console.log("test")
+// modalShowOptionManual.addEventListener('submit', async (e) => {
+//     e.preventDefault();
+//     const formData = new FormData(modalShowOptionManual);
+//     const answers = formData.getAll('answer');
+//     const corrects = formData.getAll('is_correct');
+//     let dataAnswers = [];
+//     answers.forEach((answer, index) => {
+//         dataAnswers.push({
+//             content: answer,
+//             is_correct: (corrects.includes(index.toString()) ? 1 : 0)
+//         });
+//     });
+//     formData.append('answers', JSON.stringify(dataAnswers));
+//     formData.append('quiz_id', modalShowOptionManual.getAttribute('quizId'));
+//     formData.delete('answer');
+//     formData.delete('is_correct');
+//     try {
+//         // // Send AJAX POST request using Axios
+//         const url = window.routes.quizzesQuestionStore;
+//         const response = await axios.post(url, formData);
+//         const result = await response.data;
+//         checkStatus(result,
+//             function () {
+//                 //add question to list
+//                 // window.location.reload();
+//                 console.log("test")
 
-            },
-            function () {
-                // reload page
-                window.location.href = window.location.href + '/' + result.quizId + '?manual';
-                console.log("test 2")
+//             },
+//             function () {
+//                 // reload page
+//                 window.location.href = window.location.href + '/' + result.quizId + '?manual';
+//                 console.log("test 2")
 
-            });
+//             });
 
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// });
 
 function checkStatus(result, callbackSuccess, callbackOrder) {
     if (result.status == 200) {

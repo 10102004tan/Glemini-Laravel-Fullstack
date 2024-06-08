@@ -25,7 +25,4 @@
     </div>
 @endsection
 @section('script')
-    <script>
-        console.log("home")
-    </script>
 @endsection
