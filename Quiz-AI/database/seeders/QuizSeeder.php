@@ -28,7 +28,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?', 
+                'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/ho-chi-minh.png'
             ]
         );
@@ -68,7 +68,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?', 
+                'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/ha-noi.png'
             ]
         );
@@ -108,7 +108,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?',  
+                'excerpt' => 'Đây là tỉnh/thành phố nào?',  
                 'image' => 'images/hue.png'
             ]
         );
@@ -148,7 +148,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?',  
+                'excerpt' => 'Đây là tỉnh/thành phố nào?',  
                 'image' => 'images/binh-dinh.png'
             ]
         );
@@ -188,7 +188,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?', 
+                'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/can-tho.png'
             ]
         );
@@ -228,7 +228,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?', 
+                'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/phu-yen.png'
             ]
         );
@@ -268,7 +268,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?', 
+                'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/da-nang.png'
             ]
         );
@@ -308,7 +308,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?',  
+                'excerpt' => 'Đây là tỉnh/thành phố nào?',  
                 'image' => 'images/nghe-an.png'
             ]
         );
@@ -348,7 +348,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?',  
+                'excerpt' => 'Đây là tỉnh/thành phố nào?',  
                 'image' => 'images/lam-dong.png'
             ]
         );
@@ -388,7 +388,7 @@ class QuizSeeder extends Seeder
         DB::table('questions')->insert(
             [
                 'quiz_id' => 1,
-                'excerpt' => 'Đây là tỉnh/thành phố thành nào?', 
+                'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/gia-lai.png'
             ]
         );
