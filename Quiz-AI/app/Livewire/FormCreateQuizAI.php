@@ -25,14 +25,13 @@ class FormCreateQuizAI extends Component
     public $language;
     public $type;
 
-
-    public function mount($quiz){
-        $this->quiz_id = $quiz->id;
+    public function mount($quiz_id=null){
+        $this->quiz_id = $quiz_id;
         $this->titleButton = "Generate Quiz";
         $this->difficulty = 'easy';
         $this->size_questions = 5;
         $this->language = 'en';
-        $this->type = 'radio';
+        $this->type = 'checkbox';
     }
     public function render()
     {
@@ -41,19 +40,15 @@ class FormCreateQuizAI extends Component
 
     public function store()
     {
-        $difficulty = $this->difficulty;
-        $size_questions = $this->size_questions;
-        $content = $this->content;
-        $language = $this->language;
-        $type = $this->type;
+        $isFirst = true;
 
         $prompt = '
         Please give me randomly <<total_questions : ' 
-        . $size_questions . '>> questions of type <<type:'
-        . $type .'>> on a random topic within <<title: ' 
-        . $content . ' >>. 
-        I want the questions to have a difficulty level of <<difficulty : ' . $difficulty . ' >>. 
-        I want the language for all content to be <<language : ' . $language . ' >>.
+        . $this->size_questions . '>> questions of type <<type:'
+        . $this->type .'>> on a random topic within <<title: ' 
+        . $this->content . ' >>. 
+        I want the questions to have a difficulty level of <<difficulty : ' . $this->difficulty . ' >>. 
+        I want the language for all content to be <<language : ' . $this->language . ' >>.
         I want each question to have 4 answers. 
         I want the questions to include: excerpt, type,optional and answers. 
         I want the answers to include: content, is_correct. 
@@ -90,7 +85,7 @@ class FormCreateQuizAI extends Component
         $result = Gemini::geminiPro()->generateContent($prompt);
         $result = str_replace('`json', '', $result->text());
         $result = str_replace('`', '', $result);
-        $fileName = $this->hashFileName($content);
+        $fileName = $this->hashFileName($this->content);
         Storage::disk('public')->put("datajson/$fileName", $result);
         $data = Storage::disk('public')->get("datajson/$fileName");
         $data = json_decode($data, true);
@@ -102,6 +97,7 @@ class FormCreateQuizAI extends Component
                     if ($quiz->status != 0){
                         $quiz->status = 1; // pending
                     }
+                    $isFirst = false;
                     $quiz->save();
                 } else {
                     $quiz = Quiz::create([
@@ -124,11 +120,16 @@ class FormCreateQuizAI extends Component
                         ]);
                     }
                 }
+
                 //xóa file json
                 Storage::disk('public')->delete("datajson/$fileName");
                 $this->content = '';
-                $this->dispatch('toast',message: 'Tạo câu hỏi thành công',status: 'success');
-                $this->dispatch('quiz-created',quizId: $this->quiz_id); // gửi event 
+                if ($isFirst) {
+                    return redirect()->route('quizzes.create', $quiz->id);
+                } else {
+                    $this->dispatch('toast',message: 'Tạo câu hỏi thành công',status: 'success');
+                }
+                $this->dispatch('quiz-created',quizId: $this->quiz_id); 
 
             } else {
                 Storage::disk('public')->delete("datajson/$fileName");

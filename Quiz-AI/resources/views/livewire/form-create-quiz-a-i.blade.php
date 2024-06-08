@@ -1,8 +1,8 @@
 <form id="modal-show-option-text" wire:submit="store" class="modal-show-option-text">
-    @isset($quiz)
-    <input type="hidden" wire:model="quiz_id" value="{{$quiz->id}}" class="text-black">
+    
+    @isset($quiz_id)
+    <input type="hidden" wire:model="quiz_id" value="{{$quiz_id}}" class="text-black">
     @endisset
-
     <div class="create-box mt-4 px-4 py-5 bg-primary ">
         <label for="">
             <span class="text-white block mb-2 ">Enter Your Text </span>
@@ -52,13 +52,9 @@
         <a href="{{route('login')}}" class="block text-center py-3 rounded-[10px] text-white font-[500] bg-blue-600">Generate</a>
         @endif
     </div>
-    <div wire:loading class="fixed bg-slate-800 w-[100vw] h-[100vh] z-[99999] top-0 left-0 flex items-center justify-center">
-        <div class="flex justify-center items-center h-screen">
-            <div class="relative inline-flex">
-                <div class="w-8 h-8 bg-blue-500 rounded-full"></div>
-                <div class="w-8 h-8 bg-blue-500 rounded-full absolute top-0 left-0 animate-ping"></div>
-                <div class="w-8 h-8 bg-blue-500 rounded-full absolute top-0 left-0 animate-pulse"></div>
-            </div>
+    <div wire:loading class="fixed bg-slate-800 w-[100vw] h-[100vh] z-[99999] top-0 left-0">
+        <div class="w-[100%] h-[100%] flex items-center justify-center">
+            <img src="https://media.tenor.com/pPoUmi0Z1fUAAAAi/cat-pet.gif" alt="">
         </div>
     </div>
 </form>
