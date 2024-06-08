@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $quiz->title }}</title>
     @vite('resources/css/app.css')
@@ -21,6 +22,7 @@
     </div>
 
     <!-- Thanh trên cùng -->
+    <input type="hidden" id="csrf-token" name="csrf-token" value="{{ csrf_token() }}">
     <div class="bg-gray-800 p-3 h-[9vh]">
         <div class="grid grid-cols-4">
             <div class="col-span-2 flex space-x-2">
