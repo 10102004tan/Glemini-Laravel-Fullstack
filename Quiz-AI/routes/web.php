@@ -3,6 +3,7 @@
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
+use App\Livewire\ListQuestions;
 use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -69,11 +70,12 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify']
 
 // Quizz
 Route::get('/quizzes/create/{id?}', [QuizController::class, 'create'])->name('quizzes.create');
-Route::post('/quizzes/create-with-ai', [QuizController::class, 'storeQuizWithAI'])->name('quizzes.storeWithAI');
+Route::post('/quizzes/create-with-ai', [ListQuestions::class, 'storeQuizWithAI'])->name('quizzes.storeWithAI');
 Route::post('/quizzes/update', [QuizController::class, 'update'])->name('quizzes.update');
 Route::delete('/quizzes/question/destroy', [QuestionController::class, 'destroy'])->name('quizzes.question.destroy');
 Route::put('/quizzes/question/update', [QuestionController::class, 'update'])->name('quizzes.question.update');
-Route::post('/quizzes/question/store', [QuestionController::class, 'store'])->name('quizzes.question.store');
+// Route::post('/quizzes/question/store', [QuestionController::class, 'store'])->name('quizzes.question.store');
+Route::post('/quizzes/question/store', [ListQuestions::class, 'store'])->name('quizzes.question.store');
 Route::post('/quizzes/published', [QuizController::class, 'published'])->name('quizzes.published');
 Route::post('/quizzes/details', [QuizController::class, 'getDetailsQuiz'])->name('quizzes.details');
 Route::post('/quizzes/accept', [QuizController::class, 'appectQuiz'])->name('quizzes.accept');
