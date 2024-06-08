@@ -50,8 +50,14 @@ class QuizController extends Controller
     public function getQuiz($id)
     {
         $quiz = Quiz::find($id);
-        return view('quiz-mode-single.index', ['quiz' => $quiz]);
+        return view('quizz-mode-single.index', ['quiz' => $quiz]);
     }
+
+     // Bắt đầu quiz và hiển thị câu hỏi đầu tiên
+     public function startQuiz($id)
+     {
+        return view('quizz-mode-single.question.show', ['id' => $id, 'questionIndex' => 0]);
+     }
     
 
     public function store(Request $request)

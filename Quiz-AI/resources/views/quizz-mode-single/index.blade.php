@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="mt-12">
-        <a class="text-gray-700 max-w-xl mx-auto" href="#">
+        <a class="text-gray-700 max-w-xl mx-auto" href="{{ route('quiz.start', $quiz->id) }}">
             <div class="border p-3 rounded-md text-center cursor-pointer hover:border-b-yellow-400 border-b-4 bg-indigo-50 w-full">
                 <div class="text-md font-semibold mt-2 text-[var(--background)]">
                     Start Quiz

@@ -38,10 +38,20 @@ Route::middleware(['auth'])->group(function () {
 
 });
 // Quizz Room Single
-Route::get('/quiz-single/{id}', [QuizController::class, 'getQuiz']);
-// Route::get('/quiz-mode-single/play/{id}', [QuizController::class, 'getQuestions'])->name('quiz-single.play');
+// Chọn câu hỏi
+Route::get('/quizz-mode-single/{id}', [QuizController::class, 'getQuiz']);
+Route::get('/quizz-mode-single/start/{id}', [QuizController::class, 'startQuiz'])->name('quiz.start');
 
+// Route để hiển thị từng câu hỏi
+Route::get('/quiz/{id}/question/{questionIndex}', [QuizController::class, 'showQuestion'])->name('quiz.question.show');
 
+// Route để xử lý câu trả lời của người dùng
+Route::post('/quiz/{id}/question/{questionIndex}', [QuizController::class, 'submitAnswer'])->name('quiz.question.submit');
+
+// Route để hiển thị kết quả cuối cùng
+Route::get('/quiz/{id}/result', [QuizController::class, 'showResult'])->name('quiz.result');
+
+// 
 Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
     Route::get('/quizzes', [QuizController::class, 'indexAdmin'])->name('quizzes.indexAdmin');
