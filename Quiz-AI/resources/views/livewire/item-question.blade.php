@@ -40,7 +40,7 @@
                         <p class="text-[12px]">Are you sure you want to delete this question?</p>
                         <div class="flex items-center justify-end gap-2">
                             <button type="button" class="text-gray-400 hover:text-gray-500 text-[12px]">Cancel</button>
-                            <form class="modal-destroy-question" questionId="{{$question->id}}">
+                            <form wire:submit="destroy" class="modal-destroy-question">
                                 <button type="submit" class="text-red-600 hover:text-red-700 text-[12px]">Delete</button>
                             </form>
                         </div>
@@ -53,31 +53,36 @@
     @endif
     <!-- form edit question -->
     @if(!$isHidden)
-    <form questionId="{{$question->id}}" class="p-4 rounded-[10px] bg-primary flex-col gap-3  mb-3  modal-edit-question">
+    <form wire:submit="update"  class="p-4 rounded-[10px] bg-primary flex-col gap-3  mb-3 modal-edit-question">
         <h5>Edit Multiple Choice Question</h5>
         <x-inputs.file></x-inputs.file>
-        <x-inputs.input title="Question" name="excerpt" placeholder="Enter question">{{$question->excerpt}}</x-inputs.input>
-        @foreach($question->answers as $answer)
-        <x-inputs.input name="answer" row="1">{{$answer->content}}</x-inputs.input>
-        <input type="hidden" name="answer_id" value="{{$answer->id}}">
+        <label for="">
+            <span class="text-white block mb-2 ">Question</span>
+            <textarea  wire:model="form.excerpt" required rows="5" class="p-3 w-[100%] outline-none border-[2px] border-gray-400 focus:border-blue-500 rounded-[10px] bg-primary" placeholder="Enter question"></textarea>
+        </label>
+        @foreach($question->answers as $key => $answer)
+        <label for="" wire:key="answer_{{ $answer->id }}">
+            <span class="text-white block mb-2 ">Answer {{$key+1}}</span>
+            <textarea wire:model="form.answers.{{$key}}" required rows="1" class="p-3 w-[100%] outline-none border-[2px] border-gray-400 focus:border-blue-500 rounded-[10px] bg-primary"  placeholder="Enter answer" ></textarea>
+        </label>
         @endforeach
         <!-- data correct -->
         @if ($question->type === 'radio')
         <label class="flex flex-col items-start ">
             <span class="text-white mb-2 block">Correct Answer</span>
-            <select name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
+            <select wire:model="form.corrects" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
                 @for($i = 0; $i < count($question->answers); $i++)
                     <option value="{{$i}}">{{$question->answers[$i]->content}}</option>
-                    @endfor
+                @endfor
             </select>
         </label>
         @elseif($question->type === 'checkbox')
         <label class="flex flex-col items-start ">
             <span class="text-white mb-2 block">Correct Answer</span>
-            <select multiple name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
+            <select  wire:model="form.corrects" multiple name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
                 @for($i = 0; $i < count($question->answers); $i++)
-                    <option {{($question->answers[$i]->is_correct == 1) ? "selected" : ""}} value="{{$i}}">{{$question->answers[$i]->content}}</option>
-                    @endfor
+                    <option value="{{$i}}">{{$question->answers[$i]->content}}</option>
+                @endfor
             </select>
         </label>
         @endif

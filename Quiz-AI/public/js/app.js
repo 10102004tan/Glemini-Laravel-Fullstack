@@ -24,9 +24,7 @@ const selectOptionManualCorrect = document.querySelector('.select-option-manual-
 const btnResetForm = document.querySelector('.btn-reset-form');
 const modalUpdateQuiz = document.querySelector('.modal-update-quiz');
 const btnPublished = document.querySelector('.btn-published');
-
 let preShowOption = showOptions[0];
-
 
 // click published btn
 if (btnPublished != null) {
@@ -156,6 +154,7 @@ if (btnSettings != null) {
 
 if (showOptions.length > 0) {
     preShowOption = showOptions[0];
+
 }
 
 showOptions.forEach((showOption) => {
@@ -207,6 +206,8 @@ if (modalUpdateQuiz != null) {
         }
     });
 }
+
+
 
 //edit question
 // modalEditQuestion.forEach((modalEdit) => {

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit335d900eb38abf0006d21d5f60cbdd86
+class ComposerStaticInitce68db8f37552cf4ccf397cfe83abddb
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -448,8 +448,8 @@ class ComposerStaticInit335d900eb38abf0006d21d5f60cbdd86
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -687,6 +687,7 @@ class ComposerStaticInit335d900eb38abf0006d21d5f60cbdd86
     public static $classMap = array (
         'App\\Events\\UserJoinedRoom' => __DIR__ . '/../..' . '/app/Events/UserJoinedRoom.php',
         'App\\Events\\UserLeftRoom' => __DIR__ . '/../..' . '/app/Events/UserLeftRoom.php',
+        'App\\Http\\Controllers\\Api\\RoomApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/RoomApiController.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
@@ -699,15 +700,17 @@ class ComposerStaticInit335d900eb38abf0006d21d5f60cbdd86
         'App\\Http\\Controllers\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/VerificationController.php',
         'App\\Listeners\\EmailSentListener' => __DIR__ . '/../..' . '/app/Listeners/EmailSentListener.php',
         'App\\Livewire\\FormCreateQuizAI' => __DIR__ . '/../..' . '/app/Livewire/FormCreateQuizAI.php',
-        'App\\Livewire\\Forms\\StoreQuizAIForm' => __DIR__ . '/../..' . '/app/Livewire/Forms/StoreQuizAIForm.php',
+        'App\\Livewire\\FormCreateQuizManual' => __DIR__ . '/../..' . '/app/Livewire/FormCreateQuizManual.php',
         'App\\Livewire\\ItemQuestion' => __DIR__ . '/../..' . '/app/Livewire/ItemQuestion.php',
         'App\\Livewire\\ListQuestions' => __DIR__ . '/../..' . '/app/Livewire/ListQuestions.php',
         'App\\Mail\\VerifyEmail' => __DIR__ . '/../..' . '/app/Mail/VerifyEmail.php',
         'App\\Models\\Answer' => __DIR__ . '/../..' . '/app/Models/Answer.php',
+        'App\\Models\\JoinedRoom' => __DIR__ . '/../..' . '/app/Models/JoinedRoom.php',
         'App\\Models\\Question' => __DIR__ . '/../..' . '/app/Models/Question.php',
         'App\\Models\\Quiz' => __DIR__ . '/../..' . '/app/Models/Quiz.php',
         'App\\Models\\Result' => __DIR__ . '/../..' . '/app/Models/Result.php',
         'App\\Models\\Room' => __DIR__ . '/../..' . '/app/Models/Room.php',
+        'App\\Models\\RoomPoint' => __DIR__ . '/../..' . '/app/Models/RoomPoint.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\UserAnswer' => __DIR__ . '/../..' . '/app/Models/UserAnswer.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -7539,10 +7542,10 @@ class ComposerStaticInit335d900eb38abf0006d21d5f60cbdd86
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit335d900eb38abf0006d21d5f60cbdd86::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit335d900eb38abf0006d21d5f60cbdd86::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit335d900eb38abf0006d21d5f60cbdd86::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit335d900eb38abf0006d21d5f60cbdd86::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitce68db8f37552cf4ccf397cfe83abddb::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitce68db8f37552cf4ccf397cfe83abddb::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitce68db8f37552cf4ccf397cfe83abddb::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitce68db8f37552cf4ccf397cfe83abddb::$classMap;
 
         }, null, ClassLoader::class);
     }
