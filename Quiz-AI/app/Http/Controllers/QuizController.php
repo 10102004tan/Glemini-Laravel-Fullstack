@@ -53,8 +53,11 @@ class QuizController extends Controller
     // Bắt đầu quiz và hiển thị câu hỏi đầu tiên
     public function startQuiz($id)
     {
+        // Xóa kết quả trò chơi cũ của người dùng nếu có
+        Result::where('user_id', auth()->id())->where('quiz_id', $id)->delete();
+
         $quiz = Quiz::findOrFail($id);
-        $firstQuestion = $quiz->questions()->first();
+        $firstQuestion = $quiz->questions();
         // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên
         return view('quizz-mode-single.question.show', [
             'quiz' => $quiz,
@@ -163,7 +166,7 @@ class QuizController extends Controller
     //ham choi
     public function submitAnswer(Request $request, $quizId, $questionId)
     {
-        $userId = 1;
+        $userId = auth()->id();
         $answerIds = $request->input('answer');
         $correct = true;
 
@@ -181,22 +184,43 @@ class QuizController extends Controller
                 $correct = false;
             }
         }
-        // auth()->id()
+
         // Cập nhật điểm số của người dùng nếu cần thiết
         if ($correct) {
             $result = Result::firstOrCreate(['user_id' => $userId, 'quiz_id' => $quizId]);
             $result->increment('score');
         }
 
-        // Xác định URL của câu hỏi tiếp theo
+        // Xác định URL của câu hỏi tiếp theo hoặc trang kết quả
+        $quiz = Quiz::find($quizId);
+        $totalQuestions = $quiz->questions()->count();
         $nextQuestionIndex = $questionId + 1;
-        $nextQuestionUrl = route('quiz.question.show', ['id' => $quizId, 'questionIndex' => $nextQuestionIndex]);
+
+        if ($nextQuestionIndex == $totalQuestions) {
+            $nextQuestionUrl = route('quiz.result', ['id' => $quizId]);
+        } else {
+            $nextQuestionUrl = route('quiz.question.show', ['id' => $quizId, 'questionIndex' => $nextQuestionIndex]);
+        }
 
         // Trả về phản hồi JSON
         return response()->json([
             'correct' => $correct,
             'nextQuestionUrl' => $nextQuestionUrl,
             'message' => $correct ? 'Câu trả lời chính xác!' : 'Câu trả lời không chính xác. Vui lòng thử lại.'
+        ]);
+    }
+
+
+    // Kết quả
+    public function showResult($id)
+    {
+        $quiz = Quiz::findOrFail($id);
+        $userId = Auth::id();
+        $result = Result::where('user_id', $userId)->where('quiz_id', $id)->first();
+
+        return view('quizz-mode-single.result', [
+            'quiz' => $quiz,
+            'result' => $result
         ]);
     }
 
