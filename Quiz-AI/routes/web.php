@@ -48,10 +48,8 @@ Route::get('/quizz-mode-single/start/{id}', [QuizController::class, 'startQuiz']
 
 // Khai báo route cho submitAnswer
 Route::post('/submit-answer/{quizId}/{questionId}', [QuizController::class, 'submitAnswer'])->name('checkAnswer');
-
 // Route để hiển thị từng câu hỏi
 Route::get('/quiz/{id}/question/{questionIndex}', [QuizController::class, 'showQuestion'])->name('quiz.question.show');
-
 // Route để hiển thị kết quả cuối cùng
 Route::get('/quiz/{id}/result', [QuizController::class, 'showResult'])->name('quiz.result');
 
