@@ -13,8 +13,6 @@ class ItemQuestion extends Component
     public $isHidden;
     public QuestionEditForm $form;
 
-    public $test = 0;
-
 
     public function mount($question)
     {
@@ -51,26 +49,22 @@ class ItemQuestion extends Component
     }
 
     public function update(){
-
-        $question = Question::find($this->question->id);
-        if ($question) {
-            $question->excerpt = $this->form->excerpt;
-            $question->optional = "tét";
-            foreach ($question->answers as $key => $answer) {
-                $answerUpdate = Answer::find($answer->id);
-                $answerUpdate->content = $this->form->answers[$key];
+        if ($this->question) {
+            $this->question->excerpt = $this->form->excerpt;
+            $this->question->optional = "tét";
+            foreach ($this->question->answers as $key => $answer) {
+                $answer->content = $this->form->answers[$key];
                 //checktype
                 if (is_array($this->form->corrects)){
-                    $answerUpdate->is_correct = in_array($key,$this->form->corrects) ? 1 : 0;
+                    $answer->is_correct = in_array($key,$this->form->corrects) ? 1 : 0;
                 }
                 else{
-                    $answerUpdate->is_correct =($key == $this->form->corrects) ? 1 : 0;
+                    $answer->is_correct =($key == $this->form->corrects) ? 1 : 0;
                 }
-                $answerUpdate->save();
+                $answer->save();
             }
-            $question->save();
+            $this->question->save();
             $this->isHidden = true;
-            $this->test = 1;
             $this->dispatch('toast',message: 'Cap nhat câu hỏi thành công',status: 'success');
         }
         else{
@@ -78,9 +72,8 @@ class ItemQuestion extends Component
         }
 
     }
-
     public function render()
     {
-        return view('livewire.item-question',['question' => $this->question]);
+        return view('livewire.item-question');
     }
 }

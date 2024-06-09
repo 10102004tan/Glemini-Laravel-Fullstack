@@ -70,7 +70,6 @@ class FormCreateQuizManual extends Component
             return redirect()->route('quizzes.create', $quiz->id);
         }
         else{
-            $this->type = "radio";
             $this->excerpt = "";
             $this->optional = "";
             $this->answers = [];
