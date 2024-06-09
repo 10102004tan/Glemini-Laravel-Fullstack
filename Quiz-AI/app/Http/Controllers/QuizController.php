@@ -181,7 +181,7 @@ class QuizController extends Controller
                 $correct = false;
             }
         }
-
+        // auth()->id()
         // Cập nhật điểm số của người dùng nếu cần thiết
         if ($correct) {
             $result = Result::firstOrCreate(['user_id' => $userId, 'quiz_id' => $quizId]);
@@ -214,7 +214,7 @@ class QuizController extends Controller
     {
         $quiz = Quiz::find($id);
         $questions = $quiz->questions;
-        $question = $questions[$questionIndex];
+        $question = $questions[$questionIndex - 1];
         return view('quizz-mode-single.question.show', [
             'quiz' => $quiz,
             'question' => $question,
