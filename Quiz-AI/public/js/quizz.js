@@ -23,7 +23,7 @@ function selectAnswer(element, answerId) {
 
 function confirmAnswer() {
     var url = document.getElementById('confirm-btn').getAttribute('data-url');
-    
+
     // Vô hiệu hóa nút ngay lập tức để ngăn chặn các lần nhấn tiếp theo
     document.getElementById('confirm-btn').disabled = true;
 
@@ -46,11 +46,36 @@ function sendAnswer(url, answerIds) {
                 var data = JSON.parse(xhr.responseText);
                 console.log(data);
 
-                // Hiển thị thông báo
-                alert(data.message);
+                var correctAnswerIds = data.correctAnswerIds || []; // Kiểm tra nếu không có thông tin, gán một mảng trống
+                var selectedAnswerIds = Array.isArray(answerIds) ? answerIds : [answerIds];
 
-                // Chuyển sang câu hỏi tiếp theo sau khi thông báo
-                window.location.href = data.nextQuestionUrl;
+                // Hiển thị màu cho mỗi câu trả lời
+                document.querySelectorAll('[data-answer-id]').forEach(el => {
+                    var answerId = el.getAttribute('data-answer-id');
+                    el.classList.remove('selected', 'correct', 'incorrect');
+                    if (selectedAnswerIds.includes(answerId)) {
+                        el.classList.add('selected');
+                        if (correctAnswerIds.includes(answerId)) {
+                            el.classList.add('correct');
+                        } else {
+                            el.classList.add('incorrect');
+                            // Tìm câu trả lời đúng và đánh dấu nó
+                            correctAnswerIds.forEach(correctAnswerId => {
+                                var correctAnswerEl = document.querySelector(`[data-answer-id="${correctAnswerId}"]`);
+                                if (correctAnswerEl) {
+                                    correctAnswerEl.classList.add('correct');
+                                }
+                            });
+                        }
+                    }
+                });
+
+                // // Hiển thị thông báo
+                // alert(data.message);
+
+                setTimeout(function() {
+                    window.location.href = data.nextQuestionUrl;
+                }, 500); // Chuyển sang câu hỏi tiếp theo sau 3 giây
             } else {
                 console.error('Error:', xhr.statusText);
                 document.getElementById('confirm-btn').disabled = false;
@@ -61,6 +86,9 @@ function sendAnswer(url, answerIds) {
     xhr.send(JSON.stringify({ answer: answerIds }));
 }
 
+
+
 function isRadioType() {
     return questionType === 'radio';
 }
+
