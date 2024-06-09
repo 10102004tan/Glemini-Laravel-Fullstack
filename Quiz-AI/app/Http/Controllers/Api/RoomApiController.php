@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Room;
 use App\Models\RoomPoint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Pusher\Pusher;
 
 class RoomApiController extends Controller
 {
@@ -71,6 +73,25 @@ class RoomApiController extends Controller
                 'points' => 0,
             ]);
         }
+
+        $user = Auth::guard('web')->user();
+        $data['title'] = "Start Room";
+        $data['content'] = "$user->name just start room";
+        $data['user'] = $user;
+
+        $options = array(
+            'cluster' => 'ap1',
+            'encrypted' => true
+        );
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+        $pusher->trigger('UserStartRoom', 'send-notify', $data);
 
         return response()->json([
             'status' => "success",

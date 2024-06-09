@@ -66,7 +66,7 @@ class AuthController extends Controller
                 Session::forget('unlogin');
                 return redirect()->route('quizzes.create');
             }
-            return redirect()->intended('admin/dashboard');
+            return redirect()->intended('home');
         }
 
         // Đăng nhập thất bại
