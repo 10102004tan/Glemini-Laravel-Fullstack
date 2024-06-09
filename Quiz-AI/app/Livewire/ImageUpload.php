@@ -1,31 +1,45 @@
 <?php
 
 namespace App\Livewire;
+
+use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 use Livewire\Component;
 
 class ImageUpload extends Component
 {
-    public $image;
+    use WithFileUploads;
+    public $isShow = false;
+    public $banner;
+    public $quiz;
 
-    public function mount($image=null)
+    public function mount($quiz=null)
     {
-        $this->image = $image;
+        $this->quiz = $quiz;
     }
 
-    public function save()
-    {
+    public function showModal(){
+        $this->isShow = true;
+    }
+
+    public function hiddenModal(){
+        $this->isShow = false;
+    }
+
+    public function save(){
         $this->validate([
-            'image' => 'image|max:1024', // 1MB Max
+            'banner' => 'image|max:1024', // 1MB Max
         ]);
-
-        // 
-        $this->image->store('images', 'public');
-        $this->reset('image');
-        $this->dispatch('toast',message: 'Cập nhât thumb thành công',status: 'success');
+        $path = $this->banner->store('images', 'public');
+        if ($this->quiz->thumb != null) {
+            Storage::disk('public')->delete($this->quiz->thumb);
+        }
+        $this->quiz->thumb = $path;
+        $this->quiz->save();
+        $this->dispatch('toast',message: 'Cập nhật banner thành công',status: 'success');
+        $this->isShow = false;
     }
-
     public function render()
     {
         return view('livewire.image-upload');
