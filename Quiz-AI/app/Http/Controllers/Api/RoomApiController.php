@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Room;
 use App\Models\RoomPoint;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Pusher\Pusher;
@@ -74,25 +75,6 @@ class RoomApiController extends Controller
             ]);
         }
 
-        $user = Auth::guard('web')->user();
-        $data['title'] = "Start Room";
-        $data['content'] = "$user->name just start room";
-        $data['user'] = $user;
-
-        $options = array(
-            'cluster' => 'ap1',
-            'encrypted' => true
-        );
-
-        $pusher = new Pusher(
-            env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
-            $options
-        );
-
-        $pusher->trigger('UserStartRoom', 'send-notify', $data);
-
         return response()->json([
             'status' => "success",
             'room' => $room,
@@ -122,8 +104,36 @@ class RoomApiController extends Controller
         }
 
         return response()->json([
-            "status"=> "success",
+            "status" => "success",
             'room' => $room,
+        ]);
+    }
+
+    public function updateUserPoint($id, Request $request)
+    {
+        $user = User::find($id);
+        $user->roomPoints()->update([
+            'points' => $request->points,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+        ]);
+    }
+
+    public function getAllUserInRoom($id)
+    {
+        $room = Room::where('room_id', $id)->first();
+        $users = $room->joinedUsers;
+
+        foreach ($users as $user) {
+            $user->roomPoints;
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'users' => $users,
         ]);
     }
 
