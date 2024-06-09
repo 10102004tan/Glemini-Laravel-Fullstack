@@ -71,18 +71,20 @@
         <label class="flex flex-col items-start ">
             <span class="text-white mb-2 block">Correct Answer</span>
             <select wire:model="form.corrects" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
-                @for($i = 0; $i < count($question->answers); $i++)
-                    <option value="{{$i}}">{{$question->answers[$i]->content}}</option>
-                @endfor
+                <option value="0">A</option>
+                <option value="1">B</option>
+                <option value="2">C</option>
+                <option value="3">D</option>
             </select>
         </label>
         @elseif($question->type === 'checkbox')
         <label class="flex flex-col items-start ">
             <span class="text-white mb-2 block">Correct Answer</span>
             <select  wire:model="form.corrects" multiple name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
-                @for($i = 0; $i < count($question->answers); $i++)
-                    <option value="{{$i}}">{{$question->answers[$i]->content}}</option>
-                @endfor
+                <option value="0">A</option>
+                <option value="1">B</option>
+                <option value="2">C</option>
+                <option value="3">D</option>
             </select>
         </label>
         @endif
