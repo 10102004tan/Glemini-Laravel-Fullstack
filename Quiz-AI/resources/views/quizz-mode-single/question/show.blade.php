@@ -22,15 +22,12 @@
     </div>
 
     <!-- Thanh trên cùng -->
-    <input type="hidden" id="csrf-token" name="csrf-token" value="{{ csrf_token() }}">
     <div class="bg-gray-800 p-3 h-[9vh]">
         <div class="grid grid-cols-4">
             <div class="col-span-2 flex space-x-2">
                 <div class="hidden lg:block">
                     <span class="rounded-xl p-2 flex items-center mr-1">
-                        <a href="#">
-                            <img src="{{ asset('images/icon-white.png') }}" alt="Icon" class="w-5 h-5">
-                        </a>
+                        <img src="{{ asset('images/icon-white.png') }}" alt="Icon" class="w-5 h-5">
                     </span>
                 </div>
                 <span class="p-2 text-white bg-gray-700 rounded-md">
@@ -65,9 +62,9 @@
         </div>
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             @foreach($question->answers as $index => $answer)
-                <div class="p-4 rounded-lg border-2 border-gray-200 text-gray-900 bg-gray-600 hover:bg-gray-500 cursor-pointer" onclick="selectAnswer(this, '{{ $answer->id }}')" data-answer-id="{{ $answer->id }}">
-                    <span>{{ chr(65 + $index) }}. {{ $answer->content }}</span>
-                </div>
+            <div class="p-4 rounded-lg border-2 border-gray-200 text-gray-900 bg-gray-600 hover:bg-gray-500 cursor-pointer" onclick="selectAnswer(this, '{{ $answer->id }}')" data-answer-id="{{ $answer->id }}">
+                <span>{{ chr(65 + $index) }}. {{ $answer->content }}</span>
+            </div>
             @endforeach
         </div>
     </div>
@@ -76,11 +73,11 @@
     <div class="bg-gray-800 p-2 h-[11vh] flex justify-center items-center">
         <input type="hidden" id="quizId" value="{{ $quiz->id }}">
         <input type="hidden" id="questionId" value="{{ $question->id }}">
-        <button id="confirm-btn" class="bg-blue-500 text-white p-2 rounded" onclick="confirmAnswer()" disabled>Xác nhận</button>
+        <button id="confirm-btn" class="bg-blue-500 text-white p-2 rounded" onclick="confirmAnswer()" data-url="{{ route('checkAnswer', [$quiz->id, $question->id]) }}" disabled>Xác nhận</button>
     </div>
     <script>
         var questionType = '{{ $question->type }}';
-        console.log(questionType);
+        // console.log(questionType);
     </script>
     <script src="{{ asset('js/quizz.js') }}"></script>
 </body>

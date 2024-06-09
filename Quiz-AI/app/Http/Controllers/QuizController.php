@@ -6,10 +6,12 @@ use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Result;
 use App\Models\UserAnswer;
+use Exception;
 use Gemini\Laravel\Facades\Gemini;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Reverb\Loggers\Log;
 
 class QuizController extends Controller
 {
@@ -24,7 +26,7 @@ class QuizController extends Controller
     {
         if ($id != null && Auth::check()) {
             $quiz = Quiz::find($id)->load('questions.answers');
-            if(isset($quiz)){
+            if (isset($quiz)) {
                 $quiz->user_id = auth()->id();
                 $quiz->save();
                 return view('quizzes.create', ['quiz' => $quiz]);
@@ -158,48 +160,47 @@ class QuizController extends Controller
     }
 
     //ham choi
-
-    public function submitAnswer(Request $request, $quizId, $questionId)
+ 
+    public function submitAnswer(Request $request)
     {
-        //$userId = auth()->id(); // Lấy ID người dùng nếu đã đăng nhập
-        $userId = 1;
+        // Lấy dữ liệu từ query parameters
+        $quizId = $request->query('quizId');
+        $questionId = $request->query('questionId');
+        $userAnswerIds = json_decode($request->query('answer', '[]'), true);
+
+        // Xử lý thông tin quiz và question
         $quiz = Quiz::findOrFail($quizId);
         $question = Question::findOrFail($questionId);
 
-        $result = Result::create([
-            'user_id' => $userId,
-            'quiz_id' => $quizId,
-        ]);
-
-        $score = 0;
+        // Lấy các câu trả lời đúng
         $correctAnswerIds = $question->answers()
             ->where('is_correct', true)
             ->pluck('id')
             ->toArray();
-        $userAnswerIds = array_map('intval', $request->input('answer', []));
+
+        // Kiểm tra xem câu trả lời của người dùng có đúng không
         $isCorrect = ($correctAnswerIds == $userAnswerIds);
 
-
+        $result = Result::create([
+            'user_id' => 1,
+            'quiz_id' => $quizId,
+            'score' => $isCorrect ? 1 : 0,
+        ]);
 
         UserAnswer::create([
             'result_id' => $result->id,
             'question_id' => $questionId,
-            'answer_id' => json_encode($correctAnswerIds),
+            'answer_id' => $userAnswerIds,
             'is_correct' => $isCorrect,
         ]);
 
-        if ($isCorrect) {
-            $score++;
-        }
-
-        $result->score = $score;
-        $result->save();
-
         return response()->json([
             'isCorrect' => $isCorrect,
-            'score' => $score,
+            'score' => $result->score,
         ]);
     }
+
+
 
 
 
