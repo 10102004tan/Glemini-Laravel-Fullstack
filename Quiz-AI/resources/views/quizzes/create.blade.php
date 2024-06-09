@@ -11,16 +11,16 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                <button data-modal-target="default-modal" data-modal-toggle="default-modal" id="btn-share" type="button" class="flex items-center py-1 px-2 rounded border border-[#eee]">
-                <i class="fa-sharp fa-regular fa-share-nodes p-2"></i>
-                    Share
+                    <button data-modal-target="default-modal" data-modal-toggle="default-modal" id="btn-share" type="button" class="flex items-center py-1 px-2 rounded border border-[#eee]">
+                        <i class="fa-sharp fa-regular fa-share-nodes p-2"></i>
+                        Share
                     </button>
                     <button id="btn-settings" type="button" class="flex items-center py-1 px-2 rounded border border-[#eee]">
-                    <i class="fa-regular fa-gear p-2"></i>
-                    Setting
+                        <i class="fa-regular fa-gear p-2"></i>
+                        Setting
                     </button>
                     <button type="button" class="py-2 px-2 rounded bg-blue-500">
-                    Play
+                        Play
                     </button>
 
                     @if ($quiz->status == 0)
@@ -63,16 +63,16 @@
 
 <!-- settings start -->
 <div class="settings lg:w-[20vw] w-[40vw] z-[9999] h-[100vh] fixed top-0 right-[-100%] bg-primary p-3">
-   <div class="flex justify-between">
-   <h2>Default setting</h2>
-    <button type="button" class="btn-close-settings"><i class="fa-light fa-xmark"></i></button>
-   </div>
-   <hr>
-   <ul>
-    <li>Share</li>
-    <li>Behaviour</li>
-    <li>Share</li>
-   </ul>
+    <div class="flex justify-between">
+        <h2>Default setting</h2>
+        <button type="button" class="btn-close-settings"><i class="fa-light fa-xmark"></i></button>
+    </div>
+    <hr>
+    <ul>
+        <li>Share</li>
+        <li>Behaviour</li>
+        <li>Share</li>
+    </ul>
 </div>
 <!-- settings end -->
 
@@ -86,13 +86,13 @@
                 <button type="button" option-data="1" class="py-3 border-b-[2px] border-transparent hover:border-slate-500 hover:text-slate-500 text-white show-option">Manual</button>
             </div>
             @isset($quiz)
-                <livewire:form-create-quiz-a-i :quiz_id="$quiz->id" />
-                <livewire:form-create-quiz-manual :quiz_id="$quiz->id" />
+            <livewire:form-create-quiz-a-i :quiz_id="$quiz->id" />
+            <livewire:form-create-quiz-manual :quiz_id="$quiz->id" />
             @else
-                <livewire:form-create-quiz-a-i />
-                <livewire:form-create-quiz-manual />
+            <livewire:form-create-quiz-a-i />
+            <livewire:form-create-quiz-manual />
             @endisset
-           
+
         </div>
         <div class="result lg:col-span-8 py-4 px-5 bg-secondary relative col-span-12">
             @isset($quiz)
@@ -106,9 +106,7 @@
                 </div>
 
                 <!-- thumb -->
-                <div class="thumb overflow-hidden mb-5">
-                    <img class="w-[100%] rounded-[10px] object-cover h-[300px]" src="https://www.cshl.edu/wp-content/uploads/2023/01/cute_robot_reading_book.jpg" alt="">
-                </div>
+                <livewire:image-upload :quiz="$quiz->thumb" />
 
                 <!-- bar -->
                 <div class="bar mb-5">
@@ -160,17 +158,36 @@
         quizzesQuestionStore: "{{route('quizzes.question.store')}}",
         quizzesPublished: "{{route('quizzes.published')}}",
     };
-
+</script>
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
     document.addEventListener('livewire:init', () => {
-        Livewire.on('toast', ({message,status}) => {
+        Livewire.on('toast', ({
+            message,
+            status
+        }) => {
             Swal.fire({
                 title: 'Thông báo',
                 text: message,
                 icon: status,
                 confirmButtonText: 'OK'
             })
-       });
-    }); 
+        });
+
+        Livewire.on('toast-manual', ({
+            message,
+            status}) => {
+            Toastify({
+                text: message,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: 'top',
+                position: 'right',
+                backgroundColor: status == 'success' ? 'linear-gradient(to right, #00b09b, #96c93d)' : 'linear-gradient(to right, #ff5f6d, #ffc371)',
+                stopOnFocus: true,
+            }).showToast();
+        });
+    });
 </script>
-<script src="{{ asset('js/app.js') }}"></script>
 @endsection

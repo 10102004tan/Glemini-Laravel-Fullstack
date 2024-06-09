@@ -41,7 +41,6 @@ class FormCreateQuizAI extends Component
     public function store()
     {
         $isFirst = true;
-
         $prompt = '
         Please give me randomly <<total_questions : ' 
         . $this->size_questions . '>> questions of type <<type:'
@@ -134,7 +133,6 @@ class FormCreateQuizAI extends Component
             } else {
                 Storage::disk('public')->delete("datajson/$fileName");
                 $this->dispatch('toast',message: 'Tạo câu hỏi thất bại',status: 'error');
-                // $this->dispatch('toast',message: 'Tạo câu hỏi thành công',background: '#059669');
             }
         }catch(\Exception $e){
             Storage::disk('public')->delete("datajson/$fileName");

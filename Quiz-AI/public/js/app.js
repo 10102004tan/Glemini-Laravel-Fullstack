@@ -24,9 +24,7 @@ const selectOptionManualCorrect = document.querySelector('.select-option-manual-
 const btnResetForm = document.querySelector('.btn-reset-form');
 const modalUpdateQuiz = document.querySelector('.modal-update-quiz');
 const btnPublished = document.querySelector('.btn-published');
-
 let preShowOption = showOptions[0];
-
 
 // click published btn
 if (btnPublished != null) {
@@ -67,28 +65,28 @@ if (btnPublished != null) {
 }
 
 //check select option question
-// window.onload = function () {
-//     let url = window.location.href;
-//     if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
-//         modalShowOptionText.classList.remove('hidden');
-//         modalShowOptionManual.classList.add('hidden');
-//         preShowOption.classList.remove('active');
-//         showOptions[0].classList.add('active');
-//         preShowOption = showOptions[0];
-//     }
-//     else if (window.location.search.indexOf('manual') > -1) {
-//         let manualCount = (url.match(/\\?manual/g) || []).length;
-//         if (manualCount > 1) {
-//             url = url.replace('?manual', '');
-//             window.location.href = url;
-//         }
-//         modalShowOptionManual.classList.remove('hidden');
-//         modalShowOptionText.classList.add('hidden');
-//         preShowOption.classList.remove('active');
-//         showOptions[1].classList.add('active');
-//         preShowOption = showOptions[1];
-//     }
-// }
+window.onload = function () {
+    let url = window.location.href;
+    if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
+        modalShowOptionText.classList.remove('hidden');
+        modalShowOptionManual.classList.add('hidden');
+        preShowOption.classList.remove('active');
+        showOptions[0].classList.add('active');
+        preShowOption = showOptions[0];
+    }
+    else if (window.location.search.indexOf('manual') > -1) {
+        let manualCount = (url.match(/\\?manual/g) || []).length;
+        if (manualCount > 1) {
+            url = url.replace('?manual', '');
+            window.location.href = url;
+        }
+        modalShowOptionManual.classList.remove('hidden');
+        modalShowOptionText.classList.add('hidden');
+        preShowOption.classList.remove('active');
+        showOptions[1].classList.add('active');
+        preShowOption = showOptions[1];
+    }
+}
 
 // 
 selectOptionQuestion.addEventListener('change', function () {
@@ -106,21 +104,21 @@ btnResetForm.addEventListener('click', function (e) {
 });
 
 
-for (let i = 0; i < btnEditQuestions.length; i++) {
-    btnEditQuestions[i].addEventListener('click', function () {
-        modalEditQuestion[i].classList.remove('hidden');
-        modalQuestion[i].classList.add('hidden');
-        modalEditQuestion[i].classList.add('flex');
+// for (let i = 0; i < btnEditQuestions.length; i++) {
+//     btnEditQuestions[i].addEventListener('click', function () {
+//         modalEditQuestion[i].classList.remove('hidden');
+//         modalQuestion[i].classList.add('hidden');
+//         modalEditQuestion[i].classList.add('flex');
 
 
-    });
+//     });
 
-    btnCancels[i].addEventListener('click', function () {
-        modalEditQuestion[i].classList.add('hidden');
-        modalEditQuestion[i].classList.remove('flex');
-        modalQuestion[i].classList.remove('hidden');
-    });
-}
+//     btnCancels[i].addEventListener('click', function () {
+//         modalEditQuestion[i].classList.add('hidden');
+//         modalEditQuestion[i].classList.remove('flex');
+//         modalQuestion[i].classList.remove('hidden');
+//     });
+// }
 
 
 // click edit btn quiz
@@ -156,6 +154,7 @@ if (btnSettings != null) {
 
 if (showOptions.length > 0) {
     preShowOption = showOptions[0];
+
 }
 
 showOptions.forEach((showOption) => {
@@ -208,85 +207,87 @@ if (modalUpdateQuiz != null) {
     });
 }
 
-//edit question
-modalEditQuestion.forEach((modalEdit) => {
-    modalEdit.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(modalEdit);
-        formData.append('_method', 'PUT');
-        formData.append('id', modalEdit.getAttribute('questionId'));
-        const corrects = formData.getAll('correct');
-        let dataAnswers = [];
-        formData.getAll('answer').forEach((answer, index) => {
-            dataAnswers.push({
-                id: formData.getAll('answer_id')[index],
-                content: answer,
-                is_correct: (corrects.includes(index.toString()) ? 1 : 0)
-            });
-        });
-        formData.append('answers', JSON.stringify(dataAnswers));
-        formData.delete('answer_id');
-        formData.delete('answer');
-        formData.delete('correct');
-        try {
-            const url = window.routes.quizzesQuestionUpdate;
-            const response = await axios.post(url, formData);
-            const result = await response.data;
-            checkStatus(result, function () {
-                //update question
-                const modalQuestion = modalEdit.previousElementSibling;
-                let answers = "";
-                result.question.answers.forEach((answer) => {
-                    answers += `
-                    <div class="mb-3">
-                        <input type="${result.question.type}" name="answer_${answer['id']}" value="${answer['id']}" ${(answer['is_correct'] == 1) ? "checked" : ""} id="answer_${answer['id']}">
-                        <label for="answer_${answer['id']}">${answer['content']}</label>
-                    </div>
-                    `
-                });
 
-                const excerpt = `
-                <div class="excerpt" class="mb-4">
-                    <p class="text-[20px] text-[#eee]">${result.question.excerpt}</p>
-                </div>
-                `;
-                console.log(excerpt)
-                modalQuestion.firstElementChild.innerHTML = excerpt;
-                modalQuestion.children[1].innerHTML = answers;
-            },
-                function () {
-                    //show error
-                });
-        }
-        catch (error) {
-            console.error('Error:', error);
-        }
-    });
-});
+
+//edit question
+// modalEditQuestion.forEach((modalEdit) => {
+//     modalEdit.addEventListener('submit', async (e) => {
+//         e.preventDefault();
+//         const formData = new FormData(modalEdit);
+//         formData.append('_method', 'PUT');
+//         formData.append('id', modalEdit.getAttribute('questionId'));
+//         const corrects = formData.getAll('correct');
+//         let dataAnswers = [];
+//         formData.getAll('answer').forEach((answer, index) => {
+//             dataAnswers.push({
+//                 id: formData.getAll('answer_id')[index],
+//                 content: answer,
+//                 is_correct: (corrects.includes(index.toString()) ? 1 : 0)
+//             });
+//         });
+//         formData.append('answers', JSON.stringify(dataAnswers));
+//         formData.delete('answer_id');
+//         formData.delete('answer');
+//         formData.delete('correct');
+//         try {
+//             const url = window.routes.quizzesQuestionUpdate;
+//             const response = await axios.post(url, formData);
+//             const result = await response.data;
+//             checkStatus(result, function () {
+//                 //update question
+//                 const modalQuestion = modalEdit.previousElementSibling;
+//                 let answers = "";
+//                 result.question.answers.forEach((answer) => {
+//                     answers += `
+//                     <div class="mb-3">
+//                         <input type="${result.question.type}" name="answer_${answer['id']}" value="${answer['id']}" ${(answer['is_correct'] == 1) ? "checked" : ""} id="answer_${answer['id']}">
+//                         <label for="answer_${answer['id']}">${answer['content']}</label>
+//                     </div>
+//                     `
+//                 });
+
+//                 const excerpt = `
+//                 <div class="excerpt" class="mb-4">
+//                     <p class="text-[20px] text-[#eee]">${result.question.excerpt}</p>
+//                 </div>
+//                 `;
+//                 console.log(excerpt)
+//                 modalQuestion.firstElementChild.innerHTML = excerpt;
+//                 modalQuestion.children[1].innerHTML = answers;
+//             },
+//                 function () {
+//                     //show error
+//                 });
+//         }
+//         catch (error) {
+//             console.error('Error:', error);
+//         }
+//     });
+// });
 
 // delete question
-modalDestroyQuestion.forEach((modalDestroy) => {
-    modalDestroy.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(modalDestroy);
-        formData.append('_method', 'DELETE');
-        formData.append('id', modalDestroy.getAttribute('questionId'));
-        try {
-            // // Send AJAX POST request using Axios
-            const url = window.routes.quizzesQuestionDestroy;
-            const response = await axios.post(url, formData);
-            const result = response.data;
-            checkStatus(result, function () {
-                modalDestroy.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
-            },
-                function () {
-                    //show error
-                });
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    });
-});
+// modalDestroyQuestion.forEach((modalDestroy) => {
+//     modalDestroy.addEventListener('submit', async (e) => {
+//         e.preventDefault();
+//         const formData = new FormData(modalDestroy);
+//         formData.append('_method', 'DELETE');
+//         formData.append('id', modalDestroy.getAttribute('questionId'));
+//         try {
+//             // // Send AJAX POST request using Axios
+//             const url = window.routes.quizzesQuestionDestroy;
+//             const response = await axios.post(url, formData);
+//             const result = response.data;
+//             checkStatus(result, function () {
+//                 modalDestroy.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
+//             },
+//                 function () {
+//                     //show error
+//                 });
+//         } catch (error) {
+//             console.error('Error:', error);
+//         }
+//     });
+// });
 
 
 // creatq question modal-show-option-manual
