@@ -106,7 +106,7 @@
                 </div>
 
                 <!-- thumb -->
-                <livewire:image-upload :quiz="$quiz->thumb" />
+                <livewire:image-upload :quiz="$quiz" />
 
                 <!-- bar -->
                 <div class="bar mb-5">

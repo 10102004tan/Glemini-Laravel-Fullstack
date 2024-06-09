@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('quizzes', function (Blueprint $table) {
-            $table->integer('id');
+            $table->string('id');
             $table->integer('user_id')->default(1);
+            $table->text('thumb')->nullable();
             $table->string('title');
             $table->text("description");
             $table->integer("status")->default(0)->comment("0: Draft,1:Pending,2: Published,3:Refused");
