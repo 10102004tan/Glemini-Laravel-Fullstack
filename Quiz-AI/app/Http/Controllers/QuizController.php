@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Result;
@@ -160,49 +161,44 @@ class QuizController extends Controller
     }
 
     //ham choi
- 
-    public function submitAnswer(Request $request)
+    public function submitAnswer(Request $request, $quizId, $questionId)
     {
-        // Lấy dữ liệu từ query parameters
-        $quizId = $request->query('quizId');
-        $questionId = $request->query('questionId');
-        $userAnswerIds = json_decode($request->query('answer', '[]'), true);
+        $userId = 1;
+        $answerIds = $request->input('answer');
+        $correct = true;
 
-        // Xử lý thông tin quiz và question
-        $quiz = Quiz::findOrFail($quizId);
-        $question = Question::findOrFail($questionId);
+        if (is_array($answerIds)) {
+            foreach ($answerIds as $answerId) {
+                $answer = Answer::find($answerId);
+                if (!$answer || !$answer->is_correct) {
+                    $correct = false;
+                    break;
+                }
+            }
+        } else {
+            $answer = Answer::find($answerIds);
+            if (!$answer || !$answer->is_correct) {
+                $correct = false;
+            }
+        }
 
-        // Lấy các câu trả lời đúng
-        $correctAnswerIds = $question->answers()
-            ->where('is_correct', true)
-            ->pluck('id')
-            ->toArray();
+        // Cập nhật điểm số của người dùng nếu cần thiết
+        if ($correct) {
+            $result = Result::firstOrCreate(['user_id' => $userId, 'quiz_id' => $quizId]);
+            $result->increment('score');
+        }
 
-        // Kiểm tra xem câu trả lời của người dùng có đúng không
-        $isCorrect = ($correctAnswerIds == $userAnswerIds);
+        // Xác định URL của câu hỏi tiếp theo
+        $nextQuestionIndex = $questionId + 1;
+        $nextQuestionUrl = route('quiz.question.show', ['id' => $quizId, 'questionIndex' => $nextQuestionIndex]);
 
-        $result = Result::create([
-            'user_id' => 1,
-            'quiz_id' => $quizId,
-            'score' => $isCorrect ? 1 : 0,
-        ]);
-
-        UserAnswer::create([
-            'result_id' => $result->id,
-            'question_id' => $questionId,
-            'answer_id' => $userAnswerIds,
-            'is_correct' => $isCorrect,
-        ]);
-
+        // Trả về phản hồi JSON
         return response()->json([
-            'isCorrect' => $isCorrect,
-            'score' => $result->score,
+            'correct' => $correct,
+            'nextQuestionUrl' => $nextQuestionUrl,
+            'message' => $correct ? 'Câu trả lời chính xác!' : 'Câu trả lời không chính xác. Vui lòng thử lại.'
         ]);
     }
-
-
-
-
 
     //lay toan bo questions cua 1 quiz
     public function getQuestions($quizId)
@@ -214,15 +210,15 @@ class QuizController extends Controller
         ]);
     }
 
-    public function showQuestion(Quiz $quiz, $questionIndex)
+    public function showQuestion($id, $questionIndex)
     {
+        $quiz = Quiz::find($id);
         $questions = $quiz->questions;
         $question = $questions[$questionIndex];
-
-        return view('quizzes.showQuestion', [
+        return view('quizz-mode-single.question.show', [
             'quiz' => $quiz,
             'question' => $question,
-            'currentQuestionIndex' => $questionIndex,
+            'questionIndex' => $questionIndex,
             'totalQuestions' => $questions->count(),
         ]);
     }
