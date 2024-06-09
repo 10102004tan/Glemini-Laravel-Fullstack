@@ -23,7 +23,7 @@
                         class="rounded-lg border bg-transparent border-gray-500 p-2 outline-none w-full text-sm">
                 </label>
 
-                <label for="quizz_id">
+                <label for="quizz_id" class="min-w-[220px]">
                     <span class="text-sm text-gray-300">Select quizz</span>
                     <select name="quizz_id" id="quizz_id"
                         class="rounded-lg border bg-transparent border-gray-500 p-2 outline-none w-full text-sm">

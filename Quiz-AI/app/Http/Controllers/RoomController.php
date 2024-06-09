@@ -38,7 +38,7 @@ class RoomController extends Controller
             $room->joinedUsers()->attach($user->id);
         }
         $pusher->trigger('UserJoinedRoom', 'send-notify', $data);
-        return view('quizz-mode-multiple.wating', ["room_id" => $id, "id" => $room->id]);
+        return view('quizz-mode-multiple.wating', ["room_id" => $id, "id" => $room->id, "user_created" => $room->created_at_by]);
     }
 
     // Show quizz room

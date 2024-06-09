@@ -71,10 +71,12 @@
                 <i class="fa-solid fa-user-group-simple"></i>
                 <span class="amount_member">1</span>
             </div>
-            <button
-                class="absolute btn_start min-w-[120px] left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] btn_shadow p-2 rounded-lg bg-[var(--text)] text-[var(--background)] font-semibold text-lg">
-                Start
-            </button>
+            @if ($user_created === Auth::user()->id)
+                <button
+                    class="absolute btn_start min-w-[120px] left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] btn_shadow p-2 rounded-lg bg-[var(--text)] text-[var(--background)] font-semibold text-lg">
+                    Start
+                </button>
+            @endif
         </div>
 
         {{-- Group member --}}
@@ -162,9 +164,7 @@
             });
         });
 
-        const channelUserLeft
-
-        s= pusher.subscribe('UserLeftRoom');
+        const channelUserLeft = pusher.subscribe('UserLeftRoom');
         channelUserLeft.bind('send-notify', function(data) {
             getMembers().then((result) => {
                 console.log(members);
@@ -193,6 +193,7 @@
             window.location.href = '{{ route('quiz.multiple.left', $room_id) }}';
         });
 
+        // Start room for user created
         btnStart.addEventListener('click', () => {
             fetch('{{ route('init_point', $id) }}', {
                 method: 'GET',
@@ -204,13 +205,19 @@
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                console.log(data);
                 if (data.status === 'success') {
-                    window.location.href = '{{ route('quiz.multiple.play', $room_id) }}';
+                    // window.location.href = '{{ route('quiz.multiple.play', $room_id) }}';
+                    console.log(data);
                 }
             }).catch((err) => {
                 console.log(err);
             });
         });
-        </script>
+
+        // Event listener room start for user joined
+        const channelStartRoom = pusher.subscribe('UserStartRoom');
+        channelStartRoom.bind('send-notify', function(data) {
+            console.log(data);
+        });
+</script>
 @endsection
