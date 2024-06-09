@@ -6,10 +6,12 @@ use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Result;
 use App\Models\UserAnswer;
+use Exception;
 use Gemini\Laravel\Facades\Gemini;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Reverb\Loggers\Log;
 
 class QuizController extends Controller
 {
@@ -24,15 +26,13 @@ class QuizController extends Controller
     {
         if ($id != null && Auth::check()) {
             $quiz = Quiz::find($id)->load('questions.answers');
-            if(isset($quiz)){
+            if (isset($quiz)) {
                 $quiz->user_id = auth()->id();
                 $quiz->save();
                 return view('quizzes.create', ['quiz' => $quiz]);
+            } else {
+                return redirect()->route('quizzes.create')->with('error', 'Không tìm thấy quiz');
             }
-            else{
-                return redirect()->route('quizzes.create')->with('error', 'Không tìm thấy quiz'); 
-            }
-           
         } else {
             return view('quizzes.create');
         }
@@ -42,6 +42,28 @@ class QuizController extends Controller
     {
         return view('quizzes.show', ['quiz' => $quiz]);
     }
+
+    public function getQuiz($id)
+    {
+        $quiz = Quiz::find($id);
+        return view('quizz-mode-single.index', ['quiz' => $quiz]);
+    }
+
+    // Bắt đầu quiz và hiển thị câu hỏi đầu tiên
+    public function startQuiz($id)
+    {
+        $quiz = Quiz::findOrFail($id);
+        $firstQuestion = $quiz->questions()->first();
+        // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên
+        return view('quizz-mode-single.question.show', [
+            'quiz' => $quiz,
+            'question' => $firstQuestion,
+            'questionIndex' => 1,
+            'totalQuestions' => $quiz->questions()->count()
+        ]);
+    }
+
+
 
     public function store(Request $request)
     {
@@ -82,7 +104,7 @@ class QuizController extends Controller
 
 
             if ($quiz->update($validatedData)) {
-                if ($quiz->status != 0){
+                if ($quiz->status != 0) {
                     $quiz->status = 1; // pending
                 }
                 $quiz->save();
@@ -138,47 +160,48 @@ class QuizController extends Controller
     }
 
     //ham choi
-    public function submitAnswer(Request $request, $quizId, $questionId)
+ 
+    public function submitAnswer(Request $request)
     {
-        //$userId = auth()->id(); // Lấy ID người dùng nếu đã đăng nhập
-        $userId = 1;
+        // Lấy dữ liệu từ query parameters
+        $quizId = $request->query('quizId');
+        $questionId = $request->query('questionId');
+        $userAnswerIds = json_decode($request->query('answer', '[]'), true);
+
+        // Xử lý thông tin quiz và question
         $quiz = Quiz::findOrFail($quizId);
         $question = Question::findOrFail($questionId);
 
-        $result = Result::create([
-            'user_id' => $userId,
-            'quiz_id' => $quizId,
-        ]);
-
-        $score = 0;
+        // Lấy các câu trả lời đúng
         $correctAnswerIds = $question->answers()
             ->where('is_correct', true)
             ->pluck('id')
             ->toArray();
-        $userAnswerIds = array_map('intval', $request->input('answer', []));
+
+        // Kiểm tra xem câu trả lời của người dùng có đúng không
         $isCorrect = ($correctAnswerIds == $userAnswerIds);
 
-
+        $result = Result::create([
+            'user_id' => 1,
+            'quiz_id' => $quizId,
+            'score' => $isCorrect ? 1 : 0,
+        ]);
 
         UserAnswer::create([
             'result_id' => $result->id,
             'question_id' => $questionId,
-            'answer_id' => json_encode($correctAnswerIds),
+            'answer_id' => $userAnswerIds,
             'is_correct' => $isCorrect,
         ]);
 
-        if ($isCorrect) {
-            $score++;
-        }
-
-        $result->score = $score;
-        $result->save();
-
-        return [
+        return response()->json([
             'isCorrect' => $isCorrect,
-            'score' => $score,
-        ];
+            'score' => $result->score,
+        ]);
     }
+
+
+
 
 
     //lay toan bo questions cua 1 quiz
@@ -215,17 +238,17 @@ class QuizController extends Controller
 
     public function storeQuizWithAI(Request $request)
     {
-        
+
         $difficulty = $request->difficulty;
         $size_questions = $request->size_questions;
         $content = $request->content;
         $language = $request->language;
         $type = $request->type;
         $prompt = '
-        Please give me randomly <<total_questions : ' 
-        . $size_questions . '>> questions of type <<type:'
-        . $type .'>> on a random topic within <<title: ' 
-        . $content . ' >>. 
+        Please give me randomly <<total_questions : '
+            . $size_questions . '>> questions of type <<type:'
+            . $type . '>> on a random topic within <<title: '
+            . $content . ' >>. 
         I want the questions to have a difficulty level of <<difficulty : ' . $difficulty . ' >>. 
         I want the language for all content to be <<language : ' . $language . ' >>.
         I want each question to have 4 answers. 
@@ -273,7 +296,7 @@ class QuizController extends Controller
                 $quiz = null;
                 if (isset($request->quiz_id)) {
                     $quiz = Quiz::find($request->quiz_id);
-                    if ($quiz->status != 0){
+                    if ($quiz->status != 0) {
                         $quiz->status = 1; // pending
                     }
                     $quiz->save();
@@ -284,7 +307,7 @@ class QuizController extends Controller
                         'user_id' => auth()->id(),
                     ]);
                 }
-               
+
                 foreach ($data['questions'] as $question) {
                     $newQuestion = $quiz->questions()->create([
                         'excerpt' => $question['excerpt'],
@@ -307,7 +330,7 @@ class QuizController extends Controller
                     'status' => 'error',
                 ]);
             }
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             Storage::disk('public')->delete("datajson/$fileName");
             return response()->json([
                 'status' => 'error',
@@ -322,11 +345,12 @@ class QuizController extends Controller
 
     public function indexAdmin()
     {
-        $quizzes = Quiz::where('status','!=',0)->with('questions','user')->withCount('questions')->get();
+        $quizzes = Quiz::where('status', '!=', 0)->with('questions', 'user')->withCount('questions')->get();
         return view('admin.quiz.index', ['quizzes' => $quizzes]);
     }
 
-    public function published(Request $request){
+    public function published(Request $request)
+    {
         $quiz = Quiz::findOrFail($request->quizId);
         $quiz->status = 1; // pending
         $quiz->save();
@@ -336,7 +360,8 @@ class QuizController extends Controller
         ]);
     }
 
-    public function getDetailsQuiz(Request $request){
+    public function getDetailsQuiz(Request $request)
+    {
         $questions = Quiz::findOrFail($request->quizId)->questions()->with('answers')->get();
         return response()->json([
             'status' => 200,
@@ -344,7 +369,8 @@ class QuizController extends Controller
         ]);
     }
 
-    public function appectQuiz(Request $request){
+    public function appectQuiz(Request $request)
+    {
         $quiz = Quiz::findOrFail($request->quizId);
         $quiz->status = 2; // published
         $quiz->save();
@@ -354,7 +380,8 @@ class QuizController extends Controller
         ]);
     }
 
-    public function rejectQuiz(Request $request){
+    public function rejectQuiz(Request $request)
+    {
         $quiz = Quiz::findOrFail($request->quizId);
         $quiz->status = 3; // rejected
         $quiz->save();
@@ -364,7 +391,8 @@ class QuizController extends Controller
         ]);
     }
 
-    public function destroy(Request $request){
+    public function destroy(Request $request)
+    {
         $quiz = Quiz::findOrFail($request->quizId);
         $quiz->delete();
         return response()->json([
