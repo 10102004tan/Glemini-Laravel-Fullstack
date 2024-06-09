@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('joined_rooms', function (Blueprint $table) {
             $table->id();
-            $table->integer('created_at_by'); // user id
-            $table->text('room_id');
-            $table->text('quizz_id');
-            $table->text('room_name');
-            $table->text('room_description');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('room_id');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
+
             $table->timestamps();
         });
+
     }
 
     /**
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('joined_rooms');
     }
 };

@@ -66,4 +66,19 @@ class User extends Authenticatable implements MustVerifyEmail
     public function quizzes(){
         return $this->hasMany(Quiz::class);
     }
+
+    public function createdRooms()
+    {
+        return $this->hasMany(Room::class, 'created_at_by');
+    }
+
+    public function joinedRooms()
+    {
+        return $this->belongsToMany(Room::class, 'joined_rooms', 'user_id', 'room_id');
+    }
+
+    public function roomPoints()
+    {
+        return $this->hasMany(RoomPoint::class);
+    }
 }
