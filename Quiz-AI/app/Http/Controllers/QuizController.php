@@ -57,7 +57,7 @@ class QuizController extends Controller
         Result::where('user_id', auth()->id())->where('quiz_id', $id)->delete();
 
         $quiz = Quiz::findOrFail($id);
-        $firstQuestion = $quiz->questions();
+        $firstQuestion = $quiz->questions()->first();
         // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên
         return view('quizz-mode-single.question.show', [
             'quiz' => $quiz,
@@ -196,7 +196,7 @@ class QuizController extends Controller
         $totalQuestions = $quiz->questions()->count();
         $nextQuestionIndex = $questionId + 1;
 
-        if ($nextQuestionIndex == $totalQuestions) {
+        if ($nextQuestionIndex > $totalQuestions) {
             $nextQuestionUrl = route('quiz.result', ['id' => $quizId]);
         } else {
             $nextQuestionUrl = route('quiz.question.show', ['id' => $quizId, 'questionIndex' => $nextQuestionIndex]);
