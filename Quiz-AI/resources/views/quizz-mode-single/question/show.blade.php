@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $quiz->title }}</title>
     @vite('resources/css/app.css')
     <style>
@@ -71,9 +71,8 @@
 
     <!-- Thanh dưới cùng -->
     <div class="bg-gray-800 p-2 h-[11vh] flex justify-center items-center">
-        <input type="hidden" id="quizId" value="{{ $quiz->id }}">
-        <input type="hidden" id="questionId" value="{{ $question->id }}">
-        <button id="confirm-btn" class="bg-blue-500 text-white p-2 rounded" onclick="confirmAnswer()" data-url="{{ route('checkAnswer', [$quiz->id, $question->id]) }}" disabled>Xác nhận</button>
+        <div id="notification" class="hidden p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert"></div>
+        <button id="confirm-btn" class="bg-blue-500 text-white p-2 rounded" onclick="confirmAnswer()" data-url="{{ route('checkAnswer', [$quiz->id, $questionIndex]) }}" disabled>Xác nhận</button>
     </div>
     <script>
         var questionType = '{{ $question->type }}';
