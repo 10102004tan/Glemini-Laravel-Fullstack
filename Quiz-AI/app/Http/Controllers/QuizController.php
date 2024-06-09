@@ -56,7 +56,7 @@ class QuizController extends Controller
         // Xóa kết quả trò chơi cũ của người dùng nếu có
         Result::where('user_id', auth()->id())->where('quiz_id', $id)->delete();
 
-        $quiz = Quiz::findOrFail($id);
+        $quiz = Quiz::with('user')->findOrFail($id);
         $firstQuestion = $quiz->questions()->first();
         // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên
         return view('quizz-mode-single.question.show', [
@@ -168,6 +168,7 @@ class QuizController extends Controller
     {
         $userId = auth()->id();
         $answerIds = $request->input('answer');
+        $correctAnswerIds = []; // Danh sách các ID của các câu trả lời đúng
         $correct = true;
 
         if (is_array($answerIds)) {
@@ -175,13 +176,16 @@ class QuizController extends Controller
                 $answer = Answer::find($answerId);
                 if (!$answer || !$answer->is_correct) {
                     $correct = false;
-                    break;
+                } else {
+                    $correctAnswerIds[] = $answerId; // Thêm ID của câu trả lời đúng vào danh sách
                 }
             }
         } else {
             $answer = Answer::find($answerIds);
             if (!$answer || !$answer->is_correct) {
                 $correct = false;
+            } else {
+                $correctAnswerIds[] = $answerIds; // Thêm ID của câu trả lời đúng vào danh sách
             }
         }
 
@@ -202,13 +206,16 @@ class QuizController extends Controller
             $nextQuestionUrl = route('quiz.question.show', ['id' => $quizId, 'questionIndex' => $nextQuestionIndex]);
         }
 
-        // Trả về phản hồi JSON
+        // Trả về phản hồi JSON với thông tin về tính chính xác và danh sách các câu trả lời đúng
         return response()->json([
             'correct' => $correct,
+            'correctAnswerIds' => $correctAnswerIds, // Trả về danh sách các câu trả lời đúng
             'nextQuestionUrl' => $nextQuestionUrl,
             'message' => $correct ? 'Câu trả lời chính xác!' : 'Câu trả lời không chính xác. Vui lòng thử lại.'
         ]);
     }
+
+
 
 
     // Kết quả
