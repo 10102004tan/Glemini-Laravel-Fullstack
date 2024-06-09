@@ -162,7 +162,9 @@
             });
         });
 
-        const channelUserLeft = pusher.subscribe('UserLeftRoom');
+        const channelUserLeft
+
+        s= pusher.subscribe('UserLeftRoom');
         channelUserLeft.bind('send-notify', function(data) {
             getMembers().then((result) => {
                 console.log(members);

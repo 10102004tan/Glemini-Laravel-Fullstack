@@ -4,10 +4,19 @@
 @section('content')
     <div class="w-full h-[100vh] flex flex-col bg-[var(--background)]">
         {{-- Dialog --}}
-        <div class="dialog fixed top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] p-[40px]  rounded-lg bg-[var(--background)]">
-          <img src="{{ asset('icon_imgs/tick.webp') }}" alt="" class="max-w-[112px] max-h-[112px] mx-auto">
-          <p class="text-white dialog-title font-light mb-[20px] mt-[40px]">Correct !</p>
-          <p class="text-white dialog-description font-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat et architecto tenetur dignissimos vel aperiam officia alias exercitationem perspiciatis quibusdam reprehenderit minus dolores id asperiores error iste accusantium, nisi dicta?</p>
+        <div
+            class="dialog fixed top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] p-[40px]  rounded-lg bg-[var(--background)]">
+            <img src="{{ asset('icon_imgs/tick.webp') }}" alt=""
+                class="dialog-image max-w-[112px] max-h-[112px] mx-auto">
+            <p class="text-white dialog-title font-light mb-[20px] mt-[40px]">Correct !</p>
+            <p class="text-white dialog-description font-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Repellat et architecto tenetur dignissimos vel aperiam officia alias exercitationem perspiciatis quibusdam
+                reprehenderit minus dolores id asperiores error iste accusantium, nisi dicta?</p>
+        </div>
+        {{-- Dialog Finish --}}
+        <div class="dialog-fisish p-4 rounded-lg bg-[var(--background)]">
+          <h3>Finished!</h3>
+          <div class="bg-[var(--gray)]"></div>
         </div>
         {{-- Error notify --}}
         @if ($errors->any())
@@ -69,13 +78,21 @@
 @section('script')
     <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
     <script>
-        let questionIndex = 1;
+        let questionIndex = 0;
         let questions = [];
         let userAnswers = [];
         const questionTitle = document.querySelector('.question_title');
         const questionAnswerWrapper = document.querySelector('.ans_wrapper');
         const buttonNext = document.querySelector(".btn_next");
         const questionLength = document.querySelector(".ques_length");
+        const dialog = document.querySelector(".dialog");
+        const dialogTitle = document.querySelector(".dialog-title");
+        const dialogDescription = document.querySelector(".dialog-description");
+        const dialogImage = document.querySelector(".dialog-image");
+        const quesWrapper = document.querySelector(".ques_wrapper");
+        const TIMER = 2000;
+
+
         // Get question of room
         const getQuestion = async () => {
             const response = await fetch(`{{ route('get_room_quizz', $room_id) }}`);
@@ -117,17 +134,21 @@
             const answerElements = document.querySelectorAll(".answer");
             // Check answer of current question
             let point = 0;
+            let correctAnswers = true;
+            let correctAnswerStr = "";
             userAnswers.forEach(uanswer => {
                 questions[questionIndex].answers.forEach((answer, index) => {
                     if (uanswer === answer.id && answer.is_correct) {
                         point++;
                     } else if (uanswer === answer.id && !answer.is_correct) {
                         answerElements[index].classList.add("incorrect");
+                        correctAnswers = false;
                         return;
                     }
 
                     if (answer.is_correct) {
                         answerElements[index].classList.add("correct");
+                        correctAnswerStr += `${answer.content}, `;
                     } else {
                         answerElements[index].classList.add("incorrect");
                     }
@@ -135,26 +156,50 @@
             });
 
             // Animation
-            
+            const animate = setTimeout(() => {
+                if (correctAnswers) {
+                    correctAnswerStr = correctAnswerStr.slice(0, -2);
+                    dialogTitle.textContent = "Correct !";
+                    dialogDescription.innerHTML =
+                        `Question: ${questions[questionIndex].excerpt}<br> Answer: ${escapeHtml(correctAnswerStr)}`;
+                    dialogImage.src = "{{ asset('icon_imgs/tick.webp') }}";
+                    quesWrapper.classList.add("active");
+                    dialog.classList.add("active");
+                } else {
+                    dialogTitle.textContent = "Incorrect !";
+                    dialogDescription.textContent =
+                        `${questions[questionIndex].excerpt}: ${correctAnswerStr}`;
+                    dialogImage.src = "{{ asset('icon_imgs/cross.webp') }}";
+                    quesWrapper.classList.add("active");
+                    dialog.classList.add("active");
+                }
+            }, TIMER);
 
-            userAnswers = [];
 
+            const handleShowNextQuestion = setTimeout(() => {
+                clearTimeout(animate);
+                dialog.classList.remove("active");
+                userAnswers = [];
+                correctAnswerStr = "";
+                correctAnswers = true;
+                // Go to next question
+                questionIndex++;
+                if (questionIndex < questions.length) {
+                    questionLength.textContent = `${questionIndex + 1} / ${questions.length}`;
+                    questionTitle.textContent = questions[questionIndex].excerpt;
+                    questionAnswerWrapper.innerHTML = '';
+                    questions[questionIndex].answers.forEach(element => {
+                        questionAnswerWrapper.innerHTML += `
+                        <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[32px]" onclick="handleClickAnswer(this, ${element.id})">
+                            ${escapeHtml(element.content)}
+                        </div>
+                    `;
+                    });
+                  quesWrapper.classList.remove("active")
+                } else {
 
-            // Go to next question
-            questionIndex++;
-            // if (questionIndex < questions.length) {
-            //     questionTitle.textContent = questions[questionIndex].excerpt;
-            //     questionAnswerWrapper.innerHTML = '';
-            //     questions[questionIndex].answers.forEach(element => {
-            //         questionAnswerWrapper.innerHTML += `
-        //             <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[32px]" onclick="handleClickAnswer(this, ${element.id})">
-        //                 ${escapeHtml(element.content)}
-        //             </div>
-        //         `;
-            //     });
-            // } else {
-            //     console.log(userAnswers);
-            // }
+                }
+            }, TIMER + 2000)
         });
     </script>
 @endsection

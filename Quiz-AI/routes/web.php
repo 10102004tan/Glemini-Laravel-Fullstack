@@ -53,7 +53,7 @@ Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'aut
 // Quizz Room Single
 Route::get('/quiz-single', function () {
     return view('quiz-mode-single.index');
-})->name('quiz.index');
+})->name('quiz.index'); 
 
 Route::get('/quiz-single/show', function () {
     return view('quiz-mode-single.show');
