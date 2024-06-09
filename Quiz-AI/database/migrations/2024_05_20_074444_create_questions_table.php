@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('sound')->nullable();
             $table->text('youtube')->nullable();
             $table->string('optional')->default("");
-            $table->string('type');
+            $table->string('type')->default('radio');
             $table->timestamps();
         });
     }

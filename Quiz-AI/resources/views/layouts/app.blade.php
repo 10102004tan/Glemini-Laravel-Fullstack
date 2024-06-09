@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{asset("gemini-icon.png")}}" type="image/x-icon">
     <title>Quiz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,10 +19,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
+    @livewireStyles
 </head>
+
 <body class="bg-primary">
     <header>
-       <x-headers.header/>
+        <x-headers.header />
     </header>
     <main>
         @yield('content')
@@ -29,9 +33,20 @@
     <footer>
         Footer
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{{ asset('node_modules/toastr/build/toastr.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+    <script>
+        //lisner sweetalert
+
+    </script>
+
+    </script>
     @yield('script')
+    @livewireScripts
 </body>
+
 </html>
