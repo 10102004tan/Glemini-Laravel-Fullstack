@@ -55,7 +55,7 @@ Route::get('/quiz/{id}/question/{questionIndex}', [QuizController::class, 'showQ
 // Route để hiển thị kết quả cuối cùng
 Route::get('/quiz/{id}/result', [QuizController::class, 'showResult'])->name('quiz.result');
 
-// 
+//
 Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
     Route::get('/quizzes', [QuizController::class, 'indexAdmin'])->name('quizzes.indexAdmin');
@@ -70,7 +70,7 @@ Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'aut
 // Quizz Room Single
 Route::get('/quiz-single', function () {
     return view('quiz-mode-single.index');
-})->name('quiz.index'); 
+})->name('quiz.index');
 
 Route::get('/quiz-single/show', function () {
     return view('quiz-mode-single.show');
@@ -101,3 +101,4 @@ Route::get('rooms/{id}', [RoomApiController::class, "show"])->name("get_room_inf
 Route::get('rooms/{id}/quizz', [RoomApiController::class, "getQuestion"])->name("get_room_quizz");
 Route::get('rooms/{id}/init-point', [RoomApiController::class, "initRoomPoint"])->name("init_point");
 Route::get('rooms/{id}/start', [RoomController::class, "show"])->name("quiz.multiple.play");
+Route::get('rooms/{id}/users', [RoomApiController::class, "getAllUserInRoom"])->name("quiz.multiple.users");
