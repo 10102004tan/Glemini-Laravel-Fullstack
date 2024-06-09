@@ -9,8 +9,18 @@
     @vite('resources/css/app.css')
     <style>
         .selected {
+            border-color: #25CCF7;
+            background-color: #25CCF7;
+        }
+
+        .correct {
             border-color: #4caf50;
             background-color: #4caf50;
+        }
+
+        .incorrect {
+            border-color: #e55039;
+            background-color: #e55039;
         }
     </style>
 </head>
@@ -18,7 +28,7 @@
 <body>
     <!-- Thanh tiến trình -->
     <div id="progress-bar" class="fixed top-0 left-0 w-full h-1 z-50">
-        <div class="h-1 bg-indigo-300" style="width: '{{ ($questionIndex / $totalQuestions) * 100 }}%'"></div>
+        <div class="h-1 bg-indigo-300" style="width: {{ ($questionIndex / $totalQuestions) * 100 }}%"></div>
     </div>
 
     <!-- Thanh trên cùng -->

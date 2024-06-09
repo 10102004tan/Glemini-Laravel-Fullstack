@@ -56,7 +56,10 @@ class QuizController extends Controller
     // Bắt đầu quiz và hiển thị câu hỏi đầu tiên
     public function startQuiz($id)
     {
-        $quiz = Quiz::findOrFail($id);
+        // Xóa kết quả trò chơi cũ của người dùng nếu có
+        Result::where('user_id', auth()->id())->where('quiz_id', $id)->delete();
+
+        $quiz = Quiz::with('user')->findOrFail($id);
         $firstQuestion = $quiz->questions()->first();
         // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên
         return view('quizz-mode-single.question.show', [
@@ -166,8 +169,9 @@ class QuizController extends Controller
     //ham choi
     public function submitAnswer(Request $request, $quizId, $questionId)
     {
-        $userId = 1;
+        $userId = auth()->id();
         $answerIds = $request->input('answer');
+        $correctAnswerIds = []; // Danh sách các ID của các câu trả lời đúng
         $correct = true;
 
         if (is_array($answerIds)) {
@@ -175,13 +179,16 @@ class QuizController extends Controller
                 $answer = Answer::find($answerId);
                 if (!$answer || !$answer->is_correct) {
                     $correct = false;
-                    break;
+                } else {
+                    $correctAnswerIds[] = $answerId; // Thêm ID của câu trả lời đúng vào danh sách
                 }
             }
         } else {
             $answer = Answer::find($answerIds);
             if (!$answer || !$answer->is_correct) {
                 $correct = false;
+            } else {
+                $correctAnswerIds[] = $answerIds; // Thêm ID của câu trả lời đúng vào danh sách
             }
         }
 
@@ -191,15 +198,39 @@ class QuizController extends Controller
             $result->increment('score');
         }
 
-        // Xác định URL của câu hỏi tiếp theo
+        // Xác định URL của câu hỏi tiếp theo hoặc trang kết quả
+        $quiz = Quiz::find($quizId);
+        $totalQuestions = $quiz->questions()->count();
         $nextQuestionIndex = $questionId + 1;
-        $nextQuestionUrl = route('quiz.question.show', ['id' => $quizId, 'questionIndex' => $nextQuestionIndex]);
 
-        // Trả về phản hồi JSON
+        if ($nextQuestionIndex > $totalQuestions) {
+            $nextQuestionUrl = route('quiz.result', ['id' => $quizId]);
+        } else {
+            $nextQuestionUrl = route('quiz.question.show', ['id' => $quizId, 'questionIndex' => $nextQuestionIndex]);
+        }
+
+        // Trả về phản hồi JSON với thông tin về tính chính xác và danh sách các câu trả lời đúng
         return response()->json([
             'correct' => $correct,
+            'correctAnswerIds' => $correctAnswerIds, // Trả về danh sách các câu trả lời đúng
             'nextQuestionUrl' => $nextQuestionUrl,
             'message' => $correct ? 'Câu trả lời chính xác!' : 'Câu trả lời không chính xác. Vui lòng thử lại.'
+        ]);
+    }
+
+
+
+
+    // Kết quả
+    public function showResult($id)
+    {
+        $quiz = Quiz::findOrFail($id);
+        $userId = Auth::id();
+        $result = Result::where('user_id', $userId)->where('quiz_id', $id)->first();
+
+        return view('quizz-mode-single.result', [
+            'quiz' => $quiz,
+            'result' => $result
         ]);
     }
 
@@ -217,7 +248,7 @@ class QuizController extends Controller
     {
         $quiz = Quiz::find($id);
         $questions = $quiz->questions;
-        $question = $questions[$questionIndex];
+        $question = $questions[$questionIndex - 1];
         return view('quizz-mode-single.question.show', [
             'quiz' => $quiz,
             'question' => $question,

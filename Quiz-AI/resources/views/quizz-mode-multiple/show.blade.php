@@ -14,9 +14,44 @@
                 reprehenderit minus dolores id asperiores error iste accusantium, nisi dicta?</p>
         </div>
         {{-- Dialog Finish --}}
-        <div class="dialog-fisish p-4 rounded-lg bg-[var(--background)]">
-          <h3>Finished!</h3>
-          <div class="bg-[var(--gray)]"></div>
+        <div class="dialog-fisish min-w-[600px] p-4 rounded-lg bg-[var(--background)]">
+            <h3 class="text-[42px] font-semibold">Finished!</h3>
+            <div class="bg-[var(--gray)]">
+                <p class="point">Point: 10 / 10</p>
+                <p class="correct">Correct: 10 / 10</p>
+                <p class="incorrect">Incorrect: 0</p>
+            </div>
+            <div class="mt-[20px] border-t shadow-lg">
+                <h3 class="text-center mt-4 mb-4">Bảng xếp hạng điểm</h3>
+                <div>
+                    <table class="w-full bxh">
+                        <thead>
+                            <tr>
+                                <th class="text-start">Rank</th>
+                                <th class="text-start">Name</th>
+                                <th class="text-start">Point</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Nguyen Van A</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Nguyen Van B</td>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Nguyen Van C</td>
+                                <td>8</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         {{-- Error notify --}}
         @if ($errors->any())
@@ -48,7 +83,7 @@
                     class="ques_length p-4 rounded- flex items-center justify-center rounded-lg bg-[var(--input-form-bg)]">
                     0 / 0
                 </button>
-                <p>Back End và Front End Development</p>
+                <p class="quizz_title"></p>
             </div>
             <div>
                 <button class="p-4 rounded- flex items-center justify-center rounded-lg bg-[var(--input-form-bg)]">
@@ -59,8 +94,11 @@
         <div class="w-full flex-1 bg-[var(--primary)]">
             <div class="ques_wrapper w-full h-full flex items-center justify-center flex-col pt-[50px]">
                 <div class="flex-1 ">
-                    <h3 class="question_title text-[42px] font-[500] max-w-[1024px] text-center">Ngôn ngữ lập trình nào được
-                        sử dụng cho phát triển front-end?</h3>
+                    <h3 class="question_title text-[42px] font-[500] max-w-[1024px] text-center"></h3>
+
+                    <div class="flex items-center justify-center">
+                        <img src="" class="ques_img max-h-[400px]" alt="">
+                    </div>
                 </div>
 
                 <div class="grid ans_wrapper select-none cursor-pointer grid-cols-2 gap-4 w-full px-[200px] py-[60px]">
@@ -78,7 +116,7 @@
 @section('script')
     <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
     <script>
-        let questionIndex = 0;
+        let questionIndex = 8;
         let questions = [];
         let userAnswers = [];
         const questionTitle = document.querySelector('.question_title');
@@ -90,13 +128,19 @@
         const dialogDescription = document.querySelector(".dialog-description");
         const dialogImage = document.querySelector(".dialog-image");
         const quesWrapper = document.querySelector(".ques_wrapper");
+        const quesImg = document.querySelector(".ques_img");
+        const quizzTitle = document.querySelector(".quizz_title");
+        const point = document.querySelector(".point");
+        const correct = document.querySelector(".correct");
+        const incorrect = document.querySelector(".incorrect");
         const TIMER = 2000;
-
+        let POINT = 0;
 
         // Get question of room
         const getQuestion = async () => {
             const response = await fetch(`{{ route('get_room_quizz', $room_id) }}`);
             const data = await response.json();
+            quizzTitle.textContent = data.room.quiz.title;
             questions = data.room.quiz.questions;
             return data;
         }
@@ -119,6 +163,9 @@
             // Render question
             questionLength.textContent = `${questionIndex + 1} / ${questions.length}`;
             questionTitle.textContent = questions[questionIndex].excerpt;
+            if (questions[questionIndex].image) {
+                quesImg.src = `{{ asset('${questions[questionIndex].image}') }}`
+            }
             questions[questionIndex].answers.forEach(element => {
                 questionAnswerWrapper.innerHTML += `
                     <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[32px]" onclick="handleClickAnswer(this, ${element.id})">
@@ -133,13 +180,12 @@
         buttonNext.addEventListener('click', () => {
             const answerElements = document.querySelectorAll(".answer");
             // Check answer of current question
-            let point = 0;
             let correctAnswers = true;
             let correctAnswerStr = "";
             userAnswers.forEach(uanswer => {
                 questions[questionIndex].answers.forEach((answer, index) => {
                     if (uanswer === answer.id && answer.is_correct) {
-                        point++;
+                        POINT++;
                     } else if (uanswer === answer.id && !answer.is_correct) {
                         answerElements[index].classList.add("incorrect");
                         correctAnswers = false;
@@ -176,17 +222,21 @@
             }, TIMER);
 
 
+
             const handleShowNextQuestion = setTimeout(() => {
                 clearTimeout(animate);
                 dialog.classList.remove("active");
                 userAnswers = [];
                 correctAnswerStr = "";
                 correctAnswers = true;
-                // Go to next question
+                // Go to next questionu
                 questionIndex++;
                 if (questionIndex < questions.length) {
                     questionLength.textContent = `${questionIndex + 1} / ${questions.length}`;
                     questionTitle.textContent = questions[questionIndex].excerpt;
+                    if (questions[questionIndex].image) {
+                        quesImg.src = `{{ asset('${questions[questionIndex].image}') }}`
+                    }
                     questionAnswerWrapper.innerHTML = '';
                     questions[questionIndex].answers.forEach(element => {
                         questionAnswerWrapper.innerHTML += `
@@ -195,9 +245,14 @@
                         </div>
                     `;
                     });
-                  quesWrapper.classList.remove("active")
+                    quesWrapper.classList.remove("active")
                 } else {
-
+                    // Finish quizz
+                    // quesWrapper.classList.remove("active");
+                    correct.textContent = `Correct: ${POINT}`;
+                    point.textContent = `Point: ${POINT}`;
+                    incorrect.textContent = `Incorrect: ${questions.length - POINT}`;
+                    document.querySelector(".dialog-fisish").classList.add("active");
                 }
             }, TIMER + 2000)
         });

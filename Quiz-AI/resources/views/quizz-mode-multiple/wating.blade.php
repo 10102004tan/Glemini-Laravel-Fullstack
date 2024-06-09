@@ -193,6 +193,12 @@
             window.location.href = '{{ route('quiz.multiple.left', $room_id) }}';
         });
 
+        // Event listener room start for user joined
+        const channelStartRoom = pusher.subscribe('UserStartRoom');
+        channelStartRoom.bind('send-notify', function(data) {
+            window.location.href = '{{ route('quiz.multiple.play', $room_id) }}';
+        });
+
         // Start room for user created
         btnStart.addEventListener('click', () => {
             fetch('{{ route('init_point', $id) }}', {
@@ -206,18 +212,11 @@
                 return response.json();
             }).then((data) => {
                 if (data.status === 'success') {
-                    // window.location.href = '{{ route('quiz.multiple.play', $room_id) }}';
-                    console.log(data);
+                    window.location.href = '{{ route('quiz.multiple.play', $room_id) }}';
                 }
             }).catch((err) => {
                 console.log(err);
             });
         });
-
-        // Event listener room start for user joined
-        const channelStartRoom = pusher.subscribe('UserStartRoom');
-        channelStartRoom.bind('send-notify', function(data) {
-            console.log(data);
-        });
-</script>
+    </script>
 @endsection
