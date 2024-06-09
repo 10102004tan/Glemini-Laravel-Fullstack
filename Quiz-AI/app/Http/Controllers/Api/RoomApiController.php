@@ -127,11 +127,9 @@ class RoomApiController extends Controller
         $room = Room::where('room_id', $id)->first();
         $users = $room->joinedUsers;
 
-        foreach ($users as $key => $user) {
+        foreach ($users as $user) {
             $user->roomPoints;
         }
-
-
 
         return response()->json([
             'status' => 'success',
