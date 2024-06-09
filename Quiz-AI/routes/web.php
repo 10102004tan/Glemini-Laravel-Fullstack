@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\RoomApiController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
@@ -32,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
     // Quizz Room Multiple
+    Route::get('/quiz-multiple/create', [RoomController::class, 'create'])->name('quiz.multiple.create');
+    Route::post('/quiz-multiple/create', [RoomController::class, 'createRoom'])->name('quiz.multiple.handle_create_room');
     Route::get('/quiz-multiple/{id}/join', [RoomController::class, 'wating'])->name('quiz.multiple.join');
     Route::get('/quiz-multiple/{id}', [RoomController::class, 'show']);
     Route::get('/quiz-multiple/{id}/left', [RoomController::class, 'left'])->name('quiz.multiple.left');
@@ -57,8 +60,6 @@ Route::get('/quiz-single/show', function () {
 })->name('quiz.show');
 
 
-
-
 // Verify
 Route::get('email/verify/{id}', [VerificationController::class, 'show'])->name('verification.notice');
 Route::post('email/verify/{id}', [VerificationController::class, 'reverify'])->name('handle_reverify');
@@ -76,3 +77,9 @@ Route::post('/quizzes/details', [QuizController::class, 'getDetailsQuiz'])->name
 Route::post('/quizzes/accept', [QuizController::class, 'appectQuiz'])->name('quizzes.accept');
 Route::post('/quizzes/destroy', [QuizController::class, 'destroy'])->name('quizzes.destroy');
 Route::post('/quizzes/reject', [QuizController::class, 'rejectQuiz'])->name('quizzes.reject');
+
+// Api
+Route::get('rooms/{id}', [RoomApiController::class, "show"])->name("get_room_info");
+Route::get('rooms/{id}/quizz', [RoomApiController::class, "getQuestion"])->name("get_room_quizz");
+Route::get('rooms/{id}/init-point', [RoomApiController::class, "initRoomPoint"])->name("init_point");
+Route::get('rooms/{id}/start', [RoomController::class, "show"])->name("quiz.multiple.play");

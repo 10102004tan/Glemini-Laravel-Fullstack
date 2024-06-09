@@ -56,8 +56,8 @@
                 <h4 class="mb-2">
                     2. Enter the room code
                 </h4>
-                <button class="bg-[var(--text)] p-3 w-full rounded-lg text-[var(--background)] text-lg font-semibold">0000
-                    999 333</button>
+                <button
+                    class="bg-[var(--text)] p-3 w-full rounded-lg text-[var(--background)] text-lg font-semibold">{{ $room_id }}</button>
             </div>
             <button
                 class="mt-3 p-1 font-semibold rounded-lg underline text-center text-sm w-full bg-[var(--input-form-bg)]">
@@ -72,7 +72,7 @@
                 <span class="amount_member">1</span>
             </div>
             <button
-                class="absolute min-w-[120px] left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] btn_shadow p-2 rounded-lg bg-[var(--text)] text-[var(--background)] font-semibold text-lg">
+                class="absolute btn_start min-w-[120px] left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] btn_shadow p-2 rounded-lg bg-[var(--text)] text-[var(--background)] font-semibold text-lg">
                 Start
             </button>
         </div>
@@ -98,73 +98,117 @@
         const groupMember = document.querySelector('.group-member');
         const amoutMememberView = document.querySelector('.amount_member');
         const buttonCloseRoom = document.querySelector('.btn_close_room');
-        let amount = 1;
+        const btnStart = document.querySelector('.btn_start');
+        let amount = 0;
         let members = [];
-        members.push({
-            id: '{{ Auth::user()->id }}',
-            name: '{{ Auth::user()->name }}'
-        });
-        members.forEach(element => {
-            groupMember.innerHTML += `
-                <div class="px-4 py-8 rounded-3xl bg-[var(--background-dark)] flex items-center justify-between">
-                    <div class="flex items-start justify-start flex-col">
-                        <h3>${element.name}</h3>
-                        <div class="w-fit rounded-3xl px-2 bg-[var(--input-form-bg)]">PlayerID: ${element.id}</div>
-                    </div>
-                    <div class="">
-                        <img src="{{ asset('images/monster10.png') }}" alt="" class="w-[60px] h-[60px]">
-                    </div>
-                </div>
-            `;
-        })
 
-        amoutMememberView.textContent = amount;
+        // Func to get user joined room throw api
+        const getMembers = async () => {
+            members = [];
+            groupMember.innerHTML = '';
+            const response = await fetch('{{ route('get_room_info', $id) }}');
+            const data = await response.json();
+            if (data.room.joined_users.length > 0) {
+                members = data.room.joined_users;
+                amount = data.room.joined_users.length;
+            }
+            return data;
+        }
+
+        getMembers().then((result) => {
+            if (members.length > 0) {
+                amoutMememberView.textContent = amount;
+                members.forEach(element => {
+                    groupMember.innerHTML += `
+                        <div class="px-4 py-8 rounded-3xl bg-[var(--background-dark)] flex items-center justify-between">
+                            <div class="flex items-start justify-start flex-col">
+                                <h3>${element.name}</h3>
+                                <div class="w-fit rounded-3xl px-2 bg-[var(--input-form-bg)]">PlayerID: ${element.id}</div>
+                            </div>
+                            <div class="">
+                                <img src="{{ asset('images/monster10.png') }}" alt="" class="w-[60px] h-[60px]">
+                            </div>
+                        </div>
+                    `;
+                })
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
 
         // Bind a function to a Event (the full Laravel class)
         // Subscribe to the channel we specified in our Laravel Event
         const channelUserJoined = pusher.subscribe('UserJoinedRoom');
         channelUserJoined.bind('send-notify', function(data) {
-            if (members.some(member => member.id === data.user.id)) return;
-            members.push(data.user);
-            amount++;
-            amoutMememberView.textContent = amount;
-            groupMember.innerHTML += `
-            <div class="px-4 py-8 rounded-3xl bg-[var(--background-dark)] flex items-center justify-between">
-                <div class="flex items-start justify-start flex-col">
-                    <h3>${data.user.name}</h3>
-                    <div class="w-fit rounded-3xl px-2 bg-[var(--input-form-bg)]">PlayerID: ${data.user.id}</div>
-                </div>
-                <div class="">
-                    <img src="{{ asset('images/monster10.png') }}" alt="" class="w-[60px] h-[60px]">
-                </div>
-            </div>
-            `;
+            getMembers().then((result) => {
+                if (members.length > 0) {
+                    amoutMememberView.textContent = amount;
+                    members.forEach(element => {
+                        groupMember.innerHTML += `
+                        <div class="px-4 py-8 rounded-3xl bg-[var(--background-dark)] flex items-center justify-between">
+                            <div class="flex items-start justify-start flex-col">
+                                <h3>${element.name}</h3>
+                                <div class="w-fit rounded-3xl px-2 bg-[var(--input-form-bg)]">PlayerID: ${element.id}</div>
+                            </div>
+                            <div class="">
+                                <img src="{{ asset('images/monster10.png') }}" alt="" class="w-[60px] h-[60px]">
+                            </div>
+                        </div>
+                    `;
+                    })
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         });
 
         const channelUserLeft = pusher.subscribe('UserLeftRoom');
         channelUserLeft.bind('send-notify', function(data) {
-            members = members.filter(member => member.id !== data.user.id);
-            amount--;
-            amoutMememberView.textContent = amount;
-            console.log(members);
-            groupMember.innerHTML = '';
-            members.forEach(element => {
-                groupMember.innerHTML += `
-                <div class="px-4 py-8 rounded-3xl bg-[var(--background-dark)] flex items-center justify-between">
-                    <div class="flex items-start justify-start flex-col">
-                        <h3>${element.name}</h3>
-                        <div class="w-fit rounded-3xl px-2 bg-[var(--input-form-bg)]">PlayerID: ${element.id}</div>
-                    </div>
-                    <div class="">
-                        <img src="{{ asset('images/monster10.png') }}" alt="" class="w-[60px] h-[60px]">
-                    </div>
-                </div>
-            `;
+            getMembers().then((result) => {
+                console.log(members);
+                if (members.length > 0) {
+                    amoutMememberView.textContent = amount;
+                    members.forEach(element => {
+                        groupMember.innerHTML += `
+                        <div class="px-4 py-8 rounded-3xl bg-[var(--background-dark)] flex items-center justify-between">
+                            <div class="flex items-start justify-start flex-col">
+                                <h3>${element.name}</h3>
+                                <div class="w-fit rounded-3xl px-2 bg-[var(--input-form-bg)]">PlayerID: ${element.id}</div>
+                            </div>
+                            <div class="">
+                                <img src="{{ asset('images/monster10.png') }}" alt="" class="w-[60px] h-[60px]">
+                            </div>
+                        </div>
+                    `;
+                    })
+                }
+            }).catch((err) => {
+                console.log(err);
             });
         });
 
         buttonCloseRoom.addEventListener('click', () => {
-            window.location.href = '{{ route('quiz.multiple.left', 1) }}';
+            window.location.href = '{{ route('quiz.multiple.left', $room_id) }}';
         });
-    </script>
+
+        btnStart.addEventListener('click', () => {
+            fetch('{{ route('init_point', $id) }}', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                console.log(data);
+                if (data.status === 'success') {
+                    window.location.href = '{{ route('quiz.multiple.play', $room_id) }}';
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+        </script>
 @endsection
