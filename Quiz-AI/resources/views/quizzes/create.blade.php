@@ -131,26 +131,8 @@
                 <!-- thumb -->
                 <livewire:image-upload :quiz="$quiz" />
 
-                <!-- bar -->
-                <div class="bar mb-5">
-                    <div class="flex gap-3">
-                        <button class="bg-blue-500 text-white p-2 rounded-[5px]">Questions</button>
-                        <button class="bg-red-500 text-white p-2 rounded-[5px]">Study Notes</button>
-                    </div>
-                </div>
 
-                <!-- options -->
-                <div class="flex justify-end mb-5">
-                    <div class="flex gap-3">
-                        <x-buttons.primary class="bg-blue-500 text-white p-2 rounded-[5px]">Show answer</x-buttons.primary>
-                        <select class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400">
-                            <option value="" disabled selected>Export</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </div>
-                </div>
+                <!-- questions -->
                 <livewire:list-questions :quiz="$quiz" />
             </div>
             @else

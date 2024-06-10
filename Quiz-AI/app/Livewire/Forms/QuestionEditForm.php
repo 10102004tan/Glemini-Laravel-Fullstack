@@ -12,4 +12,5 @@ class QuestionEditForm extends Form
     public $answers = [];
 
     public $corrects = [];
+    public $image;
 }
