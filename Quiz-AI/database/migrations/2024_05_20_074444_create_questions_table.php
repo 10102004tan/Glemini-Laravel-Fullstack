@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('quiz_id');
             $table->integer('posission')->nullable();
             $table->string('excerpt');
+            $table->integer('point')->default(1);
+            $table->integer('time')->default(30);
             $table->text('image')->nullable();
             $table->text('sound')->nullable();
             $table->text('youtube')->nullable();
@@ -32,4 +34,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('questions');
     }
+
+    
 };

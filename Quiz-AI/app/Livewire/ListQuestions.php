@@ -31,7 +31,7 @@ class ListQuestions extends Component
     {
         
         $this->quiz = Quiz::find($quizId);
-        $this->questions = $this->quiz->questions;
+        $this->questions = $this->quiz->questions()->orderBy('id','desc')->get();
     }
 
     public function render()

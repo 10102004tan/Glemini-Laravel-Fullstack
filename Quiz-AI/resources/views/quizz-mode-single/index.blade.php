@@ -16,7 +16,7 @@
                     <span class="hidden sm:inline">
                         Created by
                     </span>
-                    CharmingGreekArt
+                    {{ $quiz->user->name }}
                 </div>
             </div>
         </div>

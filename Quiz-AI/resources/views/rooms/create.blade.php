@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 {{-- Body --}}
 @section('content')
     <div class="w-full min-h-[100vh] bg-[var(--background)]">

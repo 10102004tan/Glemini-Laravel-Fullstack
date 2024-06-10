@@ -1,5 +1,5 @@
 <form id="modal-show-option-text" wire:submit="store" class="modal-show-option-text">
-    
+    <!-- <button type="button" wire:click="getCookieRecipes">Test</button> -->
     @isset($quiz_id)
     <input type="hidden" wire:model="quiz_id" value="{{$quiz_id}}" class="text-black">
     @endisset
@@ -54,7 +54,7 @@
     </div>
     <div wire:loading class="fixed bg-slate-800 w-[100vw] h-[100vh] z-[99999] top-0 left-0">
         <div class="w-[100%] h-[100%] flex items-center justify-center">
-            <img src="https://media.tenor.com/pPoUmi0Z1fUAAAAi/cat-pet.gif" alt="">
+            <div class="loader"></div>
         </div>
     </div>
 </form>

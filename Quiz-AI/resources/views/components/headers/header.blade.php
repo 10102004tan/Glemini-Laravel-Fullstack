@@ -1,10 +1,10 @@
-<div class="py-5 bg-secondary">
+<div class="py-5 bg-gradient-to-r from-[#282458] to-[#141816]">
     <div class="container">
         <div class="flex items-center justify-between">
             <div class="flex">
-                <div class="logo">
+                <div class="logo w-6">
                     <a href="{{route('home')}}">
-                        LOGO
+                        <img src="{{ asset('images/icon-white.png') }}" alt="">
                     </a>
                 </div>
                 <nav>
@@ -73,7 +73,7 @@
                                 </li>
                                 <li class="flex gap-2 items-center">
                                     <i class="fa-regular fa-user-pen text-[14px]"></i>
-                                    <a href="#" class="text-[14px]">My Profile</a>
+                                    <a href="{{asset(route('profile.quizzes'))}}" class="text-[14px]">My Profile</a>
                                 </li>
                                 <li>
                                     <form action="{{ route('handle_logout') }}" method="POST">

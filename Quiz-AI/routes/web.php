@@ -13,6 +13,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleAndPermissionController;
 use App\Http\Controllers\VerificationController;
+use App\Livewire\FormCreateQuizImage;
 
 //Home
 Route::get('/', function () {
@@ -62,6 +63,13 @@ Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'aut
 });
 
 
+
+// profile
+Route::prefix('profile')->middleware(['auth'])->group(function () {
+    Route::get('/my-quiz', [UserController::class, 'quizzes'])->name('profile.quizzes');
+});
+
+
 // Quizz Room Single
 Route::get('/quiz-single', function () {
     return view('quiz-mode-single.index');
@@ -100,3 +108,4 @@ Route::get('rooms/{id}/users', [RoomApiController::class, "getAllUserInRoom"])->
 Route::post('rooms/{id}/user/point', [RoomApiController::class, "updateUserPoint"])->name("quiz.multiple.update.user.point");
 Route::post('rooms/{id}/close', [RoomApiController::class, "closeRoom"])->name("quiz.multiple.close.room");
 Route::post('rooms/{id}/restart', [RoomApiController::class, "restartRoom"])->name("quiz.multiple.restart.room");
+
