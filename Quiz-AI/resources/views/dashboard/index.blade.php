@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="w-full h-[100vh] flex flex-col gap-3 items-center justify-center ">
+    <div class="w-full h-[100vh] flex flex-col gap-3 items-center justify-center bg-gradient-to-r from-[#282458] to-[#141816]">
         {{-- Error notify --}}
         @if ($errors->any())
             <div class="mb-2 form_error_notify bg-white rounded-lg overflow-hidden">

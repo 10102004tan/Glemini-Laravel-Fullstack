@@ -1,31 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.link_script')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $quiz->title }}</title>
-    @vite('resources/css/app.css')
-    <style>
-        .selected {
-            border-color: #25CCF7;
-            background-color: #25CCF7;
-        }
-
-        .correct {
-            border-color: #4caf50;
-            background-color: #4caf50;
-        }
-
-        .incorrect {
-            border-color: #e55039;
-            background-color: #e55039;
-        }
-    </style>
-</head>
-
-<body>
+{{-- Body --}}
+@section('content')
     <!-- Thanh tiến trình -->
     <div class="container bg-gradient-to-r from-[#282458] to-[#141816] px-[100px]">
     <div id="progress-bar" class="fixed top-0 left-0 w-full h-1 z-50">
@@ -61,10 +37,10 @@
     </div>
 
     <!-- Câu hỏi và đáp án -->
-    <div class="w-full p-4 ">
-        <div class="h-[50%] text-center text-4xl text-white font-semibold mb-4">
+    <div class="w-full p-4">
+        <div class="text-center text-4xl text-white font-bold mb-4">
             <!-- Câu hỏi -->
-            <span>{{ $question->excerpt }}</span>
+            <span class="">{{ $question->excerpt }}</span>
 
             <!-- Hình ảnh -->
             <div class="h-[400px] w-full  flex items-center justify-center">
@@ -72,7 +48,6 @@
                     <img src="{{ asset($question->image) }}" alt="Question Image" class="h-full w-full object-contain" />
                 @endif
             </div>
-
 
         </div>
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -85,16 +60,14 @@
     </div>
 
     <!-- Thanh dưới cùng -->
-    <div class=" p-2 h-[11vh] flex justify-center items-center">
-        <div id="notification" class="hidden p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert"></div>
-        <button id="confirm-btn" class="bg-blue-500 text-white p-2 rounded" onclick="confirmAnswer()" data-url="{{ route('checkAnswer', [$quiz->id, $questionIndex]) }}" disabled>Xác nhận</button>
+    <div class="p-10 h-auto flex justify-center items-center">
+        <button id="confirm-btn" class="fixed right-5 bottom-5 bg-violet-500 text-white px-3 py-4 rounded" onclick="confirmAnswer()" data-url="{{ route('checkAnswer', [$quiz->id, $questionIndex]) }}" disabled>Next Question</button>
     </div>
     </div>
+@endsection
+@section('script')
     <script>
         var questionType = '{{ $question->type }}';
-        // console.log(questionType);
     </script>
     <script src="{{ asset('js/quizz.js') }}"></script>
-</body>
-
-</html>
+@endsection

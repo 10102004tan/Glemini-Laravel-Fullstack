@@ -213,3 +213,18 @@ table.bxh td {
     62.6%,87.5% {background-position:0% 100%,0 0}
     87.6%,100%  {background-position:0% 0%,0 0}
   }
+
+  .selected {
+    border-color: #25CCF7;
+    background-color: #25CCF7;
+}
+
+.correct {
+    border-color: #4caf50;
+    background-color: #4caf50;
+}
+
+.incorrect {
+    border-color: #e55039;
+    background-color: #e55039;
+}
