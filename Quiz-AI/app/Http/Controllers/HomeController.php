@@ -30,9 +30,9 @@ class HomeController extends Controller
 
     public function quiz()
     {
-        $quizs = Quiz::all();
-        dd($quizs);
-        return view('quiz');
+        $quizzes = Quiz::with('questions', 'user')->get();
+        // dd($quizzes);
+        return view('quiz', ['quizzes' => $quizzes]);
     }
     /**
      * Store a newly created resource in storage.

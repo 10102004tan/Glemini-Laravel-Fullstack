@@ -186,17 +186,11 @@ class QuizController extends Controller
         $answerIds = $request->input('answer');
         $correctAnswerIds = []; // Danh sách các ID của các câu trả lời đúng
         $correct = true;
-    
-        // Lấy tất cả các câu trả lời đúng cho câu hỏi hiện tại
-        $question = Question::findOrFail($questionId);
-        $correctAnswers = $question->answers()->where('is_correct', true)->pluck('id')->toArray();
-    
         if (is_array($answerIds)) {
             foreach ($answerIds as $answerId) {
                 $answer = Answer::find($answerId);
                 if (!$answer || !$answer->is_correct) {
                     $correct = false;
-                    break; // Nếu có một câu trả lời sai, dừng kiểm tra
                 } else {
                     $correctAnswerIds[] = $answerId; // Thêm ID của câu trả lời đúng vào danh sách
                 }
@@ -209,29 +203,21 @@ class QuizController extends Controller
                 $correctAnswerIds[] = $answerIds; // Thêm ID của câu trả lời đúng vào danh sách
             }
         }
-    
-        // Kiểm tra xem tất cả các câu trả lời đúng đã được chọn chưa
-        if ($correct && (count($correctAnswerIds) !== count($correctAnswers) || array_diff($correctAnswers, $correctAnswerIds))) {
-            $correct = false;
-        }
-    
         // Cập nhật điểm số của người dùng nếu cần thiết
         if ($correct) {
             $result = Result::firstOrCreate(['user_id' => $userId, 'quiz_id' => $quizId]);
             $result->increment('score');
         }
-    
         // Xác định URL của câu hỏi tiếp theo hoặc trang kết quả
         $quiz = Quiz::find($quizId);
         $totalQuestions = $quiz->questions()->count();
         $nextQuestionIndex = $questionId + 1;
-    
         if ($nextQuestionIndex > $totalQuestions) {
             $nextQuestionUrl = route('quiz.result', ['id' => $quizId]);
         } else {
             $nextQuestionUrl = route('quiz.question.show', ['id' => $quizId, 'questionIndex' => $nextQuestionIndex]);
         }
-    
+
         // Trả về phản hồi JSON với thông tin về tính chính xác và danh sách các câu trả lời đúng
         return response()->json([
             'correct' => $correct,
@@ -240,7 +226,6 @@ class QuizController extends Controller
             'message' => $correct ? 'Câu trả lời chính xác!' : 'Câu trả lời không chính xác. Vui lòng thử lại.'
         ]);
     }
-    
 
 
 
