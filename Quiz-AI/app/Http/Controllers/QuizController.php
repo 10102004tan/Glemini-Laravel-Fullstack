@@ -30,9 +30,11 @@ class QuizController extends Controller
                 $query->orderBy('id','desc');
             }, 'questions.answers']);
             if (isset($quiz)) {
-                $quiz->user_id = auth()->id();
-                $quiz->save();
-                return view('quizzes.create', ['quiz' => $quiz]);
+                if ($quiz->user_id == auth()->user()->id) {
+                    return view('quizzes.create', ['quiz' => $quiz]);
+                } else {
+                    return redirect()->route('quizzes.create')->with('error', 'Bạn không có quyền truy cập');
+                }
             } else {
                 return redirect()->route('quizzes.create')->with('error', 'Không tìm thấy quiz');
             }
@@ -57,7 +59,6 @@ class QuizController extends Controller
     {
         // Xóa kết quả trò chơi cũ của người dùng nếu có
         Result::where('user_id', auth()->id())->where('quiz_id', $id)->delete();
-
         $quiz = Quiz::with('user')->findOrFail($id);
         $firstQuestion = $quiz->questions()->first();
         // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên

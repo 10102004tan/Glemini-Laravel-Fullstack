@@ -1,4 +1,4 @@
-<div class="py-5 bg-secondary">
+<div class="py-5 bg-gradient-to-r from-[#282458] to-[#141816]">
     <div class="container">
         <div class="flex items-center justify-between">
             <div class="flex">

@@ -47,6 +47,7 @@ class FormCreateQuizManual extends Component
             $quiz = new Quiz();
             $quiz->title = "New Quiz";
             $quiz->description = "New Quiz Description";
+            $quiz->user_id = auth()->user()->id;
             $quiz->save();
         }
 
