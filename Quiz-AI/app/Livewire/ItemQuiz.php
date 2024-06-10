@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ItemQuiz extends Component
@@ -28,7 +29,12 @@ class ItemQuiz extends Component
 
     public function delete()
     {
+        $this->dispatch('deleted',id: $this->quiz->id);
         $this->quiz->delete();
-        $this->dispatch('toast', message: 'Xoa thanh cong', status: 'success');
+    }
+
+    public function confirmDelete()
+    {
+        $this->dispatch('confirm', message: 'Xac nhan xoa quiz nay ?', status: 'success');
     }
 }

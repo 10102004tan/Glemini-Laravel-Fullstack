@@ -118,4 +118,39 @@ class AuthController extends Controller
             'password' => 'Please enter your password!',
         ])->withInput($request->only('email'));
     }
+
+    // Update all information of user
+    public function update(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->name = $request->name;
+
+        if ($request->email) {
+            $user->email = $request->email;
+        }
+
+        if ($request->password) {
+            if ($request->password != $request->password_confirmation) {
+                return redirect()->back()->withErrors([
+                    'password' => 'Password and confirm password do not match!',
+                ])->withInput($request->only('email'));
+            }
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->name) {
+            $user->name = $request->name;
+        }
+
+        $saved = $user->save();
+        if ($saved) {
+            return redirect()->route('user_dashboard')->with('success', 'Update profile successfully!');
+        }
+
+        return redirect()->back()->withErrors([
+            'name' => 'Please enter your username!',
+            'email' => 'Please enter your email!',
+            'password' => 'Please enter your password!',
+        ])->withInput($request->only('email'));
+    }
 }

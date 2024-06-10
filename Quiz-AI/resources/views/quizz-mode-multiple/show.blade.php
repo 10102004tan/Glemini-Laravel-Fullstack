@@ -5,7 +5,7 @@
     <div class="w-full h-[100vh] flex flex-col bg-[var(--background)]">
         {{-- Dialog --}}
         <div
-            class="dialog fixed top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] p-[40px]  rounded-lg bg-[var(--background)]">
+            class="dialog fixed sm:min-w-[400px] min-[400px]:w-[300px] top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] p-[40px]  rounded-lg bg-[var(--background)]">
             <img src="{{ asset('icon_imgs/tick.webp') }}" alt=""
                 class="dialog-image max-w-[112px] max-h-[112px] mx-auto">
             <p class="text-white dialog-title font-light mb-[20px] mt-[40px]">Correct !</p>
@@ -14,7 +14,7 @@
                 reprehenderit minus dolores id asperiores error iste accusantium, nisi dicta?</p>
         </div>
         {{-- Dialog Finish --}}
-        <div class="dialog-fisish min-w-[600px] p-4  shadow-lgrounded-lg bg-[var(--background)]">
+        <div class="dialog-fisish lg:min-w-[600px] sm:min-w-[400px] p-4  shadow-lgrounded-lg bg-[var(--background)]">
             <h3 class="text-[42px] font-semibold">Finished!</h3>
             <div class="bg-[var(--gray)]">
                 <p class="point">Point: 0 / 0</p>
@@ -104,14 +104,14 @@
         <div class="w-full flex-1 bg-[var(--primary)]">
             <div class="ques_wrapper w-full h-full flex items-center justify-center flex-col pt-[50px]">
                 <div class="flex-1 ">
-                    <h3 class="question_title text-[42px] font-[500] max-w-[1024px] text-center"></h3>
+                    <h3 class="question_title lg:text-[42px] sm:text-[32px] text-[22px] font-[500] max-w-[1024px] text-center"></h3>
 
                     <div class="flex items-center justify-center">
                         <img src="" class="ques_img max-h-[400px]" alt="">
                     </div>
                 </div>
 
-                <div class="grid ans_wrapper select-none cursor-pointer grid-cols-2 gap-4 w-full px-[200px] py-[60px]">
+                <div class="grid ans_wrapper select-none cursor-pointer grid-cols-2 gap-4 w-full lg:px-[200px] sm:px-[40px] min-[400px]:px-[20px] py-[60px]">
                 </div>
             </div>
         </div>
@@ -156,6 +156,7 @@
         let showNextQuestionAnimate;
         let correctAnswers = true;
         let correctAnswerStr = "";
+        let maxPoint = 1;
 
         const startInterval = () => {
             timeCount = 0;
@@ -188,6 +189,16 @@
             const data = await response.json();
             quizzTitle.textContent = data.room.quiz.title;
             questions = data.room.quiz.questions;
+
+            questions.forEach(element => {
+               const answers = element.answers;
+               answers.forEach(ans => {
+                   if (ans.is_correct) {
+                       maxPoint++;
+                   }
+               });
+            });
+
             if (data.room.is_finish) {
                 return false
             }
@@ -299,7 +310,7 @@
                 }
                 questions[questionIndex].answers.forEach(element => {
                     questionAnswerWrapper.innerHTML += `
-                    <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[32px]" onclick="handleClickAnswer(this, ${element.id}, '${questions[questionIndex].type}')">
+                    <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[24px]" onclick="handleClickAnswer(this, ${element.id}, '${questions[questionIndex].type}')">
                         ${escapeHtml(element.content)}
                     </div>
                 `;
@@ -372,7 +383,7 @@
                     questionAnswerWrapper.innerHTML = '';
                     questions[questionIndex].answers.forEach(element => {
                         questionAnswerWrapper.innerHTML += `
-                        <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[32px]" onclick="handleClickAnswer(this, ${element.id}, '${questions[questionIndex].type}')">
+                        <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[24px]" onclick="handleClickAnswer(this, ${element.id}, '${questions[questionIndex].type}')">
                             ${escapeHtml(element.content)}
                         </div>
                     `;
@@ -383,7 +394,7 @@
                     // quesWrapper.classList.remove("active");
                     correct.textContent = `Correct: ${POINT}`;
                     point.textContent = `Point: ${POINT}`;
-                    incorrect.textContent = `Incorrect: ${questions.length - POINT}`;
+                    incorrect.textContent = `Incorrect: ${maxPoint - POINT}`;
                     document.querySelector(".dialog-fisish").classList.add("active");
                     buttonNext.style.display = "none";
                     // Save point user into database

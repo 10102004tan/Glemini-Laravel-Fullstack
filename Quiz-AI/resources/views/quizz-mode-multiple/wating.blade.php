@@ -47,7 +47,7 @@
                 <h4 class="mb-2">
                     1. Open the browser to open
                 </h4>
-                <a href="#"
+                <a href="{{ route('quiz.multiple.join', $room_id) }}"
                     class="bg-[var(--text)] p-3 block rounded-lg text-[var(--background)] text-lg font-semibold">Join my
                     quiz.com</a>
             </div>
@@ -59,10 +59,10 @@
                 <button
                     class="bg-[var(--text)] p-3 w-full rounded-lg text-[var(--background)] text-lg font-semibold">{{ $room_id }}</button>
             </div>
-            <button
-                class="mt-3 p-1 font-semibold rounded-lg underline text-center text-sm w-full bg-[var(--input-form-bg)]">
+            <a href="{{ route('quiz.multiple.join', $room_id) }}"
+                class="mt-3 p-1 font-semibold rounded-lg underline block text-center text-sm w-full bg-[var(--input-form-bg)]">
                 Or share a link
-            </button>
+            </a>
         </div>
         {{-- Line --}}
         <div class="relative w-full h-[1px] bg-[var(--background-dark)] mt-14">
@@ -80,10 +80,9 @@
         </div>
 
         {{-- Group member --}}
-        <div class="group-member gap-2 mt-14 px-[40px] grid grid-cols-4">
+        <div class="group-member gap-2 mt-14 px-[40px] grid lg:grid-cols-4 sm:grid-cols-2">
         </div>
     </div>
-
 @endsection
 @section('script')
     <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
@@ -122,10 +121,10 @@
                 amoutMememberView.textContent = amount;
                 members.forEach(element => {
                     groupMember.innerHTML += `
-                        <div class="px-4 py-8 rounded-3xl bg-[var(--background-dark)] flex items-center justify-between">
-                            <div class="flex items-start justify-start flex-col">
+                        <div class="px-4 py-4 rounded-3xl bg-[var(--background-dark)] flex items-center justify-between">
+                            <div class="flex gap-2 items-start justify-start flex-col">
                                 <h3>${element.name}</h3>
-                                <div class="w-fit rounded-3xl px-2 bg-[var(--input-form-bg)]">PlayerID: ${element.id}</div>
+                                <div class="w-fit rounded-3xl px-2 bg-[var(--input-form-bg)]">Player ID: ${element.id}</div>
                             </div>
                             <div class="">
                                 <img src="{{ asset('images/monster10.png') }}" alt="" class="w-[60px] h-[60px]">
@@ -199,22 +198,33 @@
             window.location.href = '{{ route('quiz.multiple.play', $room_id) }}';
         });
 
+        // window.addEventListener('beforeunload', function(e) {
+        //     console.log('User is attempting to close the tab or browser');
+        //     var confirmationMessage = 'Are you sure you want to leave this page?';
+        //     (e || window.event).returnValue = confirmationMessage; // For most browsers
+        //     return confirmationMessage; // For some older browsers
+        // });
+
+
+
         // Start room for user created
-        btnStart.addEventListener('click', () => {
-            fetch('{{ route('init_point', $id) }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                console.log(data);
-            }).catch((err) => {
-                console.log(err);
+        if (btnStart) {
+            btnStart.addEventListener('click', () => {
+                fetch('{{ route('init_point', $id) }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                }).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    console.log(data);
+                }).catch((err) => {
+                    console.log(err);
+                });
             });
-        });
+        }
     </script>
 @endsection

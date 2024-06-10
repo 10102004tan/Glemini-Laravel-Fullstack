@@ -30,10 +30,11 @@ Route::post('/auth/login', [AuthController::class, "login"])->name("handle_login
 Route::get('/auth/register', [AuthController::class, "showRegister"])->name("register");
 Route::post('/auth/register', [AuthController::class, "register"])->name("handle_register");
 Route::post('/auth/logout', [AuthController::class, "logout"])->name("handle_logout");
+Route::post('/auth/update', [AuthController::class, "update"])->name("update_profile");
 
 // Require Auth
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('user_dashboard');
 
     // Quizz Room Multiple
     Route::get('/quiz-multiple/create', [RoomController::class, 'create'])->name('quiz.multiple.create');
@@ -96,6 +97,7 @@ Route::put('/quizzes/question/update', [QuestionController::class, 'update'])->n
 // Route::post('/quizzes/question/store', [QuestionController::class, 'store'])->name('quizzes.question.store');
 Route::post('/quizzes/question/store', [ListQuestions::class, 'store'])->name('quizzes.question.store');
 Route::post('/quizzes/published', [QuizController::class, 'published'])->name('quizzes.published');
+Route::post('/quizzes/setting', [QuizController::class, 'setting'])->name('quizzes.setting');
 Route::post('/quizzes/details', [QuizController::class, 'getDetailsQuiz'])->name('quizzes.details');
 Route::post('/quizzes/accept', [QuizController::class, 'appectQuiz'])->name('quizzes.accept');
 Route::post('/quizzes/destroy', [QuizController::class, 'destroy'])->name('quizzes.destroy');

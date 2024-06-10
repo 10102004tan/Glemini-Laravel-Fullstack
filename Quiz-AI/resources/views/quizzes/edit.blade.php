@@ -64,50 +64,46 @@
 
 <!-- settings start -->
 <!--  -->
-@isset($quiz)
-<div class="settings right-[-100%] shadow lg:w-[20%] w-[40vw] z-[9999] h-[100vh] fixed top-0  bg-[rgba(6,6,6,0.77)] p-3">
-    <form id="form-setting" class="flex h-[100%] flex-col justify-between" quizId="{{$quiz->id}}">
-        <div>
-            <div class="flex justify-between">
-                <h2 class="text-[18px] py-1">Default setting</h2>
-                <button type="button" class="btn-close-settings"><i class="fa-light fa-xmark"></i></button>
-            </div>
-            <hr class="py-3">
-            <ul class="flex flex-col gap-3">
-                <li>
-                    <div>
-                        <h5>Points</h5>
-                        <select name="point" class="bg-primary">
-                            <option value="" disabled selected>Points</option>
-                            <option value="100">100 point</option>
-                            <option value="200">200 point</option>
-                            <option value="300">300 point</option>
-                            <option value="400">400 point</option>
-                            <option value="500">500 point</option>
-                        </select>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <h5>Timer</h5>
-                        <select name="time" class="bg-primary">
-                            <option value="" disabled selected>Timer</option>
-                            <option value="15">15s</option>
-                            <option value="30">30s</option>
-                            <option value="45">45s</option>
-                            <option value="60">60s</option>
-                        </select>
-                    </div>
-                </li>
-            </ul>
+<div class="settings flex flex-col justify-between right-[-100%] shadow lg:w-[20%] w-[40vw] z-[9999] h-[100vh] fixed top-0  bg-[rgba(6,6,6,0.77)] p-3">
+    <div>
+        <div class="flex justify-between">
+            <h2 class="text-[18px] py-1">Default setting</h2>
+            <button type="button" class="btn-close-settings"><i class="fa-light fa-xmark"></i></button>
         </div>
-        <div class="flex gap-3 mt-4">
-            <button class="p-2 rounded border bg-blue-500">Save</button>
-            <button type="button" class="p-2 rounded border">Cancel</button>
-        </div>
-    </form>
+        <hr class="py-3">
+        <ul class="flex flex-col gap-3">
+            <li>
+                <div>
+                    <h5>Points</h5>
+                    <select class="bg-primary">
+                        <option value="" disabled selected>Points</option>
+                        <option value="100">100 point</option>
+                        <option value="200">200 point</option>
+                        <option value="300">300 point</option>
+                        <option value="400">400 point</option>
+                        <option value="500">500 point</option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <h5>Timer</h5>
+                    <select class="bg-primary">
+                        <option value="" disabled selected>Timer</option>
+                        <option value="15">15s</option>
+                        <option value="30">30s</option>
+                        <option value="45">45s</option>
+                        <option value="60">60s</option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="flex gap-3">
+        <button class="p-2 rounded border bg-blue-500">Save</button>
+        <button class="p-2 rounded border">Cancel</button>
+    </div>
 </div>
-@endisset
 <!-- settings end -->
 
 <!-- main start-->
@@ -166,8 +162,6 @@
         quizzesQuestionUpdate: "{{route('quizzes.question.update')}}",
         quizzesQuestionStore: "{{route('quizzes.question.store')}}",
         quizzesPublished: "{{route('quizzes.published')}}",
-        quizzesSetting: "{{route('quizzes.setting')}}",
-
     };
 </script>
 <script>
@@ -183,8 +177,6 @@
                 confirmButtonText: 'OK'
             })
         });
-
-
 
         Livewire.on('toast-manual', ({
             message,
