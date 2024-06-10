@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Home | Gemini Quiz')
 @section('content')
 <div class="container bg-gradient-to-r from-[#282458] to-[#141816] px-[100px]">
     <div class="banner h-[90vh] flex items-center">
