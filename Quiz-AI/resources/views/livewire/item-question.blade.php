@@ -9,14 +9,14 @@
             @if ($question->type === 'radio')
             @foreach ($question->answers as $answer)
             <div class="mb-3">
-                <input type="radio" name="answer_{{$answer->id }}" value="{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }} id="answer_{{ $answer->id }}">
+                <input disabled type="radio" name="answer_{{$answer->id }}" value="{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }} id="answer_{{ $answer->id }}">
                 <label for="answer_{{ $answer->id }}">{{ $answer->content }}</label>
             </div>
             @endforeach
             @elseif ($question->type === 'checkbox')
             @foreach ($question->answers as $answer)
             <div class="mb-3">
-                <input type="checkbox" name="answer_{{$answer->id }}" value="{{ $answer->id }}" id="answer_{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }}>
+                <input disabled type="checkbox" name="answer_{{$answer->id }}" value="{{ $answer->id }}" id="answer_{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }}>
                 <label for="answer_{{ $answer->id }}">{{ $answer->content }}</label>
             </div>
             @endforeach
@@ -53,17 +53,29 @@
     @endif
     <!-- form edit question -->
     @if(!$isHidden)
-    <form wire:submit="update"  class="p-4 rounded-[10px] bg-primary flex-col gap-3  mb-3 modal-edit-question">
+    <form wire:submit="update" class="p-4 rounded-[10px] bg-primary flex-col gap-3  mb-3 modal-edit-question">
         <h5>Edit Multiple Choice Question</h5>
-        <x-inputs.file></x-inputs.file>
+        <div class="relative">
+            @if($question->image != "" || $question->image != null)
+                <div>
+                    <img class="w-[100px]  object-cover" src="{{asset('storage/'.$question->image)}}" alt="">
+                </div>
+            @endif
+            <span class="block text-[16px] text-[#eee] mb-2">Image</span>
+            <input wire:model="form.image" type="file" class="hidden" id="file-upload" name="file-upload" />
+            <label for="file-upload" class="cursor-pointer mb-2 bg-primary text-[#eee] text-[18px] border-[1px] border-[#eee] rounded outline-none py-2 px-4 inline-block">
+                Choose file
+            </label>
+            <p class="text-[12px] text-gray-500">Upload an image or GIF. Max file size: 4MB</p>
+        </div>
         <label for="">
             <span class="text-white block mb-2 ">Question</span>
-            <textarea  wire:model="form.excerpt" required rows="5" class="p-3 w-[100%] outline-none border-[2px] border-gray-400 focus:border-blue-500 rounded-[10px] bg-primary" placeholder="Enter question"></textarea>
+            <textarea wire:model="form.excerpt" required rows="5" class="p-3 w-[100%] outline-none border-[2px] border-gray-400 focus:border-blue-500 rounded-[10px] bg-primary" placeholder="Enter question"></textarea>
         </label>
         @foreach($question->answers as $key => $answer)
         <label for="" wire:key="answer_{{ $answer->id }}">
             <span class="text-white block mb-2 ">Answer {{$key+1}}</span>
-            <textarea wire:model="form.answers.{{$key}}" required rows="1" class="p-3 w-[100%] outline-none border-[2px] border-gray-400 focus:border-blue-500 rounded-[10px] bg-primary"  placeholder="Enter answer" ></textarea>
+            <textarea wire:model="form.answers.{{$key}}" required rows="1" class="p-3 w-[100%] outline-none border-[2px] border-gray-400 focus:border-blue-500 rounded-[10px] bg-primary" placeholder="Enter answer"></textarea>
         </label>
         @endforeach
         <!-- data correct -->
@@ -80,7 +92,7 @@
         @elseif($question->type === 'checkbox')
         <label class="flex flex-col items-start ">
             <span class="text-white mb-2 block">Correct Answer</span>
-            <select  wire:model="form.corrects" multiple name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
+            <select wire:model="form.corrects" multiple name="correct" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
                 <option value="0">A</option>
                 <option value="1">B</option>
                 <option value="2">C</option>

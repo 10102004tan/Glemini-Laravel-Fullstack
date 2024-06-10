@@ -22,6 +22,7 @@ class FormCreateQuizManual extends Component
     public function mount($quiz_id=null)
     {
         $this->quiz_id = $quiz_id;
+        $this->optional = "";
         $this->type = "radio";
         $this->corrects = [
             0

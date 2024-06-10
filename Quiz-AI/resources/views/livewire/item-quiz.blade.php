@@ -1,7 +1,11 @@
 <div class="rounded  overflow-hidden relative border shadow cursor-pointer bg-gray-900 border-[#59319e] hover:border-[#929090e2] w-[100%]">
     <button wire:click="showAndHidden" type="button" class="absolute p-3 right-0 z-50 top-0 text-[18px]"><i class="fa-regular fa-circle-ellipsis-vertical text-[#000]"></i></button>
     <div class="thumb h-[200px] overflow-hidden relative">
+        @if($quiz['thumb'] == "")
+        <img class="w-full h-[100%] object-cover" src="{{asset('images/Screenshot 2024-06-10 222619.png')}}" alt="Sunset in the mountains">
+        @else
         <img class="w-full h-[100%] object-cover" src="{{asset('storage/'. $quiz['thumb'])}}" alt="Sunset in the mountains">
+        @endif
         <div class="flex flex-wrap py-1 gap-2 absolute {{($show ? 'bottom-0' : 'bottom-[-100%]')}} left-0">
             <form wire:submit.prevent="delete">
                 <button type="submit" class="p-2 btn-delete-quiz rounded bg-red-500">Delete</button>
