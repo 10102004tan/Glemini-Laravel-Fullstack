@@ -59,7 +59,6 @@
                     here</a></p>
         </div>
     </div>
-
 @endsection
 @section('script')
     <script>
