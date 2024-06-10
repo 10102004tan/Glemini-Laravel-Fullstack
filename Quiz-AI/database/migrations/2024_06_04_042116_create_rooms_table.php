@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('room_id');
             $table->text('quizz_id');
             $table->text('room_name');
+            $table->boolean('is_open')->default(false);
+            $table->boolean('is_finish')->default(false);
             $table->text('room_description');
             $table->timestamps();
         });
