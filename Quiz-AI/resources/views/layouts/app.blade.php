@@ -31,7 +31,7 @@
         @yield('content')
     </main>
     <footer>
-        Footer
+        <x-footers.footer/>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
