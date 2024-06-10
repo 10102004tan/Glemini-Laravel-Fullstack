@@ -1,4 +1,4 @@
-<div class="rounded  overflow-hidden relative border shadow cursor-pointer hover:border-[#929090e2] bg-slate-800 w-[100%]">
+<div class="rounded  overflow-hidden relative border shadow cursor-pointer hover:border-[#929090e2] w-[100%]">
     <button wire:click="showAndHidden" type="button" class="absolute p-3 right-0 z-50 top-0 text-[18px]"><i class="fa-regular fa-circle-ellipsis-vertical text-[#000]"></i></button>
     <div class="thumb h-[200px] overflow-hidden relative">
         <img class="w-full h-[100%] object-cover" src="{{asset('storage/'. $quiz['thumb'])}}" alt="Sunset in the mountains">
@@ -7,7 +7,7 @@
                 <button type="submit" class="p-2 btn-delete-quiz rounded bg-red-500">Delete</button>
             </form>
             <button class="p-2 rounded bg-green-500">Edit</button>
-            <button class="p-2 rounded bg-blue-500">Play</button>
+            <a href="{{route('quiz.play',['id'=>$quiz['id']])}}" class="p-2 rounded bg-blue-500">Play</a>
         </div>
     </div>
     <div class="px-3 py-2">
