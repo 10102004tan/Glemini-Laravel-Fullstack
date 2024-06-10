@@ -34,7 +34,7 @@
 
             <p>Waiting for your friends to join the game...</p>
 
-            <div>
+            <div class="opacity-0 pointer-events-none">
                 <button class="p-4 rounded- flex items-center justify-center rounded-lg bg-[var(--input-form-bg)]">
                     <i class="fa-regular fa-expand"></i>
                 </button>
@@ -202,7 +202,7 @@
         // Start room for user created
         btnStart.addEventListener('click', () => {
             fetch('{{ route('init_point', $id) }}', {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -211,9 +211,7 @@
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                if (data.status === 'success') {
-                    window.location.href = '{{ route('quiz.multiple.play', $room_id) }}';
-                }
+                console.log(data);
             }).catch((err) => {
                 console.log(err);
             });

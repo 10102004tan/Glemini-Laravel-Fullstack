@@ -44,30 +44,16 @@ class RoomController extends Controller
     // Show quizz room
     public function show($id)
     {
-
         $room = Room::where('room_id', $id)->first();
-        if ($room->created_at_by === Auth::user()->id) {
-            $user = Auth::guard('web')->user();
-            $data['title'] = "Start Room";
-            $data['content'] = "$user->name just start room";
-            $data['user'] = $user;
-
-            $options = array(
-                'cluster' => 'ap1',
-                'encrypted' => true
-            );
-
-            $pusher = new Pusher(
-                env('PUSHER_APP_KEY'),
-                env('PUSHER_APP_SECRET'),
-                env('PUSHER_APP_ID'),
-                $options
-            );
-
-            $pusher->trigger('UserStartRoom', 'send-notify', $data);
+        if (!$room) {
+            return redirect()->route('home');
         }
 
-        return view('quizz-mode-multiple.show', ["room_id" => $id]);
+        if ($room->is_open == false) {
+            return redirect()->route('quiz.multiple.join', ['id' => $id]);
+        }
+
+        return view('quizz-mode-multiple.show', ["room_id" => $id, "id" => $room->id, "user_created" => $room->created_at_by]);
     }
 
     // User left room
@@ -115,6 +101,12 @@ class RoomController extends Controller
     // Create new room
     public function createRoom(Request $request)
     {
+        $request->validate([
+            'quizz_id' => 'required',
+            'room_name' => 'required',
+            'room_description' => 'required'
+        ]);
+
         // Create unique room id
         $uuid = Str::uuid();
 

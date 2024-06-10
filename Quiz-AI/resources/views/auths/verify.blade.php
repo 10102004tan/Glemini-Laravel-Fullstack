@@ -31,7 +31,7 @@
             </div>
             <h3 class="text-lg font-bold mb-3 text-[var(--background)]">Confirm your account</h3>
             <p class="text-sm text-[var(--background)]">Please tap the link in the email we sent to:</p>
-            <h3 class="text-sm font-bold mb-4 text-gray-600">datga2442004@gmail.com</h3>
+            <h3 class="text-sm font-bold mb-4 text-gray-600">{{$email}}</h3>
 
             <div class="mt-8 flex items-center justify-between">
                 <div class="flex flex-col items-start gap-1">
