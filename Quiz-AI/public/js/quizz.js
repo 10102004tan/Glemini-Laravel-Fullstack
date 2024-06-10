@@ -55,7 +55,7 @@ function sendAnswer(url, answerIds) {
                     el.classList.remove('selected', 'correct', 'incorrect');
                     if (selectedAnswerIds.includes(answerId)) {
                         el.classList.add('selected');
-                        if (correctAnswerIds.includes(answerId)) {
+                        if (correctAnswerIds.includes(answerId) && selectedAnswerIds.length != answerIds.length) {
                             el.classList.add('correct');
                         } else {
                             el.classList.add('incorrect');
@@ -91,4 +91,3 @@ function sendAnswer(url, answerIds) {
 function isRadioType() {
     return questionType === 'radio';
 }
-
