@@ -93,8 +93,18 @@ class QuizController extends Controller
 
     public function edit($id)
     {
-        $quiz = Quiz::findOrFail($id);
-        return view('quizzes.edit', ['quiz' => $quiz]);
+        $quiz = Quiz::find($id)->load(['questions' => function ($query) {
+            $query->orderBy('id','desc');
+        }, 'questions.answers']);
+        if (isset($quiz)) {
+            if ($quiz->user_id == auth()->user()->id) {
+                return view('quizzes.create', ['quiz' => $quiz]);
+            } else {
+                return redirect()->route('quizzes.create')->with('error', 'Bạn không có quyền truy cập');
+            }
+        } else {
+            return redirect()->route('quizzes.create')->with('error', 'Không tìm thấy quiz');
+        }
     }
 
     public function update(Request $request)

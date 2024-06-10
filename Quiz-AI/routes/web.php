@@ -87,6 +87,7 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify']
 
 // Quizz
 Route::get('/quizzes/create/{id?}', [QuizController::class, 'create'])->name('quizzes.create');
+Route::get('/quizzes/edit/{id?}', [QuizController::class, 'create'])->name('quizzes.edit');
 Route::post('/quizzes/create-with-ai', [ListQuestions::class, 'storeQuizWithAI'])->name('quizzes.storeWithAI');
 Route::post('/quizzes/update', [QuizController::class, 'update'])->name('quizzes.update');
 Route::delete('/quizzes/question/destroy', [QuestionController::class, 'destroy'])->name('quizzes.question.destroy');
