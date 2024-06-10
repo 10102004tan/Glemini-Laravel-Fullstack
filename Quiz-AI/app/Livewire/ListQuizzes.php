@@ -5,6 +5,7 @@ use Livewire\Component;
 class ListQuizzes extends Component
 {
     public $quizzes;
+    public $status = -1;
     public function mount($quizzes)
     {
         $this->quizzes = $quizzes;
@@ -15,10 +16,11 @@ class ListQuizzes extends Component
     }
 
     #[On('filter-quizzes')] 
-    public function refreshQuizzes($quizzes)
+    public function refreshQuizzes($quizzes,$status)
     {
         // Cache the quizzes
         $this->quizzes = $quizzes;
+        $this->status = $status;
     }
 
 }

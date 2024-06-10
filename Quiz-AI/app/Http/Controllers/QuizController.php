@@ -26,12 +26,11 @@ class QuizController extends Controller
     public function create($id = null)
     {
         if ($id != null && Auth::check()) {
-            
             $quiz = Quiz::find($id)->load(['questions' => function ($query) {
                 $query->orderBy('id','desc');
             }, 'questions.answers']);
             if (isset($quiz)) {
-                if ($quiz->user_id == auth()->id()) {
+                if ($quiz->user_id == auth()->user()->id) {
                     return view('quizzes.create', ['quiz' => $quiz]);
                 } else {
                     return redirect()->route('quizzes.create')->with('error', 'Bạn không có quyền truy cập');

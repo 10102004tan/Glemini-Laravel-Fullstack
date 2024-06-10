@@ -1,4 +1,4 @@
-<div class="bg-secondary">
+<div class="bg-gradient-to-r from-[#282458] to-[#141816]">
     <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-28">
         <div class="xl:grid xl:grid-cols-3 xl:gap-10">
             <div class="mt-10 xl:mt-0">

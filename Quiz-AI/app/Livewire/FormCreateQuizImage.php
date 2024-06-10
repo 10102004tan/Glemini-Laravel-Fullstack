@@ -121,8 +121,9 @@ class FormCreateQuizImage extends Component
                     $quiz = Quiz::create([
                         'title' => 'Quiz with AI',
                         'description' => 'Hello world',
-                        'user_id' => auth()->id(),
                     ]);
+                    $quiz->user_id = auth()->user()->id;
+                    $quiz->save();
                 }
 
                 foreach ($data['questions'] as $question) {
@@ -153,7 +154,6 @@ class FormCreateQuizImage extends Component
             Storage::disk('public')->delete($imagePath);
         } catch (\Exception $e) {
             $this->dispatch('toast', message: 'Tạo câu hỏi thất bại', status: 'error');
-            //remove in images storage
             Storage::disk('public')->delete($imagePath);
         }
         $this->isShow = false;

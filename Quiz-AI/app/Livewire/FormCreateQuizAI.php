@@ -110,8 +110,9 @@ class FormCreateQuizAI extends Component
                     $quiz = Quiz::create([
                         'title' => 'Quiz with AI',
                         'description' => 'Hello world',
-                        'user_id' => auth()->id(),
                     ]);
+                    $quiz->user_id = auth()->user()->id;
+                    $quiz->save();
                 }
 
                 foreach ($data['questions'] as $question) {

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="shadow-bar sticky top-0 left-0 right-0 bg-primary z-[999]">
+<div class="shadow-bar bg-primary sticky top-0 left-0 right-0  z-[999]">
     <div class="container">
         <div>
             @isset($quiz)
@@ -107,10 +107,9 @@
 
 <!-- main start-->
 @if(!session('error'))
-<section>
+<section class="py-3">
     <div class="grid grid-cols-12">
-        <div class="px-[2rem] py-4 create bg-primary relative lg:col-span-4 col-span-12">
-
+        <div class="px-[2rem] py-4 create  relative lg:col-span-4 col-span-12">
             @isset($quiz)
             <livewire:bar-create-quiz :quiz="$quiz" />
             @else
@@ -155,7 +154,7 @@
             </div>
             @else
             <!-- first -->
-            <div class="p-5 rounded bg-primary w-[50%] mx-auto lg:mt-[150px] mt-3 relative result-intro">
+            <div class="p-5 rounded bg-gradient-to-r from-[#22c1c3] to-[#fdbb2d] w-[50%] mx-auto lg:mt-[150px] mt-3 relative result-intro">
                 <h2 class="mb-2 text-[26px]">Generate quizzes</h2>
                 <p>Generate quizzes from your notes, study materials, or any text you have. You can also create quizzes manually.<i class="fa-duotone fa-microchip-ai text-yellow-400 text-[20px]"></i> <i class="fa-duotone fa-cloud-bolt text-yellow-400 text-[20px]"></i> </p>
             </div>
