@@ -72,7 +72,7 @@
                             <ul class="flex gap-3 flex-col">
                                 <li class="flex gap-2 items-center">
                                     <i class="fas fa-user text-[14px]"></i>
-                                    <a href="#" class="text-[14px]">{{auth()->user()->name}}</a>
+                                    <a href="{{ route('user_dashboard') }}" class="text-[14px]">{{auth()->user()->name}}</a>
                                 </li>
                                 <li class="flex gap-2 items-center">
                                     <i class="fa-regular fa-user-pen text-[14px]"></i>
