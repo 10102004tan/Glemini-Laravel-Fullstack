@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Home | Gemini Quiz')
 @section('content')
 <div class="container bg-gradient-to-r from-[#282458] to-[#141816] px-[100px]">
     <div class="banner h-[90vh] flex items-center">
@@ -124,23 +125,23 @@
                         </li>
                         <li>
                             <div>
-                            <img class="rounded-[10px] w-[100%] mx-auto p-2 border border-[#6051ee]" src="{{asset('images/Screenshot 2024-06-10 222619.png')}}" alt="">
+                            <img class="rounded-[10px] w-[100%] mx-auto p-2 border border-[#6051ee]" src="{{asset('images/play1.png')}}" alt="">
                             </div>
                         </li>
                         <li>
                             <div>
-                            <img class="rounded-[10px] w-[100%] mx-auto p-2 border border-[#6051ee]" src="{{asset('images/Screenshot 2024-06-10 222619.png')}}" alt="">
+                            <img class="rounded-[10px] w-[100%] mx-auto p-2 border border-[#6051ee]" src="{{asset('images/play1.png')}}" alt="">
                             </div>
                         </li>
                         <li>
                             <div>
-                            <img class="rounded-[10px] w-[100%] mx-auto p-2 border border-[#6051ee]" src="{{asset('images/Screenshot 2024-06-10 222619.png')}}" alt="">
+                            <img class="rounded-[10px] w-[100%] mx-auto p-2 border border-[#6051ee]" src="{{asset('images/play1.png')}}" alt="">
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div class="col-span-10 px-5">
-                    <img class="rounded-[10px] shadow mx-auto p-2 border border-[#6051ee]" src="{{asset('images/Screenshot 2024-06-10 222619.png')}}" alt="">
+                    <img class="rounded-[10px] shadow mx-auto p-2 border border-[#6051ee]" src="{{asset('images/image.png')}}" alt="">
                 </div>
             </div>
         </div>

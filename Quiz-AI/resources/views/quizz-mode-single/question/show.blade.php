@@ -27,12 +27,13 @@
 
 <body>
     <!-- Thanh tiến trình -->
+    <div class="container bg-gradient-to-r from-[#282458] to-[#141816] px-[100px]">
     <div id="progress-bar" class="fixed top-0 left-0 w-full h-1 z-50">
         <div class="h-1 bg-indigo-300" style="width: {{ ($questionIndex / $totalQuestions) * 100 }}%"></div>
     </div>
 
     <!-- Thanh trên cùng -->
-    <div class="bg-gray-800 p-3 h-[9vh]">
+    <div class=" p-3 h-[9vh]">
         <div class="grid grid-cols-4">
             <div class="col-span-2 flex space-x-2">
                 <div class="hidden lg:block">
@@ -43,7 +44,7 @@
                 <span class="p-2 text-white bg-gray-700 rounded-md">
                     <span class="currentQuestion">{{ $questionIndex }}</span> / <span class="questionsCount">{{ $totalQuestions }}</span>
                 </span>
-                <a href="{{ route('quiz.play', 1) }}" class="p-2 text-white rounded-md truncate max-w-sm text-xs lg:block hidden cursor-pointer mt-1 -ml-1">
+                <a href="{{ route('quiz.play', $quiz->id) }}" class="p-2 text-white rounded-md truncate max-w-sm text-xs lg:block hidden cursor-pointer mt-1 -ml-1">
                     <span class="flex">
                         <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -60,15 +61,19 @@
     </div>
 
     <!-- Câu hỏi và đáp án -->
-    <div class="w-full p-4 bg-gray-800">
+    <div class="w-full p-4 ">
         <div class="h-[50%] text-center text-4xl text-white font-semibold mb-4">
             <!-- Câu hỏi -->
             <span>{{ $question->excerpt }}</span>
 
             <!-- Hình ảnh -->
-            @if($question->image)
-            <img src="{{ asset($question->image) }}" alt="Question Image" class="mx-auto my-10 w-[450px]" />
-            @endif
+            <div class="h-[400px] w-full  flex items-center justify-center">
+                @if($question->image)
+                    <img src="{{ asset($question->image) }}" alt="Question Image" class="h-full w-full object-contain" />
+                @endif
+            </div>
+
+
         </div>
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             @foreach($question->answers as $index => $answer)
@@ -80,9 +85,10 @@
     </div>
 
     <!-- Thanh dưới cùng -->
-    <div class="bg-gray-800 p-2 h-[11vh] flex justify-center items-center">
+    <div class=" p-2 h-[11vh] flex justify-center items-center">
         <div id="notification" class="hidden p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert"></div>
         <button id="confirm-btn" class="bg-blue-500 text-white p-2 rounded" onclick="confirmAnswer()" data-url="{{ route('checkAnswer', [$quiz->id, $questionIndex]) }}" disabled>Xác nhận</button>
+    </div>
     </div>
     <script>
         var questionType = '{{ $question->type }}';

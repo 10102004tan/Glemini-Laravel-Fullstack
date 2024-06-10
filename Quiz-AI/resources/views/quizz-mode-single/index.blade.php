@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex flex-col items-center justify-center bg-gray-700 w-full p-10">
+<div class="flex flex-col items-center justify-center bg-gradient-to-r from-[#282458] to-[#141816] w-full p-10">
     <img class="rounded-[15px]" src="{{ asset('images/quizz-img.png') }}" alt="Image Description Quizz" width="700px">
 
     <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-50 pt-5 text-center">

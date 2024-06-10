@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -27,6 +28,12 @@ class HomeController extends Controller
         return view('contact');
     }
 
+    public function quiz()
+    {
+        $quizs = Quiz::all();
+        dd($quizs);
+        return view('quiz');
+    }
     /**
      * Store a newly created resource in storage.
      */

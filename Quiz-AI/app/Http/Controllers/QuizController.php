@@ -56,19 +56,22 @@ class QuizController extends Controller
 
     // Bắt đầu quiz và hiển thị câu hỏi đầu tiên
     public function startQuiz($id)
-    {
-        // Xóa kết quả trò chơi cũ của người dùng nếu có
-        Result::where('user_id', auth()->id())->where('quiz_id', $id)->delete();
-        $quiz = Quiz::with('user')->findOrFail($id);
-        $firstQuestion = $quiz->questions()->first();
-        // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên
-        return view('quizz-mode-single.question.show', [
-            'quiz' => $quiz,
-            'question' => $firstQuestion,
-            'questionIndex' => 1,
-            'totalQuestions' => $quiz->questions()->count()
-        ]);
-    }
+{
+    // Đặt lại điểm số của người dùng về 0 nếu có kết quả trò chơi trước đó
+    Result::where('user_id', auth()->id())->where('quiz_id', $id)->update(['score' => 0]);
+
+    $quiz = Quiz::with('user')->findOrFail($id);
+    $firstQuestion = $quiz->questions()->first();
+
+    // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên
+    return view('quizz-mode-single.question.show', [
+        'quiz' => $quiz,
+        'question' => $firstQuestion,
+        'questionIndex' => 1,
+        'totalQuestions' => $quiz->questions()->count()
+    ]);
+}
+
 
 
 
@@ -93,8 +96,18 @@ class QuizController extends Controller
 
     public function edit($id)
     {
-        $quiz = Quiz::findOrFail($id);
-        return view('quizzes.edit', ['quiz' => $quiz]);
+        $quiz = Quiz::find($id)->load(['questions' => function ($query) {
+            $query->orderBy('id','desc');
+        }, 'questions.answers']);
+        if (isset($quiz)) {
+            if ($quiz->user_id == auth()->user()->id) {
+                return view('quizzes.create', ['quiz' => $quiz]);
+            } else {
+                return redirect()->route('quizzes.create')->with('error', 'Bạn không có quyền truy cập');
+            }
+        } else {
+            return redirect()->route('quizzes.create')->with('error', 'Không tìm thấy quiz');
+        }
     }
 
     public function update(Request $request)
@@ -173,12 +186,17 @@ class QuizController extends Controller
         $answerIds = $request->input('answer');
         $correctAnswerIds = []; // Danh sách các ID của các câu trả lời đúng
         $correct = true;
-
+    
+        // Lấy tất cả các câu trả lời đúng cho câu hỏi hiện tại
+        $question = Question::findOrFail($questionId);
+        $correctAnswers = $question->answers()->where('is_correct', true)->pluck('id')->toArray();
+    
         if (is_array($answerIds)) {
             foreach ($answerIds as $answerId) {
                 $answer = Answer::find($answerId);
                 if (!$answer || !$answer->is_correct) {
                     $correct = false;
+                    break; // Nếu có một câu trả lời sai, dừng kiểm tra
                 } else {
                     $correctAnswerIds[] = $answerId; // Thêm ID của câu trả lời đúng vào danh sách
                 }
@@ -191,24 +209,29 @@ class QuizController extends Controller
                 $correctAnswerIds[] = $answerIds; // Thêm ID của câu trả lời đúng vào danh sách
             }
         }
-
+    
+        // Kiểm tra xem tất cả các câu trả lời đúng đã được chọn chưa
+        if ($correct && (count($correctAnswerIds) !== count($correctAnswers) || array_diff($correctAnswers, $correctAnswerIds))) {
+            $correct = false;
+        }
+    
         // Cập nhật điểm số của người dùng nếu cần thiết
         if ($correct) {
             $result = Result::firstOrCreate(['user_id' => $userId, 'quiz_id' => $quizId]);
             $result->increment('score');
         }
-
+    
         // Xác định URL của câu hỏi tiếp theo hoặc trang kết quả
         $quiz = Quiz::find($quizId);
         $totalQuestions = $quiz->questions()->count();
         $nextQuestionIndex = $questionId + 1;
-
+    
         if ($nextQuestionIndex > $totalQuestions) {
             $nextQuestionUrl = route('quiz.result', ['id' => $quizId]);
         } else {
             $nextQuestionUrl = route('quiz.question.show', ['id' => $quizId, 'questionIndex' => $nextQuestionIndex]);
         }
-
+    
         // Trả về phản hồi JSON với thông tin về tính chính xác và danh sách các câu trả lời đúng
         return response()->json([
             'correct' => $correct,
@@ -217,6 +240,8 @@ class QuizController extends Controller
             'message' => $correct ? 'Câu trả lời chính xác!' : 'Câu trả lời không chính xác. Vui lòng thử lại.'
         ]);
     }
+    
+
 
 
 
@@ -429,5 +454,24 @@ class QuizController extends Controller
             'status' => 200,
             'message' => 'Xóa quiz thành công',
         ]);
+    }
+
+    public function setting(Request $request)
+    {
+        $quiz = Quiz::findOrFail($request->quizId);
+        $point = $request->point;
+        $time = $request->time;
+
+        foreach ($quiz->questions()->get() as $question) {
+            $question->point = $point;
+            $question->time = $time;
+            $question->save();
+        }
+        $quiz->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Đặt quiz thành công',
+        ]);
+        
     }
 }

@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/quiz', [HomeController::class, 'quiz'])->name('quiz');
 
 // Auth
 Route::get('/auth/login', [AuthController::class, "showLogin"])->name("login");
@@ -88,6 +89,7 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify']
 
 // Quizz
 Route::get('/quizzes/create/{id?}', [QuizController::class, 'create'])->name('quizzes.create');
+Route::get('/quizzes/edit/{id?}', [QuizController::class, 'create'])->name('quizzes.edit');
 Route::post('/quizzes/create-with-ai', [ListQuestions::class, 'storeQuizWithAI'])->name('quizzes.storeWithAI');
 Route::post('/quizzes/update', [QuizController::class, 'update'])->name('quizzes.update');
 Route::delete('/quizzes/question/destroy', [QuestionController::class, 'destroy'])->name('quizzes.question.destroy');
@@ -95,6 +97,7 @@ Route::put('/quizzes/question/update', [QuestionController::class, 'update'])->n
 // Route::post('/quizzes/question/store', [QuestionController::class, 'store'])->name('quizzes.question.store');
 Route::post('/quizzes/question/store', [ListQuestions::class, 'store'])->name('quizzes.question.store');
 Route::post('/quizzes/published', [QuizController::class, 'published'])->name('quizzes.published');
+Route::post('/quizzes/setting', [QuizController::class, 'setting'])->name('quizzes.setting');
 Route::post('/quizzes/details', [QuizController::class, 'getDetailsQuiz'])->name('quizzes.details');
 Route::post('/quizzes/accept', [QuizController::class, 'appectQuiz'])->name('quizzes.accept');
 Route::post('/quizzes/destroy', [QuizController::class, 'destroy'])->name('quizzes.destroy');
