@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/quiz', [HomeController::class, 'quiz'])->name('quiz');
 
 // Auth
 Route::get('/auth/login', [AuthController::class, "showLogin"])->name("login");

@@ -13,6 +13,9 @@
                             <a href="{{route('home')}}">Home</a>
                         </li>
                         <li>
+                            <a href="{{route('quiz')}}">Quiz</a>
+                        </li>
+                        <li>
                             <a href="{{route('about')}}">About</a>
                         </li>
                         <li>
