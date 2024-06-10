@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'My | Gemini Quiz')
 @section('content')
 <div class="container bg-gradient-to-r from-[#282458] to-[#141816] py-[80px]">
     <div class="nav mb-5 text-[16px]">
