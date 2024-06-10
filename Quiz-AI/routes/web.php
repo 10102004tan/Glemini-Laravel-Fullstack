@@ -103,9 +103,10 @@ Route::post('/quizzes/reject', [QuizController::class, 'rejectQuiz'])->name('qui
 // Api
 Route::get('rooms/{id}', [RoomApiController::class, "show"])->name("get_room_info");
 Route::get('rooms/{id}/quizz', [RoomApiController::class, "getQuestion"])->name("get_room_quizz");
-Route::get('rooms/{id}/init-point', [RoomApiController::class, "initRoomPoint"])->name("init_point");
+Route::post('rooms/{id}/init-point', [RoomApiController::class, "initRoomPoint"])->name("init_point");
 Route::get('rooms/{id}/start', [RoomController::class, "show"])->name("quiz.multiple.play");
 Route::get('rooms/{id}/users', [RoomApiController::class, "getAllUserInRoom"])->name("quiz.multiple.users");
-
-
+Route::post('rooms/{id}/user/point', [RoomApiController::class, "updateUserPoint"])->name("quiz.multiple.update.user.point");
+Route::post('rooms/{id}/close', [RoomApiController::class, "closeRoom"])->name("quiz.multiple.close.room");
+Route::post('rooms/{id}/restart', [RoomApiController::class, "restartRoom"])->name("quiz.multiple.restart.room");
 

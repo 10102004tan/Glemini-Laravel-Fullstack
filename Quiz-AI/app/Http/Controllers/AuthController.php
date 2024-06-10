@@ -46,28 +46,32 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+
         $email = $request->input('email');
         $user = User::where('email', $email)->first();
-        if (Hash::check($request->password, $user->password)) {
-            // Kiểm tra xác thực email
-            if (!$user->hasVerifiedEmail()) {
-                try {
-                    Mail::to($user->email)->send(new VerifyEmail($user));
-                    return redirect()->route('verification.notice', $user->id);
-                } catch (\Exception $e) {
-                    Log::error('Email could not be sent: ' . $e->getMessage());
-                    return redirect()->back()->withErrors(['email' => 'Email could not be sent. Please try again.']);
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                // Kiểm tra xác thực email
+                if (!$user->hasVerifiedEmail()) {
+                    try {
+                        Mail::to($user->email)->send(new VerifyEmail($user));
+                        return redirect()->route('verification.notice', $user->id);
+                    } catch (\Exception $e) {
+                        Log::error('Email could not be sent: ' . $e->getMessage());
+                        return redirect()->back()->withErrors(['email' => 'Email could not be sent. Please try again.']);
+                    }
                 }
-            }
 
-            Auth::guard('web')->login($user);
-            $check = Session::get('unlogin');
-            if (isset($check)) {
-                Session::forget('unlogin');
-                return redirect()->route('quizzes.create');
+                Auth::guard('web')->login($user);
+                $check = Session::get('unlogin');
+                if (isset($check)) {
+                    Session::forget('unlogin');
+                    return redirect()->route('quizzes.create');
+                }
+                return redirect()->intended('home');
             }
-            return redirect()->intended('home');
         }
+
 
         // Đăng nhập thất bại
         return redirect()->back()->withErrors([

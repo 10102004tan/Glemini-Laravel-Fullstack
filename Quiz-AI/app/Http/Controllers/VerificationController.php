@@ -20,7 +20,7 @@ class VerificationController extends Controller
             return redirect('/auth/login')->with('success', 'Your email has been verified!');
         }
 
-        return view('auths.verify', ['id' => $id]);
+        return view('auths.verify', ['id' => $id, 'email' => $user->email]);
     }
 
     public function verify(EmailVerificationRequest $request)

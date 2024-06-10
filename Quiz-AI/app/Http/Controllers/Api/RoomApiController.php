@@ -8,6 +8,7 @@ use App\Models\RoomPoint;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\Foreach_;
 use Pusher\Pusher;
 
 class RoomApiController extends Controller
@@ -54,8 +55,6 @@ class RoomApiController extends Controller
     {
         // Get room
         $room = Room::find($id);
-        // Get room join user from room
-
         // Check if room exist
         if (!$room) {
             return response()->json([
@@ -65,14 +64,63 @@ class RoomApiController extends Controller
 
         // Get room join user from room
         $room->joinedUsers;
+        // Check if point have already exsist
+        $roomPoints = $room->roomPoints;
+        $exsistUser = [];
+        if (count($roomPoints) > 0) {
+            foreach ($roomPoints as $roomPoint) {
+                foreach ($room->joinedUsers as $user) {
+                    if ($roomPoint->user_id == $user->id) {
+                        array_push($exsistUser, $user->id);
+                    }
+                }
+            }
+            //dd($exsistUser);
+        }
 
-        // Create room point
-        foreach ($room->joinedUsers as $user) {
-            RoomPoint::create([
-                'room_id' => $room->id,
-                'user_id' => $user->id,
-                'points' => 0,
-            ]);
+        if (count($exsistUser) > 0) {
+            foreach ($room->joinedUsers as $user) {
+                if (!in_array($user->id, $exsistUser)) {
+                    RoomPoint::create([
+                        'room_id' => $room->id,
+                        'user_id' => $user->id,
+                        'points' => 0,
+                    ]);
+                }
+            }
+        } else {
+            foreach ($room->joinedUsers as $user) {
+                RoomPoint::create([
+                    'room_id' => $room->id,
+                    'user_id' => $user->id,
+                    'points' => 0,
+                ]);
+            }
+        }
+
+        $room->is_open = true;
+        $room->save();
+
+        // Send pusher event
+        if ($room->created_at_by == Auth::user()->id) {
+            $user = Auth::guard('web')->user();
+            $data['title'] = "Start Room";
+            $data['content'] = "$user->name just start room";
+            $data['user'] = $user;
+
+            $options = array(
+                'cluster' => 'ap1',
+                'encrypted' => true
+            );
+
+            $pusher = new Pusher(
+                env('PUSHER_APP_KEY'),
+                env('PUSHER_APP_SECRET'),
+                env('PUSHER_APP_ID'),
+                $options
+            );
+
+            $pusher->trigger('UserStartRoom', 'send-notify', $data);
         }
 
         return response()->json([
@@ -109,16 +157,30 @@ class RoomApiController extends Controller
         ]);
     }
 
-    public function updateUserPoint($id, Request $request)
+    public function updateUserPoint(Request $request)
     {
-        $user = User::find($id);
-        $user->roomPoints()->update([
-            'points' => $request->points,
-        ]);
+        $room = Room::where('room_id', $request->id)->first();
 
-        return response()->json([
+        if (!$room) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Room not found',
+            ], 404);
+        }
+        $room->joinedUsers;
+        $roomPoints = $room->roomPoints;
+        foreach ($roomPoints as $roomPoint) {
+            if ($roomPoint->user_id == $request->user_id) {
+                // Update room point here
+                $roomPoint->update([
+                    "points" => (int) $request->point
+                ]);
+            }
+        }
+
+       return response()->json([
             'status' => 'success',
-            'user' => $user,
+            'room' => $room,
         ]);
     }
 
@@ -134,6 +196,31 @@ class RoomApiController extends Controller
         return response()->json([
             'status' => 'success',
             'users' => $users,
+        ]);
+    }
+
+    public function closeRoom($id)
+    {
+        $room = Room::where('room_id', $id)->first();
+        $room->is_finish = true;
+        $room->save();
+
+        return response()->json([
+            'status' => 'success',
+            'room' => $room,
+        ]);
+    }
+
+
+    public function restartRoom($id)
+    {
+        $room = Room::where('room_id', $id)->first();
+        $room->is_finish = false;
+        $room->save();
+
+        return response()->json([
+            'status' => 'success',
+            'room' => $room,
         ]);
     }
 

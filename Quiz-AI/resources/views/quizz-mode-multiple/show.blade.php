@@ -14,15 +14,15 @@
                 reprehenderit minus dolores id asperiores error iste accusantium, nisi dicta?</p>
         </div>
         {{-- Dialog Finish --}}
-        <div class="dialog-fisish min-w-[600px] p-4 rounded-lg bg-[var(--background)]">
+        <div class="dialog-fisish min-w-[600px] p-4  shadow-lgrounded-lg bg-[var(--background)]">
             <h3 class="text-[42px] font-semibold">Finished!</h3>
             <div class="bg-[var(--gray)]">
-                <p class="point">Point: 10 / 10</p>
-                <p class="correct">Correct: 10 / 10</p>
+                <p class="point">Point: 0 / 0</p>
+                <p class="correct">Correct: 0 / 0</p>
                 <p class="incorrect">Incorrect: 0</p>
             </div>
-            <div class="mt-[20px] border-t shadow-lg">
-                <h3 class="text-center mt-4 mb-4">Bảng xếp hạng điểm</h3>
+            <div class="mt-[20px] border-t">
+                <h3 class="text-center mt-4 mb-4">Score ranking</h3>
                 <div>
                     <table class="w-full bxh">
                         <thead>
@@ -32,24 +32,20 @@
                                 <th class="text-start">Point</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Nguyen Van A</td>
-                                <td>10</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Nguyen Van B</td>
-                                <td>9</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Nguyen Van C</td>
-                                <td>8</td>
-                            </tr>
+                        <tbody class="table_fished_content">
+
                         </tbody>
                     </table>
+
+                    <div class="pt-4 flex items-center justify-center">
+                        @if ($user_created === Auth::user()->id)
+                            <button
+                                class="btn_restart_room p-4 rounded- flex items-center justify-center rounded-lg bg-[var(--input-form-bg)] gap-3 ">
+                                <i class="fa-regular fa-rotate-right"></i>
+                                Restart
+                            </button>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,7 +72,7 @@
             </div>
         @endif
         {{-- Header --}}
-        <div class="bg-[var(--background-dark)] w-full p-2 flex items-center justify-between">
+        <div class="relative bg-[var(--background-dark)] w-full p-2 flex items-center justify-between">
             <div class="flex items-center justify-start gap-3">
                 <img src="{{ asset('images/icon-white.png') }}" alt="" class="w-[32px] h-[32px]">
                 <button
@@ -85,10 +81,24 @@
                 </button>
                 <p class="quizz_title"></p>
             </div>
-            <div>
-                <button class="p-4 rounded- flex items-center justify-center rounded-lg bg-[var(--input-form-bg)]">
+            <div class="flex items-center justify-center gap-3">
+                <button
+                    class="btn_zoom p-4 rounded- flex items-center justify-center rounded-lg bg-[var(--input-form-bg)] ">
                     <i class="fa-regular fa-expand"></i>
                 </button>
+
+                @if ($user_created === Auth::user()->id)
+                    <button
+                        class="btn_close_room p-4 rounded- flex items-center justify-center rounded-lg bg-[var(--input-form-bg)] gap-3 ">
+                        <i class="fa-duotone fa-flag-checkered"></i>
+                    </button>
+                @endif
+
+            </div>
+
+            <div
+                class="time_slide transition-all duration-1000 ease-linear absolute left-0 w-[0%] bottom-0 h-[4px] bg-[var(--text)]">
+
             </div>
         </div>
         <div class="w-full flex-1 bg-[var(--primary)]">
@@ -111,12 +121,11 @@
             </button>
         </div>
     </div>
-
 @endsection
 @section('script')
     <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
     <script>
-        let questionIndex = 8;
+        let questionIndex = 9;
         let questions = [];
         let userAnswers = [];
         const questionTitle = document.querySelector('.question_title');
@@ -133,8 +142,45 @@
         const point = document.querySelector(".point");
         const correct = document.querySelector(".correct");
         const incorrect = document.querySelector(".incorrect");
+        const timeSlide = document.querySelector('.time_slide');
+        const tableRanking = document.querySelector('.table_fished_content');
+        const btnCloseRoom = document.querySelector('.btn_close_room');
+        const btnRestartRoom = document.querySelector('.btn_restart_room');
+        const btnZoom = document.querySelector('.btn_zoom');
         const TIMER = 2000;
         let POINT = 0;
+        let questionTimer = 30000;
+        let timeCount = 0;
+        let timeSlider;
+        let animateQues;
+        let showNextQuestionAnimate;
+        let correctAnswers = true;
+        let correctAnswerStr = "";
+
+        const startInterval = () => {
+            timeCount = 0;
+            if (timeSlider) {
+                clearInterval(timeSlider);
+            }
+
+            timeSlider = setInterval(() => {
+                if (questionIndex < questions.length) {
+                    timeCount++;
+                    if (timeCount <= questionTimer / 1000) {
+                        timeSlide.style.width = `${timeCount * 10 / 3}%`;
+                        if (timeCount * 10 / 3 >= 65) {
+                            timeSlide.classList.add("bg-red-500");
+                        } else {
+                            timeSlide.classList.remove("bg-red-500");
+                        }
+                        // console.log(timeCount * 10 / 3);
+                    } else {
+                        clearInterval(timeSlider);
+                        handleCheckAnswer();
+                    }
+                }
+            }, 1000);
+        };
 
         // Get question of room
         const getQuestion = async () => {
@@ -142,12 +188,31 @@
             const data = await response.json();
             quizzTitle.textContent = data.room.quiz.title;
             questions = data.room.quiz.questions;
-            return data;
+            if (data.room.is_finish) {
+                return false
+            }
+            return true;
         }
 
-        const handleClickAnswer = (target, ansId) => {
+        const handleClickAnswer = (target, ansId, ansType) => {
+            if (ansType === "radio") {
+                // Choose only one answer
+                userAnswers = [];
+                userAnswers.push(ansId);
+                // Clear active class
+                document.querySelectorAll(".answer").forEach((element) => {
+                    element.classList.remove("active");
+                });
+            } else if (ansType === "checkbox") {
+                // Choose multiple answer
+                if (userAnswers.includes(ansId)) {
+                    userAnswers = userAnswers.filter((answer) => answer !== ansId);
+                } else {
+                    userAnswers.push(ansId);
+                }
+            }
+            // Active choose answer
             target.classList.toggle("active");
-            userAnswers.push(ansId);
         }
 
         const escapeHtml = (unsafe) => {
@@ -159,77 +224,142 @@
                 .replace(/'/g, "&#039;");
         }
 
+        const savePoint = async (userId, point) => {
+            const response = await fetch(`{{ route('quiz.multiple.update.user.point', $room_id) }}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    point: point,
+                    user_id: userId
+                })
+            });
+            const data = await response.json();
+            console.log(data);
+            const users = data.room.room_points;
+            console.log(users);
+            users.forEach((user, index) => {
+                const username = data.room.joined_users.find((u) => u.id === user.user_id).name;
+                tableRanking.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${username}</td>
+                        <td>${user.points}</td>
+                    </tr>
+                `;
+            });
+            // return data;
+        }
+
+        const roomFinished = async () => {
+            // Display dialog finish
+            const response = await fetch(`{{ route('quiz.multiple.users', $room_id) }}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+            });
+            const data = await response.json();
+            const users = data.users;
+            correct.style.display = "none";
+            point.style.display = "none";
+            incorrect.style.display = "none";
+            buttonNext.style.display = "none";
+            document.querySelector(".dialog-fisish").classList.add("active");
+            users.forEach((user, index) => {
+                user.room_points.forEach(roomPoint => {
+                    if (parseInt(roomPoint.room_id) === {{ $id }}) {
+                        tableRanking.innerHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${user.name}</td>
+                            <td>${roomPoint.points}</td>
+                        </tr>
+                    `;
+                    }
+                });
+            });
+        }
+
         getQuestion().then((result) => {
-            // Render question
-            questionLength.textContent = `${questionIndex + 1} / ${questions.length}`;
-            questionTitle.textContent = questions[questionIndex].excerpt;
-            if (questions[questionIndex].image) {
-                quesImg.src = `{{ asset('${questions[questionIndex].image}') }}`
-            }
-            questions[questionIndex].answers.forEach(element => {
-                questionAnswerWrapper.innerHTML += `
-                    <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[32px]" onclick="handleClickAnswer(this, ${element.id})">
+            if (!result) {
+                roomFinished();
+            } else {
+                // Render question
+                questionLength.textContent = `${questionIndex + 1} / ${questions.length}`;
+                questionTitle.textContent = questions[questionIndex].excerpt;
+                if (questions[questionIndex].image) {
+                    quesImg.src = `{{ asset('${questions[questionIndex].image}') }}`
+                }
+                questions[questionIndex].answers.forEach(element => {
+                    questionAnswerWrapper.innerHTML += `
+                    <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[32px]" onclick="handleClickAnswer(this, ${element.id}, '${questions[questionIndex].type}')">
                         ${escapeHtml(element.content)}
                     </div>
                 `;
-            });
+                });
+                startInterval();
+            }
         }).catch((err) => {
             console.log(err);
         });
 
-        buttonNext.addEventListener('click', () => {
-            const answerElements = document.querySelectorAll(".answer");
-            // Check answer of current question
-            let correctAnswers = true;
-            let correctAnswerStr = "";
-            userAnswers.forEach(uanswer => {
-                questions[questionIndex].answers.forEach((answer, index) => {
-                    if (uanswer === answer.id && answer.is_correct) {
-                        POINT++;
-                    } else if (uanswer === answer.id && !answer.is_correct) {
-                        answerElements[index].classList.add("incorrect");
-                        correctAnswers = false;
-                        return;
-                    }
-
-                    if (answer.is_correct) {
-                        answerElements[index].classList.add("correct");
-                        correctAnswerStr += `${answer.content}, `;
-                    } else {
-                        answerElements[index].classList.add("incorrect");
-                    }
-                });
-            });
-
+        const animationNextQues = (isChoseAnswer = true) => {
             // Animation
-            const animate = setTimeout(() => {
-                if (correctAnswers) {
-                    correctAnswerStr = correctAnswerStr.slice(0, -2);
-                    dialogTitle.textContent = "Correct !";
-                    dialogDescription.innerHTML =
-                        `Question: ${questions[questionIndex].excerpt}<br> Answer: ${escapeHtml(correctAnswerStr)}`;
-                    dialogImage.src = "{{ asset('icon_imgs/tick.webp') }}";
-                    quesWrapper.classList.add("active");
-                    dialog.classList.add("active");
-                } else {
-                    dialogTitle.textContent = "Incorrect !";
-                    dialogDescription.textContent =
-                        `${questions[questionIndex].excerpt}: ${correctAnswerStr}`;
-                    dialogImage.src = "{{ asset('icon_imgs/cross.webp') }}";
+            if (animateQues) {
+                clearTimeout(animateQues);
+            }
+
+            if (showNextQuestionAnimate) {
+                clearTimeout(showNextQuestionAnimate);
+            }
+
+            // Dialog check answer
+            if (isChoseAnswer) {
+                animateQues = setTimeout(() => {
+                    if (correctAnswers) {
+                        correctAnswerStr = correctAnswerStr.slice(0, -1);
+                        dialogTitle.textContent = "Correct !";
+                        dialogDescription.innerHTML =
+                            `Question: ${questions[questionIndex].excerpt}<br> Answer: ${escapeHtml(correctAnswerStr)}`;
+                        dialogImage.src = "{{ asset('icon_imgs/tick.webp') }}";
+                        quesWrapper.classList.add("active");
+                        dialog.classList.add("active");
+                    } else {
+                        correctAnswerStr = correctAnswerStr.slice(0, -1);
+                        dialogTitle.textContent = "Incorrect !";
+                        dialogDescription.innerHTML =
+                            `Question: ${questions[questionIndex].excerpt}<br> Answer: ${escapeHtml(correctAnswerStr)}`;
+                        dialogImage.src = "{{ asset('icon_imgs/cross.webp') }}";
+                        quesWrapper.classList.add("active");
+                        dialog.classList.add("active");
+                    }
+                }, TIMER);
+            } else {
+                if (questionIndex <= questions.length) {
+                    dialogTitle.textContent = "Time out !";
+                    dialogDescription.textContent = `You must choose answer in ${questionTimer / 1000} seconds.`;
+                    dialogImage.src = "{{ asset('icon_imgs/timeout.png') }}";
                     quesWrapper.classList.add("active");
                     dialog.classList.add("active");
                 }
-            }, TIMER);
+            }
 
-
-
-            const handleShowNextQuestion = setTimeout(() => {
-                clearTimeout(animate);
+            // Show next question
+            showNextQuestionAnimate = setTimeout(() => {
+                clearTimeout(animateQues);
+                startInterval();
                 dialog.classList.remove("active");
                 userAnswers = [];
                 correctAnswerStr = "";
                 correctAnswers = true;
-                // Go to next questionu
+
+                // Go to next ques
                 questionIndex++;
                 if (questionIndex < questions.length) {
                     questionLength.textContent = `${questionIndex + 1} / ${questions.length}`;
@@ -237,10 +367,11 @@
                     if (questions[questionIndex].image) {
                         quesImg.src = `{{ asset('${questions[questionIndex].image}') }}`
                     }
+
                     questionAnswerWrapper.innerHTML = '';
                     questions[questionIndex].answers.forEach(element => {
                         questionAnswerWrapper.innerHTML += `
-                        <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[32px]" onclick="handleClickAnswer(this, ${element.id})">
+                        <div class="answer bg-[var(--text)] w-full p-2 rounded-lg h-full text-[var(--background)] text-center text-[32px]" onclick="handleClickAnswer(this, ${element.id}, '${questions[questionIndex].type}')">
                             ${escapeHtml(element.content)}
                         </div>
                     `;
@@ -253,8 +384,109 @@
                     point.textContent = `Point: ${POINT}`;
                     incorrect.textContent = `Incorrect: ${questions.length - POINT}`;
                     document.querySelector(".dialog-fisish").classList.add("active");
+                    buttonNext.style.display = "none";
+                    // Save point user into database
+                    savePoint({{ Auth::user()->id }}, POINT);
                 }
+                buttonNext.textContent = "Next Question";
             }, TIMER + 2000)
+        }
+
+        const handleCheckAnswer = () => {
+            const answerElements = document.querySelectorAll(".answer");
+            // Check answer of current question
+            if (userAnswers.length > 0) {
+                userAnswers.forEach(uanswer => {
+                    questions[questionIndex].answers.forEach((answer, index) => {
+                        if (uanswer === answer.id && answer.is_correct === 1) {
+                            POINT++;
+                        } else if (uanswer === answer.id && answer.is_correct === 0) {
+                            answerElements[index].classList.add("incorrect");
+                            correctAnswers = false;
+                            return;
+                        }
+
+                        if (answer.is_correct) {
+                            answerElements[index].classList.add("correct");
+                            correctAnswerStr += `${answer.content},`;
+                        } else {
+                            answerElements[index].classList.add("incorrect");
+                        }
+                    });
+                });
+
+                // Animation
+                animationNextQues();
+            } else {
+                // User don't choose answer
+                console.log("require choose answer");
+                animationNextQues(false);
+            }
+        }
+
+        buttonNext.addEventListener('click', () => {
+            buttonNext.textContent = "Checking ...";
+            handleCheckAnswer();
+            buttonNext.textContent = "Next Question";
         });
+
+        btnZoom.addEventListener('click', () => {
+            // Full screen
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                document.documentElement.msRequestFullscreen();
+            }
+
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { // Firefox
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE/Edge
+                document.msExitFullscreen();
+            }
+        });
+
+        if (btnCloseRoom) {
+            btnCloseRoom.addEventListener('click', async () => {
+                const response = await fetch(`{{ route('quiz.multiple.close.room', $room_id) }}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                });
+                const res = await response.json();
+
+                if (res.status === "success") {
+                    window.location.href = `{{ route('home') }}`;
+                }
+            });
+        }
+
+        if (btnRestartRoom) {
+            btnRestartRoom.addEventListener("click", async () => {
+                const response = await fetch(`{{ route('quiz.multiple.restart.room', $room_id) }}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                });
+                const res = await response.json();
+
+                if (res.status === "success") {
+                    window.location.href = `{{ route('quiz.multiple.play', $room_id) }}`;
+                }
+            })
+        }
     </script>
 @endsection
