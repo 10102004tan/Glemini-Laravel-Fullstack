@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Events\\UserJoinedRoom' => $baseDir . '/app/Events/UserJoinedRoom.php',
     'App\\Events\\UserLeftRoom' => $baseDir . '/app/Events/UserLeftRoom.php',
+    'App\\Events\\UserStartRoom' => $baseDir . '/app/Events/UserStartRoom.php',
     'App\\Http\\Controllers\\Api\\RoomApiController' => $baseDir . '/app/Http/Controllers/Api/RoomApiController.php',
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
@@ -22,6 +23,8 @@ return array(
     'App\\Listeners\\EmailSentListener' => $baseDir . '/app/Listeners/EmailSentListener.php',
     'App\\Livewire\\FormCreateQuizAI' => $baseDir . '/app/Livewire/FormCreateQuizAI.php',
     'App\\Livewire\\FormCreateQuizManual' => $baseDir . '/app/Livewire/FormCreateQuizManual.php',
+    'App\\Livewire\\Forms\\QuestionEditForm' => $baseDir . '/app/Livewire/Forms/QuestionEditForm.php',
+    'App\\Livewire\\ImageUpload' => $baseDir . '/app/Livewire/ImageUpload.php',
     'App\\Livewire\\ItemQuestion' => $baseDir . '/app/Livewire/ItemQuestion.php',
     'App\\Livewire\\ListQuestions' => $baseDir . '/app/Livewire/ListQuestions.php',
     'App\\Mail\\VerifyEmail' => $baseDir . '/app/Mail/VerifyEmail.php',

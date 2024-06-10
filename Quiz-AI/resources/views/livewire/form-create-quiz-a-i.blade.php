@@ -1,5 +1,5 @@
 <form id="modal-show-option-text" wire:submit="store" class="modal-show-option-text">
-    
+    <!-- <button type="button" wire:click="getCookieRecipes">Test</button> -->
     @isset($quiz_id)
     <input type="hidden" wire:model="quiz_id" value="{{$quiz_id}}" class="text-black">
     @endisset

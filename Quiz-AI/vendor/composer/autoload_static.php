@@ -448,8 +448,8 @@ class ComposerStaticInitce68db8f37552cf4ccf397cfe83abddb
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -687,6 +687,7 @@ class ComposerStaticInitce68db8f37552cf4ccf397cfe83abddb
     public static $classMap = array (
         'App\\Events\\UserJoinedRoom' => __DIR__ . '/../..' . '/app/Events/UserJoinedRoom.php',
         'App\\Events\\UserLeftRoom' => __DIR__ . '/../..' . '/app/Events/UserLeftRoom.php',
+        'App\\Events\\UserStartRoom' => __DIR__ . '/../..' . '/app/Events/UserStartRoom.php',
         'App\\Http\\Controllers\\Api\\RoomApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/RoomApiController.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
@@ -701,6 +702,8 @@ class ComposerStaticInitce68db8f37552cf4ccf397cfe83abddb
         'App\\Listeners\\EmailSentListener' => __DIR__ . '/../..' . '/app/Listeners/EmailSentListener.php',
         'App\\Livewire\\FormCreateQuizAI' => __DIR__ . '/../..' . '/app/Livewire/FormCreateQuizAI.php',
         'App\\Livewire\\FormCreateQuizManual' => __DIR__ . '/../..' . '/app/Livewire/FormCreateQuizManual.php',
+        'App\\Livewire\\Forms\\QuestionEditForm' => __DIR__ . '/../..' . '/app/Livewire/Forms/QuestionEditForm.php',
+        'App\\Livewire\\ImageUpload' => __DIR__ . '/../..' . '/app/Livewire/ImageUpload.php',
         'App\\Livewire\\ItemQuestion' => __DIR__ . '/../..' . '/app/Livewire/ItemQuestion.php',
         'App\\Livewire\\ListQuestions' => __DIR__ . '/../..' . '/app/Livewire/ListQuestions.php',
         'App\\Mail\\VerifyEmail' => __DIR__ . '/../..' . '/app/Mail/VerifyEmail.php',
