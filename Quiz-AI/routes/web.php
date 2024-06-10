@@ -13,6 +13,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleAndPermissionController;
 use App\Http\Controllers\VerificationController;
+use App\Livewire\FormCreateQuizImage;
 
 //Home
 Route::get('/', function () {
@@ -104,3 +105,7 @@ Route::get('rooms/{id}/quizz', [RoomApiController::class, "getQuestion"])->name(
 Route::get('rooms/{id}/init-point', [RoomApiController::class, "initRoomPoint"])->name("init_point");
 Route::get('rooms/{id}/start', [RoomController::class, "show"])->name("quiz.multiple.play");
 Route::get('rooms/{id}/users', [RoomApiController::class, "getAllUserInRoom"])->name("quiz.multiple.users");
+
+
+Route::get('test', [FormCreateQuizImage::class, "render"]);
+

@@ -15,6 +15,7 @@ const btnCloseEditQuiz = document.querySelector('.btn-close-modal-edit-quiz');
 const showOptions = document.querySelectorAll('.show-option');
 const modalShowOptionText = document.querySelector('.modal-show-option-text');
 const modalShowOptionManual = document.querySelector('.modal-show-option-manual');
+const modalShowOptionImage= document.getElementById('modal-show-option-image');
 const overlayLoading = document.querySelector('.overlay-loading');
 const btnGenerateAI = document.querySelector('.btn-generate-ai');
 const resultIntro = document.querySelector('.result-intro');
@@ -65,28 +66,28 @@ if (btnPublished != null) {
 }
 
 //check select option question
-window.onload = function () {
-    let url = window.location.href;
-    if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
-        modalShowOptionText.classList.remove('hidden');
-        modalShowOptionManual.classList.add('hidden');
-        preShowOption.classList.remove('active');
-        showOptions[0].classList.add('active');
-        preShowOption = showOptions[0];
-    }
-    else if (window.location.search.indexOf('manual') > -1) {
-        let manualCount = (url.match(/\\?manual/g) || []).length;
-        if (manualCount > 1) {
-            url = url.replace('?manual', '');
-            window.location.href = url;
-        }
-        modalShowOptionManual.classList.remove('hidden');
-        modalShowOptionText.classList.add('hidden');
-        preShowOption.classList.remove('active');
-        showOptions[1].classList.add('active');
-        preShowOption = showOptions[1];
-    }
-}
+// window.onload = function () {
+//     let url = window.location.href;
+//     if (window.location.search.indexOf('text') > -1 || window.location.search == "") {
+//         modalShowOptionText.classList.remove('hidden');
+//         modalShowOptionManual.classList.add('hidden');
+//         preShowOption.classList.remove('active');
+//         showOptions[0].classList.add('active');
+//         preShowOption = showOptions[0];
+//     }
+//     else if (window.location.search.indexOf('manual') > -1) {
+//         let manualCount = (url.match(/\\?manual/g) || []).length;
+//         if (manualCount > 1) {
+//             url = url.replace('?manual', '');
+//             window.location.href = url;
+//         }
+//         modalShowOptionManual.classList.remove('hidden');
+//         modalShowOptionText.classList.add('hidden');
+//         preShowOption.classList.remove('active');
+//         showOptions[1].classList.add('active');
+//         preShowOption = showOptions[1];
+//     }
+// }
 
 // 
 selectOptionQuestion.addEventListener('change', function () {
@@ -104,21 +105,7 @@ btnResetForm.addEventListener('click', function (e) {
 });
 
 
-// for (let i = 0; i < btnEditQuestions.length; i++) {
-//     btnEditQuestions[i].addEventListener('click', function () {
-//         modalEditQuestion[i].classList.remove('hidden');
-//         modalQuestion[i].classList.add('hidden');
-//         modalEditQuestion[i].classList.add('flex');
 
-
-//     });
-
-//     btnCancels[i].addEventListener('click', function () {
-//         modalEditQuestion[i].classList.add('hidden');
-//         modalEditQuestion[i].classList.remove('flex');
-//         modalQuestion[i].classList.remove('hidden');
-//     });
-// }
 
 
 // click edit btn quiz
@@ -152,28 +139,36 @@ if (btnSettings != null) {
 
 // show options
 
-if (showOptions.length > 0) {
-    preShowOption = showOptions[0];
+// if (showOptions.length > 0) {
+//     preShowOption = showOptions[0];
 
-}
+// }
 
-showOptions.forEach((showOption) => {
-    showOption.addEventListener('click', function () {
-        if (showOption.getAttribute('option-data') == "0") {
-            modalShowOptionText.classList.remove('hidden');
-            modalShowOptionManual.classList.add('hidden');
-            history.pushState(null, null, '?text');
-        } else {
-            modalShowOptionManual.classList.remove('hidden');
-            modalShowOptionText.classList.add('hidden');
-            history.pushState(null, null, '?manual');
-        }
-
-        preShowOption.classList.remove('active');
-        showOption.classList.add('active');
-        preShowOption = showOption;
-    });
-});
+// showOptions.forEach((showOption) => {
+//     showOption.addEventListener('click', function () {
+//         if (showOption.getAttribute('option-data') == "0") {
+//             modalShowOptionText.classList.remove('hidden');
+//             modalShowOptionManual.classList.add('hidden');
+//             modalShowOptionImage.classList.add('hidden');
+//             history.pushState(null, null, '?text');
+//         } else if(showOption.getAttribute('option-data') == "1") {
+//             modalShowOptionManual.classList.remove('hidden');
+//             modalShowOptionText.classList.add('hidden');
+//             modalShowOptionImage.classList.add('hidden');
+//             history.pushState(null, null, '?manual');
+//         }
+//         else{
+//             modalShowOptionManual.classList.add('hidden');
+//             modalShowOptionText.classList.add('hidden');
+//             modalShowOptionImage.classList.remove('hidden');
+//             console.log(modalShowOptionImage)
+//             history.pushState(null, null, '?image');
+//         }
+//         preShowOption.classList.remove('active');
+//         showOption.classList.add('active');
+//         preShowOption = showOption;
+//     });
+// });
 
 // if (btnGenerateAI != null) {
 // btnGenerateAI.addEventListener('click', function () {

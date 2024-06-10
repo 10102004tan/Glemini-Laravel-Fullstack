@@ -1,4 +1,4 @@
-<form wire:submit.prevent="store" class="modal-show-option-manual hidden" wire:ignore>
+<form wire:submit.prevent="store" class="modal-show-option-manual" wire:ignore>
     @isset($quiz_id)
     <input type="hidden" wire:model="quiz_id" value="{{$quiz_id}}" class="text-black">
     @endisset

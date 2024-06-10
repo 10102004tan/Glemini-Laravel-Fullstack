@@ -2,54 +2,46 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
-use App\Models\Question;
 use App\Models\Quiz;
-use App\Models\Result;
-use App\Models\UserAnswer;
-use Gemini\Laravel\Facades\Gemini;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Masmerise\Toaster\Toaster;
+use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
-class FormCreateQuizAI extends Component
+class FormCreateQuizImage extends Component
 {
-    public $quiz;
+    use WithFileUploads;
+    public $imageInput;
     public $quiz_id;
-    public $titleButton;
-    public $difficulty;
-    public $size_questions;
-    public $content;
-    public $language;
-    public $type;
 
     public function mount($quiz_id = null)
     {
         $this->quiz_id = $quiz_id;
-        $this->titleButton = "Generate Quiz";
-        $this->difficulty = 'easy';
-        $this->size_questions = 5;
-        $this->language = 'en';
-        $this->type = 'checkbox';
     }
     public function render()
     {
-        return view('livewire.form-create-quiz-a-i');
+        return view('livewire.form-create-quiz-image');
     }
 
-   public function store()
+    public function store()
     {
-        $isFirst = true;
-        $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
-        $prompt = 'Please give me randomly <<total_questions : '
-                            . $this->size_questions . '>> questions of type <<type:'
-                            . $this->type . '>> on a random topic within <<title: '
-                            . $this->content . ' >>. 
-        I want the questions to have a difficulty level of <<difficulty : ' . $this->difficulty . ' >>. 
-        I want the language for all content to be <<language : ' . $this->language . ' >>.
+        $this->validate([
+            'imageInput' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        
+        $imagePath = $this->imageInput->store('images', 'public');
+        $fullImagePath = storage_path('app/public/' . $imagePath); // Correctly build the full path to the stored image
+        $imageData = base64_encode(Storage::get('public/' . $imagePath)); // Adjust the path for Storage::get
+        
+        // Determine the correct mime type based on file extension
+        $mimeType = mime_content_type($fullImagePath);
+
+        $prompt = '
+       I want questions of type <<type:'
+                            . 'random[checkbox,radio]' . '>>. 
+        I want you to transfer all the content in the text in the photo to the question.
+        I want the language for all content to be <<language : ' . 'Vietnameses' . ' >>.
         I want each question to have 4 answers. 
         I want the questions to include: excerpt, type,optional and answers. 
         I want the answers to include: content, is_correct. 
@@ -77,15 +69,23 @@ class FormCreateQuizAI extends Component
                         }
                
                         ]
-                        }.
-                        ';
+                        }
+        ';
+        
+        $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
         ])->post($url . '?key=' . env('GEMINI_API_KEY'), [
             'contents' => [
                 [
                     'parts' => [
-                        ['text' => $prompt]
+                        ['text' => $prompt],
+                        [
+                            'inlineData' => [
+                                'mimeType' => $mimeType, // Use the determined mime type
+                                'data' => $imageData, // Base64 encoded image data
+                            ]
+                        ]
                     ]
                 ]
             ],
@@ -93,8 +93,7 @@ class FormCreateQuizAI extends Component
                 'response_mime_type' => 'application/json',
             ],
         ]);
-
-
+        
         $data = json_decode(($response['candidates'][0]['content']['parts'][0]['text']),true);
         try {
             if (isset($data['questions']) && count($data['questions']) > 0) {
@@ -129,7 +128,6 @@ class FormCreateQuizAI extends Component
                 }
 
                 //xóa file json
-                $this->content = '';
                 if ($isFirst) {
                     return redirect()->route('quizzes.create', $quiz->id);
                 } else {
@@ -143,6 +141,5 @@ class FormCreateQuizAI extends Component
             dd($e);
             $this->dispatch('toast', message: 'Tạo câu hỏi thất bại', status: 'error');
         }
-
     }
 }

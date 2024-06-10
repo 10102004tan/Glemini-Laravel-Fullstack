@@ -81,18 +81,12 @@
 <section>
     <div class="grid grid-cols-12">
         <div class="px-[2rem] py-4 create bg-primary relative lg:col-span-4 col-span-12">
-            <div class="flex gap-4 border-b-[1px] border-gray-400">
-                <button type="button" option-data="0" class="active py-3 border-b-[2px] border-transparent active:border-blue-700 active:text-blue-700 hover:border-slate-500 hover:text-slate-500 text-white show-option">Text</button>
-                <button type="button" option-data="1" class="py-3 border-b-[2px] border-transparent hover:border-slate-500 hover:text-slate-500 text-white show-option">Manual</button>
-            </div>
-            @isset($quiz)
-            <livewire:form-create-quiz-a-i :quiz_id="$quiz->id" />
-            <livewire:form-create-quiz-manual :quiz_id="$quiz->id" />
-            @else
-            <livewire:form-create-quiz-a-i />
-            <livewire:form-create-quiz-manual />
-            @endisset
-
+           
+        @isset($quiz)
+        <livewire:bar-create-quiz :quiz="$quiz"/>
+        @else
+        <livewire:bar-create-quiz />
+        @endisset
         </div>
         <div class="result lg:col-span-8 py-4 px-5 bg-secondary relative col-span-12">
             @isset($quiz)
