@@ -67,10 +67,10 @@
 
             <!-- Hình ảnh -->
             <div class="h-[400px] w-full bg-gray-800 flex items-center justify-center">
-    @if($question->image)
-        <img src="{{ asset($question->image) }}" alt="Question Image" class="h-full w-full object-contain" />
-    @endif
-</div>
+                @if($question->image)
+                    <img src="{{ asset($question->image) }}" alt="Question Image" class="h-full w-full object-contain" />
+                @endif
+            </div>
 
 
         </div>
