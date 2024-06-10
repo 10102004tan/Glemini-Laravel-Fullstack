@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Create')
 @section('content')
 <div class="shadow-bar bg-primary sticky top-0 left-0 right-0  z-[999]">
     <div class="container">
