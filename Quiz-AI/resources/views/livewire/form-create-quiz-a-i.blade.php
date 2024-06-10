@@ -14,8 +14,6 @@
                 <select wire:model="type" class="bg-primary p-3 rounded-[10px] text-white border-2 border-gray-400 w-[100%]">
                     <option value="checkbox">Multiple Choice</option>
                     <option value="radio">One Choice</option>
-                    <option value="true/false">True/False</option>
-                    <option value="short answer">Short Answer</option>
                 </select>
             </label>
 
