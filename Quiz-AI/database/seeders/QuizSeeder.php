@@ -18,7 +18,7 @@ class QuizSeeder extends Seeder
         // Create Quizz
         DB::table('quizzes')->insert(
             [
-                'id' => 1,
+                'id' => 'vneiIJBLCnnino',
                 'title' => 'Thành phố ở Việt Nam',
                 'description' => 'No Description'
             ]
@@ -27,7 +27,7 @@ class QuizSeeder extends Seeder
         // Create Question For Quizz
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/ho-chi-minh.png'
             ]
@@ -67,7 +67,7 @@ class QuizSeeder extends Seeder
         
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/ha-noi.png'
             ]
@@ -107,7 +107,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?',  
                 'image' => 'images/hue.png'
             ]
@@ -147,7 +147,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?',  
                 'image' => 'images/binh-dinh.png'
             ]
@@ -187,7 +187,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/can-tho.png'
             ]
@@ -227,7 +227,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/phu-yen.png'
             ]
@@ -267,7 +267,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/da-nang.png'
             ]
@@ -307,7 +307,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?',  
                 'image' => 'images/nghe-an.png'
             ]
@@ -347,7 +347,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?',  
                 'image' => 'images/lam-dong.png'
             ]
@@ -387,7 +387,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 1,
+                'quiz_id' => 'vneiIJBLCnnino',
                 'excerpt' => 'Đây là tỉnh/thành phố nào?', 
                 'image' => 'images/gia-lai.png'
             ]
@@ -428,7 +428,7 @@ class QuizSeeder extends Seeder
         // Create Quizz
         DB::table('quizzes')->insert(
             [
-                'id' => 2,
+                'id' => 'fvneuBuylbpok',
                 'title' => 'Động vật',
                 'description' => 'No Description'
             ]
@@ -436,7 +436,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 2,
+                'quiz_id' => 'fvneuBuylbpok',
                 'excerpt' => 'Loại động vật ăn thịt?', 
                 'type' => 'checkbox'
             ]
@@ -476,7 +476,7 @@ class QuizSeeder extends Seeder
 
         DB::table('questions')->insert(
             [
-                'quiz_id' => 2,
+                'quiz_id' => 'fvneuBuylbpok',
                 'excerpt' => 'Loài động vật lưỡng cư?', 
                 'type' => 'checkbox'
             ]
