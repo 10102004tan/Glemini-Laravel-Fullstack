@@ -425,6 +425,97 @@ class QuizSeeder extends Seeder
             ]
         );
 
+        // Create Quizz
+        DB::table('quizzes')->insert(
+            [
+                'id' => 2,
+                'title' => 'Động vật',
+                'description' => 'No Description'
+            ]
+        );
+
+        DB::table('questions')->insert(
+            [
+                'quiz_id' => 2,
+                'excerpt' => 'Loại động vật ăn thịt?', 
+                'type' => 'checkbox'
+            ]
+        );
+
+        DB::table('answers')->insert(
+            [
+                'question_id' => 11,
+                'content' => 'Sư tủ', 
+                'is_correct' => 1
+            ]
+        );
+
+        DB::table('answers')->insert(
+            [
+                'question_id' => 11,
+                'content' => 'Hổ', 
+                'is_correct' => 1
+            ]
+        );
+
+        DB::table('answers')->insert(
+            [
+                'question_id' => 11,
+                'content' => 'Thỏ', 
+                'is_correct' => 0
+            ]
+        );
+
+        DB::table('answers')->insert(
+            [
+                'question_id' => 11,
+                'content' => 'Gà', 
+                'is_correct' => 0
+            ]
+        );
+
+        DB::table('questions')->insert(
+            [
+                'quiz_id' => 2,
+                'excerpt' => 'Loài động vật lưỡng cư?', 
+                'type' => 'checkbox'
+            ]
+        );
+
+        DB::table('answers')->insert(
+            [
+                'question_id' => 12,
+                'content' => 'Ếch', 
+                'is_correct' => 1
+            ]
+        );
+
+        DB::table('answers')->insert(
+            [
+                'question_id' => 12,
+                'content' => 'Vịt', 
+                'is_correct' => 1
+            ]
+        );
+
+        DB::table('answers')->insert(
+            [
+                'question_id' => 12,
+                'content' => 'Nai', 
+                'is_correct' => 0
+            ]
+        );
+
+        DB::table('answers')->insert(
+            [
+                'question_id' => 12,
+                'content' => 'Cá Sấu', 
+                'is_correct' => 1
+            ]
+        );
+
+
+
 
         //
         // $faker = Faker::create();
