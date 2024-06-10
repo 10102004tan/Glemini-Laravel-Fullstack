@@ -1,4 +1,4 @@
-<div class="rounded  overflow-hidden relative border shadow cursor-pointer bg-gray-900 border-[#59319e] hover:border-[#929090e2] w-[100%]">
+<div id="quiz-item-{{$quiz['id']}}" class="rounded overflow-hidden relative border shadow cursor-pointer bg-gray-900 border-[#59319e] hover:border-[#929090e2] w-[100%]">
     <button wire:click="showAndHidden" type="button" class="absolute p-3 right-0 z-50 top-0 text-[18px]"><i class="fa-regular fa-circle-ellipsis-vertical text-[#000]"></i></button>
     <div class="thumb h-[200px] overflow-hidden relative">
         @if($quiz['thumb'] == "")
@@ -7,9 +7,7 @@
         <img class="w-full h-[100%] object-cover" src="{{asset('storage/'. $quiz['thumb'])}}" alt="Sunset in the mountains">
         @endif
         <div class="flex flex-wrap py-1 gap-2 absolute {{($show ? 'bottom-0' : 'bottom-[-100%]')}} left-0">
-            <form wire:submit.prevent="delete">
-                <button type="submit" class="p-2 btn-delete-quiz rounded bg-red-500">Delete</button>
-            </form>
+            <button wire:click="confirmDelete" type="button" class="p-2 btn-delete-quiz rounded bg-red-500">Delete</button>
             <a href="{{route('quizzes.edit',['id'=>$quiz['id']])}}" class="p-2 rounded bg-green-500">Edit</a>
             <a href="{{route('quiz.play',['id'=>$quiz['id']])}}" class="p-2 rounded bg-blue-500">Play</a>
         </div>
@@ -30,9 +28,32 @@
         @endif
     </div>
 </div>
-
-@script 
+@script
 <script>
+    $wire.on('confirm', () => {
+        console.log("test");
+        Swal.fire({
+            title: 'Thông báo',
+            text: "Xac nhan xoa",
+            icon: "success",
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $wire.delete();
 
+            }
+        });
+    });
+
+
+    $wire.on('deleted', ({id}) => {
+        Swal.fire({
+            title: 'Thông báo',
+            text: "Xoa thanh cong",
+            icon: "success",
+            confirmButtonText: 'OK'
+        });
+        document.getElementById('quiz-item-'+id).remove();
+    });
 </script>
 @endscript
