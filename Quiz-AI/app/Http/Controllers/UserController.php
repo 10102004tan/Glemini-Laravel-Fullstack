@@ -63,4 +63,10 @@ class UserController extends Controller
     {
         //
     }
+
+    public function quizzes()
+    {
+        $quizzes = auth()->user()->quizzes->load('questions');
+        return view('quizzes.my-quiz', compact('quizzes'));
+    }
 }

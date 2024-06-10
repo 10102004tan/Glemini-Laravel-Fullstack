@@ -62,6 +62,13 @@ Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'aut
 });
 
 
+
+// profile
+Route::prefix('profile')->middleware(['auth'])->group(function () {
+    Route::get('/my-quiz', [UserController::class, 'quizzes'])->name('profile.quizzes');
+});
+
+
 // Quizz Room Single
 Route::get('/quiz-single', function () {
     return view('quiz-mode-single.index');
