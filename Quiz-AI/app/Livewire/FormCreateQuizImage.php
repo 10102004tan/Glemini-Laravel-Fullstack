@@ -16,11 +16,13 @@ class FormCreateQuizImage extends Component
     public $quiz_id;
 
     public $isShow = false;
-    public function showModal(){
+    public function showModal()
+    {
         $this->isShow = true;
     }
 
-    public function hiddenModal(){
+    public function hiddenModal()
+    {
         $this->isShow = false;
     }
 
@@ -39,17 +41,17 @@ class FormCreateQuizImage extends Component
         $this->validate([
             'imageInput' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
+
         $imagePath = $this->imageInput->store('images', 'public');
         $fullImagePath = storage_path('app/public/' . $imagePath); // Correctly build the full path to the stored image
         $imageData = base64_encode(Storage::get('public/' . $imagePath)); // Adjust the path for Storage::get
-        
+
         // Determine the correct mime type based on file extension
         $mimeType = mime_content_type($fullImagePath);
 
         $prompt = '
        I want questions of type <<type:'
-                            . 'random[checkbox,radio]' . '>>. 
+            . 'random[checkbox,radio]' . '>>. 
         I want you to transfer all the content in the text in the photo to the question.
         I want the language for all content to be <<language : ' . 'Vietnameses' . ' >>.
         I want each question to have 4 answers. 
@@ -81,7 +83,7 @@ class FormCreateQuizImage extends Component
                         ]
                         }
         ';
-        
+
         $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -103,8 +105,8 @@ class FormCreateQuizImage extends Component
                 'response_mime_type' => 'application/json',
             ],
         ]);
-        
-        $data = json_decode(($response['candidates'][0]['content']['parts'][0]['text']),true);
+
+        $data = json_decode(($response['candidates'][0]['content']['parts'][0]['text']), true);
         try {
             if (isset($data['questions']) && count($data['questions']) > 0) {
                 $quiz = null;
@@ -139,6 +141,7 @@ class FormCreateQuizImage extends Component
 
                 //xóa file json
                 if ($isFirst) {
+                    Storage::disk('public')->delete($imagePath);
                     return redirect()->route('quizzes.create', $quiz->id);
                 } else {
                     $this->dispatch('toast', message: 'Tạo câu hỏi thành công', status: 'success');
@@ -147,9 +150,11 @@ class FormCreateQuizImage extends Component
             } else {
                 $this->dispatch('toast', message: 'Tạo câu hỏi thất bại', status: 'error');
             }
+            Storage::disk('public')->delete($imagePath);
         } catch (\Exception $e) {
-            dd($e);
             $this->dispatch('toast', message: 'Tạo câu hỏi thất bại', status: 'error');
+            //remove in images storage
+            Storage::disk('public')->delete($imagePath);
         }
         $this->isShow = false;
     }

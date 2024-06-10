@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Livewire;
-
 use Livewire\Attributes\On;
 use Livewire\Component;
-
 class ListQuizzes extends Component
 {
     public $quizzes;
