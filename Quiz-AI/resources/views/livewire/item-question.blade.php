@@ -9,14 +9,14 @@
             @if ($question->type === 'radio')
             @foreach ($question->answers as $answer)
             <div class="mb-3">
-                <input type="radio" name="answer_{{$answer->id }}" value="{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }} id="answer_{{ $answer->id }}">
+                <input disabled type="radio" name="answer_{{$answer->id }}" value="{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }} id="answer_{{ $answer->id }}">
                 <label for="answer_{{ $answer->id }}">{{ $answer->content }}</label>
             </div>
             @endforeach
             @elseif ($question->type === 'checkbox')
             @foreach ($question->answers as $answer)
             <div class="mb-3">
-                <input type="checkbox" name="answer_{{$answer->id }}" value="{{ $answer->id }}" id="answer_{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }}>
+                <input disabled type="checkbox" name="answer_{{$answer->id }}" value="{{ $answer->id }}" id="answer_{{ $answer->id }}" {{($answer->is_correct == 1) ? "checked" : "" }}>
                 <label for="answer_{{ $answer->id }}">{{ $answer->content }}</label>
             </div>
             @endforeach
