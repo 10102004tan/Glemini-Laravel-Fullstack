@@ -41,12 +41,9 @@
                             <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <circle cx="12" cy="12" r="4"></circle>
-                                <line x1="21.17" y1="8" x2="12" y2="8">
-                                </line>
-                                <line x1="3.95" y1="6.06" x2="8.54" y2="14">
-                                </line>
-                                <line x1="10.88" y1="21.94" x2="15.46" y2="14">
-                                </line>
+                                <line x1="21.17" y1="8" x2="12" y2="8"></line>
+                                <line x1="3.95" y1="6.06" x2="8.54" y2="14"></line>
+                                <line x1="10.88" y1="21.94" x2="15.46" y2="14"></line>
                             </svg>
                         </a>
                     </div>
@@ -55,80 +52,80 @@
             <div class="mt-16 grid grid-cols-2  xl:col-span-2 xl:mt-0">
                 <div class="md:grid md:grid-cols-2 md:gap-8">
                     <div>
-                        <p class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300">
+                        <p class="text-sm font-semibold leading-6 text-gray-300">
                             Discover
                         </p>
                         <ul role="list" class="mt-6 space-y-4">
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">For Students</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">For Students</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">For Teachers &amp; Parents</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">For Teachers &amp; Parents</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">For Work</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">For Work</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">Mobile Apps</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">Mobile Apps</a>
                             </li>
                         </ul>
                     </div>
                     <div class="mt-10 md:mt-0">
-                        <p class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300">
+                        <p class="text-sm font-semibold leading-6 text-gray-300">
                             Account
                         </p>
                         <ul role="list" class="mt-6 space-y-4">
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">My Library</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">My Library</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">My Profile</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">My Profile</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">Billing</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">Billing</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">Features</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">Features</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="md:grid md:grid-cols-2 md:gap-8">
                     <div>
-                        <p class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300">
+                        <p class="text-sm font-semibold leading-6 text-gray-300">
                             Resources
                         </p>
                         <ul role="list" class="mt-6 space-y-4">
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">Blog</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">Blog</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">API</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">API</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">Help Center</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">Help Center</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">Browse Quizzes</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">Browse Quizzes</a>
                             </li>
                         </ul>
                     </div>
                     <div class="mt-10 md:mt-0">
-                        <p class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300">
+                        <p class="text-sm font-semibold leading-6 text-gray-300">
                             Policies
                         </p>
                         <ul role="list" class="mt-6 space-y-4">
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">Privacy</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">Privacy</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">Terms</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">Terms</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">Fair Usage</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">Fair Usage</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500 dark:text-gray-400">More...</a>
+                                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-500">More...</a>
                             </li>
                         </ul>
                     </div>

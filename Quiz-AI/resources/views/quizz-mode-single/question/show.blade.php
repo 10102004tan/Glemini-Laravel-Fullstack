@@ -43,7 +43,7 @@
                 <span class="p-2 text-white bg-gray-700 rounded-md">
                     <span class="currentQuestion">{{ $questionIndex }}</span> / <span class="questionsCount">{{ $totalQuestions }}</span>
                 </span>
-                <a href="{{ route('quiz.play', 1) }}" class="p-2 text-white rounded-md truncate max-w-sm text-xs lg:block hidden cursor-pointer mt-1 -ml-1">
+                <a href="{{ route('quiz.play', $quiz->id) }}" class="p-2 text-white rounded-md truncate max-w-sm text-xs lg:block hidden cursor-pointer mt-1 -ml-1">
                     <span class="flex">
                         <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -66,9 +66,13 @@
             <span>{{ $question->excerpt }}</span>
 
             <!-- Hình ảnh -->
-            @if($question->image)
-            <img src="{{ asset($question->image) }}" alt="Question Image" class="mx-auto my-10 w-[450px]" />
-            @endif
+            <div class="h-[400px] w-full bg-gray-800 flex items-center justify-center">
+                @if($question->image)
+                    <img src="{{ asset($question->image) }}" alt="Question Image" class="h-full w-full object-contain" />
+                @endif
+            </div>
+
+
         </div>
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             @foreach($question->answers as $index => $answer)

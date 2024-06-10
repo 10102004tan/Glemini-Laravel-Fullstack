@@ -56,19 +56,22 @@ class QuizController extends Controller
 
     // Bắt đầu quiz và hiển thị câu hỏi đầu tiên
     public function startQuiz($id)
-    {
-        // Xóa kết quả trò chơi cũ của người dùng nếu có
-        Result::where('user_id', auth()->id())->where('quiz_id', $id)->delete();
-        $quiz = Quiz::with('user')->findOrFail($id);
-        $firstQuestion = $quiz->questions()->first();
-        // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên
-        return view('quizz-mode-single.question.show', [
-            'quiz' => $quiz,
-            'question' => $firstQuestion,
-            'questionIndex' => 1,
-            'totalQuestions' => $quiz->questions()->count()
-        ]);
-    }
+{
+    // Đặt lại điểm số của người dùng về 0 nếu có kết quả trò chơi trước đó
+    Result::where('user_id', auth()->id())->where('quiz_id', $id)->update(['score' => 0]);
+
+    $quiz = Quiz::with('user')->findOrFail($id);
+    $firstQuestion = $quiz->questions()->first();
+
+    // Chuyển tiếp người dùng đến giao diện câu hỏi đầu tiên
+    return view('quizz-mode-single.question.show', [
+        'quiz' => $quiz,
+        'question' => $firstQuestion,
+        'questionIndex' => 1,
+        'totalQuestions' => $quiz->questions()->count()
+    ]);
+}
+
 
 
 
