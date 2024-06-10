@@ -443,4 +443,23 @@ class QuizController extends Controller
             'message' => 'Xóa quiz thành công',
         ]);
     }
+
+    public function setting(Request $request)
+    {
+        $quiz = Quiz::findOrFail($request->quizId);
+        $point = $request->point;
+        $time = $request->time;
+
+        foreach ($quiz->questions()->get() as $question) {
+            $question->point = $point;
+            $question->time = $time;
+            $question->save();
+        }
+        $quiz->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Đặt quiz thành công',
+        ]);
+        
+    }
 }

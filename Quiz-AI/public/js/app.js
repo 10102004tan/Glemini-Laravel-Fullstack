@@ -21,6 +21,7 @@ const selectOptionQuestion = document.querySelector('.select-option-manual-quest
 const selectOptionManualCorrect = document.querySelector('.select-option-manual-correct');
 const modalUpdateQuiz = document.querySelector('.modal-update-quiz');
 const btnPublished = document.querySelector('.btn-published');
+const formSetting = document.getElementById('form-setting');
 
 // click published btn
 if (btnPublished != null) {
@@ -80,6 +81,7 @@ if (btnCloseEditQuiz != null) {
 };
 
 if (btnSettings != null) {
+    
     btnSettings.addEventListener('click', function () {
         settings.classList.toggle('right-[-100%]');
         settings.classList.toggle('right-0');
@@ -88,10 +90,33 @@ if (btnSettings != null) {
         settings.classList.toggle('right-[-100%]');
         settings.classList.toggle('right-0');
     });
-
 }
 
-
+if (formSetting != null) {
+    console.log(formSetting);
+    formSetting.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(formSetting);
+        const point = formData.get('point');
+        const time = formData.get('time');
+        formData.append('point', point);
+        formData.append('time', time);
+        formData.append('quizId', formSetting.getAttribute('quizId'));
+        try {
+            const url = window.routes.quizzesSetting;
+            const response = await axios.post(url, formData);
+            const data = response.data;
+            checkStatus(data, function () {
+                settings.classList.toggle('right-[-100%]');
+            },
+                function () {
+                    //error
+                });
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+}
 
 
 if (modalUpdateQuiz != null) {
