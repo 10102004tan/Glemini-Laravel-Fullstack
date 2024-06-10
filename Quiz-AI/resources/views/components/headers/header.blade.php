@@ -73,7 +73,7 @@
                                 </li>
                                 <li class="flex gap-2 items-center">
                                     <i class="fa-regular fa-user-pen text-[14px]"></i>
-                                    <a href="#" class="text-[14px]">My Profile</a>
+                                    <a href="{{asset(route('profile.quizzes'))}}" class="text-[14px]">My Profile</a>
                                 </li>
                                 <li>
                                     <form action="{{ route('handle_logout') }}" method="POST">

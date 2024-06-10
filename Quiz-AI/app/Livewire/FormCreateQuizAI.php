@@ -140,7 +140,6 @@ class FormCreateQuizAI extends Component
                 $this->dispatch('toast', message: 'Tạo câu hỏi thất bại', status: 'error');
             }
         } catch (\Exception $e) {
-            dd($e);
             $this->dispatch('toast', message: 'Tạo câu hỏi thất bại', status: 'error');
         }
 

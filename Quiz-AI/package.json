@@ -25,6 +25,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.5.2",
         "alpinejs": "^3.14.0",
+        "filepond": "^4.31.1",
         "flowbite": "^2.3.0",
         "sweetalert2": "^11.11.0",
         "toastr": "^2.1.4"

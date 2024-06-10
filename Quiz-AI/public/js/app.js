@@ -25,7 +25,7 @@ const selectOptionManualCorrect = document.querySelector('.select-option-manual-
 const btnResetForm = document.querySelector('.btn-reset-form');
 const modalUpdateQuiz = document.querySelector('.modal-update-quiz');
 const btnPublished = document.querySelector('.btn-published');
-let preShowOption = showOptions[0];
+// let preShowOption = showOptions[0];
 
 // click published btn
 if (btnPublished != null) {
