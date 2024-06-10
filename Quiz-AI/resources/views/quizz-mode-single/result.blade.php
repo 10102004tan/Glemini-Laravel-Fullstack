@@ -9,7 +9,7 @@
         <p class="text-xl">Điểm của bạn: <span>{{ $result->score }}</span> / {{ $quiz->questions()->count() }}</p>
     </div>
     <div class="text-center">
-        <a href="{{ route('home') }}" class="bg-green-500 text-white p-2 rounded">Trang chủ</a>
+        <a href="{{ route('quiz') }}" class="bg-green-500 text-white p-2 rounded">Trang chủ</a>
         <a href="{{ route('quiz.start', $quiz->id) }}" class="bg-orange-500 text-white p-2 rounded">Chơi lại</a>
     </div>
 </div>
