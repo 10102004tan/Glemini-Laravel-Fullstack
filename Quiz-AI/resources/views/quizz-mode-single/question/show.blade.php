@@ -27,12 +27,13 @@
 
 <body>
     <!-- Thanh tiến trình -->
+    <div class="container bg-gradient-to-r from-[#282458] to-[#141816] px-[100px]">
     <div id="progress-bar" class="fixed top-0 left-0 w-full h-1 z-50">
         <div class="h-1 bg-indigo-300" style="width: {{ ($questionIndex / $totalQuestions) * 100 }}%"></div>
     </div>
 
     <!-- Thanh trên cùng -->
-    <div class="bg-gray-800 p-3 h-[9vh]">
+    <div class=" p-3 h-[9vh]">
         <div class="grid grid-cols-4">
             <div class="col-span-2 flex space-x-2">
                 <div class="hidden lg:block">
@@ -60,13 +61,13 @@
     </div>
 
     <!-- Câu hỏi và đáp án -->
-    <div class="w-full p-4 bg-gray-800">
+    <div class="w-full p-4 ">
         <div class="h-[50%] text-center text-4xl text-white font-semibold mb-4">
             <!-- Câu hỏi -->
             <span>{{ $question->excerpt }}</span>
 
             <!-- Hình ảnh -->
-            <div class="h-[400px] w-full bg-gray-800 flex items-center justify-center">
+            <div class="h-[400px] w-full  flex items-center justify-center">
                 @if($question->image)
                     <img src="{{ asset($question->image) }}" alt="Question Image" class="h-full w-full object-contain" />
                 @endif
@@ -84,9 +85,10 @@
     </div>
 
     <!-- Thanh dưới cùng -->
-    <div class="bg-gray-800 p-2 h-[11vh] flex justify-center items-center">
+    <div class=" p-2 h-[11vh] flex justify-center items-center">
         <div id="notification" class="hidden p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert"></div>
         <button id="confirm-btn" class="bg-blue-500 text-white p-2 rounded" onclick="confirmAnswer()" data-url="{{ route('checkAnswer', [$quiz->id, $questionIndex]) }}" disabled>Xác nhận</button>
+    </div>
     </div>
     <script>
         var questionType = '{{ $question->type }}';

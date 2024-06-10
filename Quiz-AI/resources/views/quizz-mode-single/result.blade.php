@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto p-20">
+<div class="container mx-auto p-20 bg-gradient-to-r from-[#282458] to-[#141816] px-[100px]">
     <h1 class="text-3xl font-bold text-center mb-10">Kết quả Quiz</h1>
     <div class="text-center mb-5">
         <h2 class="text-2xl">Quiz: {{ $quiz->title }}</h2>
