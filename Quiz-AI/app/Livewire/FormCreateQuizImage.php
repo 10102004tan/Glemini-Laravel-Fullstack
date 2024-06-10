@@ -35,6 +35,7 @@ class FormCreateQuizImage extends Component
 
     public function store()
     {
+        $isFirst = true;
         $this->validate([
             'imageInput' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
