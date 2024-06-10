@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container py-[80px]">
+<div class="container bg-gradient-to-r from-[#282458] to-[#141816] py-[80px]">
     <div class="nav mb-5 text-[16px]">
         <ul class="flex gap-4">
             <li class="bg-slate-500 rounded py-1 px-3 cursor-pointer">Profile</li>
