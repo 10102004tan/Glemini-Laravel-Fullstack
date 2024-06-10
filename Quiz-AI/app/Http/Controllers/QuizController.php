@@ -459,4 +459,17 @@ class QuizController extends Controller
         ]);
         
     }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        // Tìm kiếm quiz dựa trên từ khóa
+        $quizzes = Quiz::where('title', 'like', '%' . $keyword . '%')
+                    ->orWhere('description', 'like', '%' . $keyword . '%')
+                    ->paginate(2);
+
+        // Trả về view với danh sách quiz tìm được
+        return view('quiz', ['quizzes' => $quizzes, 'keyword' => $keyword]);
+    }
 }

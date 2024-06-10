@@ -53,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
 // Chọn câu hỏi
 Route::get('/quizz-mode-single/{id}', [QuizController::class, 'getQuiz'])->name('quiz.play');
 
+// Tìm kiếm câu hỏi
+Route::get('/search', [QuizController::class, 'search'])->name('quiz.search');
+
 //
 Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
