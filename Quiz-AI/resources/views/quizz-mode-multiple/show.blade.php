@@ -125,7 +125,7 @@
 @section('script')
     <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
     <script>
-        let questionIndex = 9;
+        let questionIndex = 0;
         let questions = [];
         let userAnswers = [];
         const questionTitle = document.querySelector('.question_title');
@@ -290,6 +290,7 @@
             if (!result) {
                 roomFinished();
             } else {
+                console.log(questions);
                 // Render question
                 questionLength.textContent = `${questionIndex + 1} / ${questions.length}`;
                 questionTitle.textContent = questions[questionIndex].excerpt;
