@@ -5,6 +5,7 @@
         <ul class="flex gap-4">
             <li class="bg-slate-500 rounded py-1 px-3 cursor-pointer">Profile</li>
             <li class="bg-yellow-500 rounded py-1 px-3 cursor-pointer">My quiz</li>
+            <li class="bg-yellow-500 rounded py-1 px-3 cursor-pointer"><a href="{{ route('quiz.multiple.create') }}">My Room</a></li>
             <li class="bg-slate-500 rounded py-1 px-3 cursor-pointer">Setting</li>
         </ul>
     </div>
