@@ -2,9 +2,9 @@
     <div class="container">
         <div class="flex items-center justify-between">
             <div class="flex">
-                <div class="logo">
+                <div class="logo w-6">
                     <a href="{{route('home')}}">
-                        LOGO
+                        <img src="{{ asset('images/icon-white.png') }}" alt="">
                     </a>
                 </div>
                 <nav>
