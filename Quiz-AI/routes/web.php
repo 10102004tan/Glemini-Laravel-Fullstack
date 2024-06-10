@@ -107,5 +107,4 @@ Route::get('rooms/{id}/start', [RoomController::class, "show"])->name("quiz.mult
 Route::get('rooms/{id}/users', [RoomApiController::class, "getAllUserInRoom"])->name("quiz.multiple.users");
 
 
-Route::get('test', [FormCreateQuizImage::class, "render"]);
 

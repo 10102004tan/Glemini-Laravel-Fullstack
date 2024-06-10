@@ -18,7 +18,6 @@
             </div>
            </div>
            <div class="gemini-logo col-span-6">
-            <span class="float-right text-3xl">Xin chào {{ auth()->user()->name }}</span>
            </div>
         </div>
     </div>

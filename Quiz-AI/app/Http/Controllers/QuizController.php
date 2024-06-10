@@ -26,7 +26,6 @@ class QuizController extends Controller
     public function create($id = null)
     {
         if ($id != null && Auth::check()) {
-
             $quiz = Quiz::find($id)->load(['questions' => function ($query) {
                 $query->orderBy('id','desc');
             }, 'questions.answers']);

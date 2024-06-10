@@ -153,7 +153,6 @@
         quizzesPublished: "{{route('quizzes.published')}}",
     };
 </script>
-<script src="{{ asset('js/app.js') }}"></script>
 <script>
     document.addEventListener('livewire:init', () => {
         Livewire.on('toast', ({
@@ -184,4 +183,5 @@
         });
     });
 </script>
+<script src="{{ asset('js/app.js') }}"></script>
 @endsection

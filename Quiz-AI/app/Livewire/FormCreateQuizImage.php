@@ -15,6 +15,15 @@ class FormCreateQuizImage extends Component
     public $imageInput;
     public $quiz_id;
 
+    public $isShow = false;
+    public function showModal(){
+        $this->isShow = true;
+    }
+
+    public function hiddenModal(){
+        $this->isShow = false;
+    }
+
     public function mount($quiz_id = null)
     {
         $this->quiz_id = $quiz_id;
@@ -26,6 +35,7 @@ class FormCreateQuizImage extends Component
 
     public function store()
     {
+        $isFirst = true;
         $this->validate([
             'imageInput' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -141,5 +151,6 @@ class FormCreateQuizImage extends Component
             dd($e);
             $this->dispatch('toast', message: 'Tạo câu hỏi thất bại', status: 'error');
         }
+        $this->isShow = false;
     }
 }
