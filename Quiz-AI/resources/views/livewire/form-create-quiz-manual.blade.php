@@ -58,3 +58,26 @@
         <button class="w-[100px] h-[30px] flex items-center justify-center rounded hover:bg-blue-600"><i class="fa-light fa-xmark"></i></button>
     </div>
 </form>
+
+@script
+<script>
+const selectOptionQuestion = document.querySelector('.select-option-manual-question');
+const btnResetForm = document.querySelector('.btn-reset-form');
+const modalShowOptionManual = document.querySelector('.modal-show-option-manual');
+
+if (selectOptionQuestion != null) {
+selectOptionQuestion.addEventListener('change', function () {
+    if (selectOptionQuestion.value == "checkbox") {
+        selectOptionManualCorrect.multiple = true;
+    } else {
+        selectOptionManualCorrect.multiple = false;
+    }
+});
+}
+
+btnResetForm.addEventListener('click', function (e) {
+    e.preventDefault();
+    modalShowOptionManual.reset();
+});
+</script>
+@endscript
