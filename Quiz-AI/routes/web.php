@@ -68,6 +68,11 @@ Route::prefix('profile')->middleware(['auth'])->group(function () {
     Route::get('/my-quiz', [UserController::class, 'quizzes'])->name('profile.quizzes');
 });
 
+// User
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+
+
 // Verify
 Route::get('email/verify/{id}', [VerificationController::class, 'show'])->name('verification.notice');
 Route::post('email/verify/{id}', [VerificationController::class, 'reverify'])->name('handle_reverify');
