@@ -31,7 +31,7 @@
                 <label for="quizz_id" class="min-w-[220px]">
                     <span class="text-sm text-gray-300">Select quizz</span>
                     <select name="quizz_id" id="quizz_id"
-                        class="rounded-lg border bg-transparent border-gray-500 p-2 outline-none w-full text-sm">
+                        class="rounded-lg border bg-[var(--background)] border-gray-500 p-2 outline-none w-full text-sm">
                         @foreach ($quizzes as $quizz)
                             <option value="{{ $quizz->id }}">{{ $quizz->title }}</option>
                         @endforeach

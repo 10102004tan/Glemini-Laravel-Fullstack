@@ -30,10 +30,11 @@ Route::post('/auth/login', [AuthController::class, "login"])->name("handle_login
 Route::get('/auth/register', [AuthController::class, "showRegister"])->name("register");
 Route::post('/auth/register', [AuthController::class, "register"])->name("handle_register");
 Route::post('/auth/logout', [AuthController::class, "logout"])->name("handle_logout");
+Route::post('/auth/update', [AuthController::class, "update"])->name("update_profile");
 
 // Require Auth
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('user_dashboard');
 
     // Quizz Room Multiple
     Route::get('/quiz-multiple/create', [RoomController::class, 'create'])->name('quiz.multiple.create');
@@ -49,10 +50,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/quiz/{id}/result', [QuizController::class, 'showResult'])->name('quiz.result');
 });
 
-// Chọn câu hỏi
 Route::get('/quizz-mode-single/{id}', [QuizController::class, 'getQuiz'])->name('quiz.play');
+Route::get('/search', [QuizController::class, 'search'])->name('quiz.search');
 
-//
 Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
     Route::get('/quizzes', [QuizController::class, 'indexAdmin'])->name('quizzes.indexAdmin');
@@ -63,22 +63,14 @@ Route::prefix('admin')->middleware(['role_or_permission:super-admin|admin', 'aut
     });
 });
 
-
-
 // profile
 Route::prefix('profile')->middleware(['auth'])->group(function () {
     Route::get('/my-quiz', [UserController::class, 'quizzes'])->name('profile.quizzes');
 });
 
-
-// Quizz Room Single
-Route::get('/quiz-single', function () {
-    return view('quiz-mode-single.index');
-})->name('quiz.index');
-
-Route::get('/quiz-single/show', function () {
-    return view('quiz-mode-single.show');
-})->name('quiz.show');
+// User
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
 
 
 // Verify

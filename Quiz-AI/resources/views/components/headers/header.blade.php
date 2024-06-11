@@ -27,7 +27,7 @@
 
             <!-- search -->
 
-            <form class="flex items-center max-w-sm mx-auto">
+            <form class="flex items-center max-w-sm mx-auto" method="get" action="{{ route('quiz.search') }}">
                 <label for="simple-search" class="sr-only">Search</label>
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -35,7 +35,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
                         </svg>
                     </div>
-                    <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search quiz ..." required />
+                    <input type="text" id="simple-search" name="keyword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search quiz ..." required />
                 </div>
                 <button type="submit" class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -66,13 +66,13 @@
                     <label for="avarta" class="btn-delete-question relative group">
                         <input id="avarta" class="hidden action-checkbox" type="checkbox">
                         <div>
-                            <img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1769" alt="profile" class="rounded-full h-10 w-10 cursor-pointer">
+                        <img class="w-10 h-10 rounded-full" src="https://quizgecko.com/images/avatars/avatar-{{ auth()->user()->id }}.webp" alt="Ảnh đại diện của {{ auth()->user()->name }}">
                         </div>
                         <div class="wrapper-confirm z-[99999] w-[220px] profile-option opacity-1 invisible p-5 rounded absolute top-[100%] right-0 border-[#eee] bg-primary shadow">
                             <ul class="flex gap-3 flex-col">
                                 <li class="flex gap-2 items-center">
                                     <i class="fas fa-user text-[14px]"></i>
-                                    <a href="#" class="text-[14px]">{{auth()->user()->name}}</a>
+                                    <a href="{{ route('user_dashboard') }}" class="text-[14px]">{{auth()->user()->name}}</a>
                                 </li>
                                 <li class="flex gap-2 items-center">
                                     <i class="fa-regular fa-user-pen text-[14px]"></i>
