@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quiz;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -67,6 +69,16 @@ class UserController extends Controller
     public function quizzes()
     {
         $quizzes = auth()->user()->quizzes->load('questions');
-        return view('quizzes.my-quiz', compact('quizzes'));
+        $perPage = 4;
+        $total = ceil($quizzes->count() / $perPage);
+        $quizzes = Quiz::with('questions')->where('user_id', auth()->id())->skip(5)->limit($perPage)->get();
+        return view('quizzes.my-quiz',['quizzes' => $quizzes, 'total' => $total]);
+    }
+
+    public function loadMore($page=1){
+        $perPage = 4;
+        $skip = ($page - 1) * $perPage;
+        $quizzes = Quiz::with('questions')->where('user_id', auth()->id())->skip($skip)->limit($perPage)->get();
+        return response()->json($quizzes);
     }
 }
