@@ -30,7 +30,7 @@ class HomeController extends Controller
 
     public function quiz()
     {
-        $quizzes = Quiz::with('questions', 'user')->paginate(2);
+        $quizzes = Quiz::with('questions', 'user')->where('status',2)->paginate(6);
         return view('quiz', ['quizzes' => $quizzes]);
     }
 
