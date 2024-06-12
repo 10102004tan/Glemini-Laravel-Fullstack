@@ -74,7 +74,9 @@
         {{-- Header --}}
         <div class="relative bg-[var(--background-dark)] w-full p-2 flex items-center justify-between">
             <div class="flex items-center justify-start gap-3">
-                <img src="{{ asset('images/icon-white.png') }}" alt="" class="w-[32px] h-[32px]">
+                <a href="{{route('home')}}">
+                    <img src="{{ asset('images/icon-white.png') }}" alt="" class="w-[32px] h-[32px]">
+                </a>
                 <button
                     class="ques_length p-4 rounded- flex items-center justify-center rounded-lg bg-[var(--input-form-bg)]">
                     0 / 0
