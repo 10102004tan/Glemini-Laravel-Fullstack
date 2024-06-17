@@ -10,7 +10,7 @@
     </h1>
     <div class="mt-5">
         <div class="flex items-center justify-center space-x-3 mx-auto max-w-md">
-            <img class="w-10 h-10 rounded-full" src="https://quizgecko.com/images/avatars/avatar-17.webp" alt="CharmingGreekArt avatar">
+            <img class="w-10 h-10 rounded-full" src="{{ asset('storage/'.$quiz->thumb) }}" alt="CharmingGreekArt avatar">
             <div class="font-medium text-white flex space-x-1 sm:space-x-2">
                 <div>
                     <span class="hidden sm:inline">
