@@ -43,9 +43,7 @@
                                 <img class="w-[100%] rounded" src="https://getlogovector.com/wp-content/uploads/2021/01/tailwind-css-logo-vector.png" />
                             </div>
 
-                            <div class="item w-[80px] h-auto  overflow-hidden">
-                                <img class="w-[100%] rounded" src="https://miro.medium.com/v2/resize:fit:1400/1*9TJjrOwiMEWLEnHHNxCt9A.png" />
-                            </div>
+                           
 
                             <div class="item w-[80px] h-auto  overflow-hidden">
                                 <img class="w-[100%] rounded" src="https://spatie.be/images/medialibrary/990/generic.jpg" />

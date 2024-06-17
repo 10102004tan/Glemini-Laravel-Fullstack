@@ -8,7 +8,7 @@
         @forelse($quizzes as $quiz)
         <div class="max-w-sm border rounded-lg shadow bg-gray-900 border-gray-700">
             <a href="{{ route('quiz.play', $quiz->id) }}">
-                <img class="rounded-t-lg xl:h-48" src="{{ asset('storage/'.$quiz->thumb) }}" alt="{{ $quiz->title }}">
+                <img class="rounded-t-lg xl:h-48" src="{{asset('storage/'.$quiz->thumb)}}" alt="{{ $quiz->title }}">
             </a>
             <div class="p-3 -mt-12 flex justify-end">
                 <div class="font-semibold bg-gray-800 text-white text-xs p-[0.3em] rounded-md opacity-80 dark:bg-gray-800 dark:text-white">

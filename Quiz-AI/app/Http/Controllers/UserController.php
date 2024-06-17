@@ -93,10 +93,10 @@ class UserController extends Controller
     public function quizzes()
     {
         $quizzes = auth()->user()->quizzes->load('questions');
-        $perPage = 4;
-        $total = ceil($quizzes->count() / $perPage);
-        $quizzes = Quiz::with('questions')->where('user_id', auth()->id())->skip(5)->limit($perPage)->get();
-        return view('quizzes.my-quiz',['quizzes' => $quizzes, 'total' => $total]);
+        // $perPage = 4;
+        // $total = ceil($quizzes->count() / $perPage);
+        // $quizzes = Quiz::with('questions')->where('user_id', auth()->id())->skip(5)->limit($perPage)->get();
+        return view('quizzes.my-quiz',['quizzes' => $quizzes]);
     }
 
     public function loadMore($page=1){

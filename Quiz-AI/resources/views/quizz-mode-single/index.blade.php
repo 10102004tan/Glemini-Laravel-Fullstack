@@ -3,14 +3,14 @@
 
 @section('content')
 <div class="flex flex-col items-center justify-center bg-gradient-to-r from-[#282458] to-[#141816] w-full p-10">
-    <img class="rounded-[15px]" src="{{ asset('images/quizz-img.png') }}" alt="Image Description Quizz" width="700px">
+    <img class="rounded-[15px]" src="{{asset('storage/'.$quiz->thumb)}}" alt="Image Description Quizz" width="700px">
 
     <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-50 pt-5 text-center">
         {{ $quiz->title }}
     </h1>
     <div class="mt-5">
         <div class="flex items-center justify-center space-x-3 mx-auto max-w-md">
-            <img class="w-10 h-10 rounded-full" src="{{ asset('storage/'.$quiz->thumb) }}" alt="CharmingGreekArt avatar">
+            <img class="w-10 h-10 rounded-full" src="https://quizgecko.com/images/avatars/avatar-1.webp" alt="CharmingGreekArt avatar">
             <div class="font-medium text-white flex space-x-1 sm:space-x-2">
                 <div>
                     <span class="hidden sm:inline">
