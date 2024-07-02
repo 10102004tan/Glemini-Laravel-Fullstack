@@ -3,13 +3,33 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,HasRoles;
+    protected $table = 'users';
+
+    public function markEmailAsVerified()
+    {
+        $this->email_verified_at = now();
+        return $this->save();
+    }
+
+    public function getEmailForVerification()
+    {
+        return $this->email;
+    }
+
+    public function hasVerifiedEmail()
+    {
+        return ! is_null($this->email_verified_at);
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -17,9 +37,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name', 'email', 'password', 'email_verification_token',
     ];
 
     /**
@@ -43,5 +61,24 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function quizzes(){
+        return $this->hasMany(Quiz::class);
+    }
+
+    public function createdRooms()
+    {
+        return $this->hasMany(Room::class, 'created_at_by');
+    }
+
+    public function joinedRooms()
+    {
+        return $this->belongsToMany(Room::class, 'joined_rooms', 'user_id', 'room_id');
+    }
+
+    public function roomPoints()
+    {
+        return $this->hasMany(RoomPoint::class);
     }
 }

@@ -1,3 +1,230 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+/* Ẩn thanh cuộn trên Firefox */
+html {
+    scrollbar-width: none;
+    /* Ẩn thanh cuộn dọc */
+    -ms-overflow-style: none;
+    /* Ẩn thanh cuộn trên Internet Explorer và Edge */
+}
+
+body {
+    scrollbar-width: none;
+    /* Ẩn thanh cuộn dọc */
+}
+
+:root {
+    --background: #1e1f38;
+    --text: #fff;
+    --background-dark: #121125;
+    --black: #000;
+    --primary: #874cf2;
+    --form-bg: #161e2d;
+    --input-form-bg: #212b3a;
+}
+
+* {
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+    color: #fff;
+    transition: all 0.3s linear;
+}
+
+/* css placeholder */
+/* bar shadow */
+.shadow-bar {
+    box-shadow: 1px 7px 10px 5px #1d1c1c;
+}
+
+/* Auth */
+.auth-bg {
+    background: var(--primary)
+}
+
+/* checked label */
+.wrapper-confirm {
+    display: none;
+}
+
+.action-checkbox[type="checkbox"]:checked~.wrapper-confirm {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* custom button */
+
+/* active */
+.active {
+    color: #4038af;
+    border-color: #150e7b;
+}
+
+
+
+input[type="checkbox"] {
+    accent-color: var(--primary);
+}
+
+@keyframes form_error_notify {
+    0% {
+        transform: translateY(-200%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+.form_error_notify {
+    min-width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    bottom: 20px;
+    right: 20px;
+    position: absolute;
+    animation: form_error_notify 0.3s ease-in-out forwards;
+}
+
+.form_success_notify {
+    min-width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    bottom: 20px;
+    right: 20px;
+    position: absolute;
+    animation: form_error_notify 0.3s ease-in-out forwards;
+}
+
+.btn_shadow {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.answer{
+    transition: all 0.3s ease;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.answer.active{
+    background-color: var(--background) !important;
+    color: var(--text) !important;
+}
+
+.answer.correct{
+    background-color: #20bf6b !important;
+    color: var(--text) !important;
+
+}
+
+.answer.incorrect{
+    background-color: #eb4d4b !important;
+    transform: scale(0.9);
+    color: var(--text) !important;
+}
+
+.answer.hidden_answer{
+    opacity: 0;
+}
+
+.dialog {
+    z-index: 100;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    transition: 0.6s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    transform: translateY(-400%) translateX(-50%);
+}
+
+.dialog.active {
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.ques_wrapper{
+    transition: 0.6s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+.ques_wrapper.active {
+    transform: translateX(-200%);
+}
+
+.dialog-fisish{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -400%);
+    padding: 40px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    visibility: hidden;
+}
+
+.dialog-fisish.active{
+    transform: translate(-50%, -50%);
+    visibility: visible;
+}
+
+table.bxh th {
+    background-color: var(--background-dark);
+    padding: 10px;
+    text-align: center;
+}
+
+table.bxh td {
+    color: var(--background);
+    background-color: var(--text);
+    padding: 10px;
+    text-align: center;
+}
+
+
+/* animtion */
+.loader {
+    --s: 25px;
+    --g :5px;  
+    
+    width: calc(2*(1.353*var(--s) + var(--g)));
+    aspect-ratio: 1;
+    background:
+      linear-gradient(#ff1818 0 0) left/50% 100% no-repeat,
+      conic-gradient(from -90deg at var(--s) calc(0.353*var(--s)),
+        #fff 135deg,#666 0 270deg,#aaa 0); 
+    background-blend-mode: multiply;
+    --_m:
+      linear-gradient(to bottom right,
+         #0000 calc(0.25*var(--s)),#000 0 calc(100% - calc(0.25*var(--s)) - 1.414*var(--g)),#0000 0),
+      conic-gradient(from -90deg at right var(--g) bottom var(--g),#000 90deg,#0000 0);
+    -webkit-mask: var(--_m);
+            mask: var(--_m);
+    background-size:   50% 50%;
+    -webkit-mask-size: 50% 50%;
+            mask-size: 50% 50%;
+    -webkit-mask-composite: source-in;
+            mask-composite: intersect;
+    animation: l9 1.5s infinite;
+  }
+  @keyframes l9 {
+    0%,12.5%    {background-position:0% 0%,0 0}
+    12.6%,37.5% {background-position:100% 0%,0 0}
+    37.6%,62.5% {background-position:100% 100%,0 0}
+    62.6%,87.5% {background-position:0% 100%,0 0}
+    87.6%,100%  {background-position:0% 0%,0 0}
+  }
+
+  .selected {
+    border-color: #25CCF7;
+    background-color: #25CCF7;
+}
+
+.correct {
+    border-color: #4caf50;
+    background-color: #4caf50;
+}
+
+.incorrect {
+    border-color: #e55039;
+    background-color: #e55039;
+}
