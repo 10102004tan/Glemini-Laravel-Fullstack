@@ -18,3 +18,10 @@ yarn-error.log
 /.idea
 /.vscode
 .env
+.phpunit.result.cache
+composer.lock
+.env.example
+.env.local
+.env.development
+.env.test
+./vendor
