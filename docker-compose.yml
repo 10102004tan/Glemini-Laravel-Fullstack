@@ -1,26 +1,25 @@
 version: "3.8"
+
 services:
   quiz-ai:
-    build: 
-      context: ./Quiz-AI/
+    build:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - ./Quiz-AI:/usr/src/quiz-ai
     networks:
       - quiz-ai-network
+    command: ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=8000 & npm run dev"]
+    depends_on:
+      - quiz-ai-db
   quiz-ai-db:
-    build: .
-    ports: 
-      - "3301:3306"
+    image: mysql:latest
+    ports:
+      - "3308:3306"
     environment:
-      - MYSQL_DATABASE=quizai
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_ALLOW_EMPTY_PASSWORD
+      MYSQL_DATABASE: quizai
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     networks:
       - quiz-ai-network
-volumes:
-  quiz-ai-volume: 
 networks:
   quiz-ai-network:
